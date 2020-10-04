@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Products.Core.Models;
-
-namespace Products.Infrastructure.Data.Configuration {
-    public class RoomConfiguration : IEntityTypeConfiguration<Room> {
+﻿namespace Products.Infrastructure.Data.Configuration
+{
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using Core.Models;
+    public class RoomConfiguration : IEntityTypeConfiguration<Room>
+    {
         public void Configure(EntityTypeBuilder<Room> builder)
         {
             builder.ToTable(nameof(Room));

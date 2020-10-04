@@ -1,8 +1,10 @@
-﻿using Products.Core.Enums;
-using System.Collections.Generic;
+﻿namespace Products.Core.Models
+{
+    using Enums;
+    using System.Collections.Generic;
 
-namespace Products.Core.Models {
-    public class Property {
+    public class Property
+    {
         public int Id { get; private set; }
 
         public PropertyTypes Type { get; private set; }

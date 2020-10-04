@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using Products.Core.Models;
-
-namespace Products.Infrastructure.Data {
-    public class ProductsContext : DbContext {
-
+﻿namespace Products.Infrastructure.Data
+{
+    using Microsoft.EntityFrameworkCore;
+    using Core.Models;
+    using System.Reflection;
+    public class ProductsContext : DbContext
+    {
         public DbSet<Property> Properties { get; set; }
 
         public DbSet<Room> Rooms { get; set; }
@@ -14,11 +14,11 @@ namespace Products.Infrastructure.Data {
 
         }
 
-        protected override void OnModelCreating(ModelBuilder builder) {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-
     }
 }

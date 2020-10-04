@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Products.API</name>
+    </assembly>
+    <members>
+        <member name="M:Products.API.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            Configure Container will be called after running ConfigureServices
+            Any registration here will override registrations made in ConfigureServices
+            Don't need to build the container as its done automatically
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+    </members>
+</doc>

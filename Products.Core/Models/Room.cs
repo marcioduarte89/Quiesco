@@ -1,7 +1,9 @@
-﻿using Products.Core.Enums;
+﻿namespace Products.Core.Models
+{
 
-namespace Products.Core.Models {
-    public class Room {
+    using Enums;
+    public class Room
+    {
         public int Id { get; private set; }
 
         public RoomTypes AccommodationType { get; private set; }
@@ -12,7 +14,8 @@ namespace Products.Core.Models {
 
         private Room() { }
 
-        public Room(RoomTypes accommodationType, int nrOfOccupants) {
+        public Room(RoomTypes accommodationType, int nrOfOccupants)
+        {
             AccommodationType = accommodationType;
             NrOfOccupants = nrOfOccupants;
         }

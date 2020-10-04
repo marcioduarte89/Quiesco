@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Products.Core.Models;
+﻿namespace Products.Infrastructure.Data.Configuration
+{
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using Core.Models;
 
-namespace Products.Infrastructure.Data.Configuration {
-    public class PropertyConfiguration : IEntityTypeConfiguration<Property> {
-        public void Configure(EntityTypeBuilder<Property> builder) {
+    public class PropertyConfiguration : IEntityTypeConfiguration<Property>
+    {
+        public void Configure(EntityTypeBuilder<Property> builder)
+        {
             builder.ToTable(nameof(Property));
 
             builder.Property(x => x.Name).IsRequired();
