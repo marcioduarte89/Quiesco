@@ -12,5 +12,27 @@
             </summary>
             <param name="builder">Container builder</param>
         </member>
+        <member name="F:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.CodeToStatusCodeMap">
+            <summary>
+            Map internal error codes to HTTP status code
+            </summary>
+        </member>
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.TranslateException(Products.Common.Exceptions.ProductException)">
+            <summary>
+            Get a proper <see cref="T:System.Net.HttpStatusCode"/> based on exception's details
+            </summary>
+            <param name="e">An exception</param>
+            <returns>A status code</returns>
+        </member>
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Net.HttpStatusCode,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Handles and re-writes the response with the exception details
+            </summary>
+            <param name="context">Http Context</param>
+            <param name="statusCode">Http Status code</param>
+            <param name="message">Exception message</param>
+            <param name="details">Exception details</param>
+            <param name="invalidProperties">Invalid properties</param>
+        </member>
     </members>
 </doc>

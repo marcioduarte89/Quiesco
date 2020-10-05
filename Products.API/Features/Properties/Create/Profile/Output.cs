@@ -1,4 +1,4 @@
-﻿namespace Products.API.Features.Create.Profile
+﻿namespace Products.API.Features.Properties.Create.Profile
 {
     using AutoMapper;
     using Core.Models;

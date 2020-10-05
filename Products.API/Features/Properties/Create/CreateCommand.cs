@@ -1,4 +1,4 @@
-﻿namespace Products.API.Features.Create
+﻿namespace Products.API.Features.Properties.Create
 {
     using Core.Enums;
     using MediatR;
@@ -6,7 +6,6 @@
 
     public class CreateCommand : IRequest<Property>
     {
-
         public PropertyTypes Type { get; private set; }
         public string Name { get; private set; }
     }

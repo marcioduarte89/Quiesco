@@ -10,6 +10,7 @@ namespace Products.API
     using Newtonsoft.Json.Converters;
     using Infrastructure.Swagger;
     using System.Reflection;
+    using Infrastructure.Middlewares.ExceptionHandler;
 
     public class Startup
     {
@@ -64,6 +65,7 @@ namespace Products.API
             }
 
             app.UseHttpsRedirection();
+            app.AddCustomExceptionHandler();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

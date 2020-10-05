@@ -1,13 +1,14 @@
-﻿namespace Products.API.Features
+﻿namespace Products.API.Features.Properties
 {
     using AutoMapper;
+    using Create;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Create;
+    using Models.Input.Property;
     using System.Threading;
     using System.Threading.Tasks;
-    using Input = Models.Input;
+    using Update;
     using Output = Models.Output;
 
     [ApiController]
@@ -25,9 +26,20 @@
 
         [HttpPost("")]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateProperty(Input.Property property, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProperty(CreateProperty property, CancellationToken cancellationToken)
         {
             var command = _mapper.Map<CreateCommand>(property);
+            var newProperty = await _mediator.Send(command, cancellationToken);
+
+            return Ok(newProperty);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Output.Property), StatusCodes.Status201Created)]
+        public async Task<IActionResult> UpdateProperty(int id, UpdateRoom property, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<UpdateCommand>(property);
+            command.Id = id;
             var newProperty = await _mediator.Send(command, cancellationToken);
 
             return Ok(newProperty);

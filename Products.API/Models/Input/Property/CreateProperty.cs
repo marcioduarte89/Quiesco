@@ -1,11 +1,10 @@
-﻿namespace Products.API.Models.Input
+﻿namespace Products.API.Models.Input.Property
 {
     using Core.Enums;
 
-    public class Property
+    public class CreateProperty
     {
         public PropertyTypes Type { get; set; }
-
         public string Name { get; set; }
     }
 }
