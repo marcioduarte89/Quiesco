@@ -1,24 +1,31 @@
-﻿namespace Products.API.Models.Output
+﻿namespace Products.API.Features.Properties.UpdateRoom
 {
     using Core.Enums;
+    using MediatR;
+    using Models.Output;
 
     /// <summary>
-    /// Output model for the Room
+    /// Update property command
     /// </summary>
-    public class Room
+    public class UpdateRoomCommand : IRequest<Room>
     {
+        /// <summary>
+        /// Property Id
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Room Id
         /// </summary>
         public int RoomId { get; set; }
 
         /// <summary>
-        /// Room Accommodation Type
+        /// Accommodation Type
         /// </summary>
         public RoomTypes AccommodationType { get; set; }
 
         /// <summary>
-        /// Nr of occupants for the Room
+        /// Number of Occupants
         /// </summary>
         public int NrOfOccupants { get; set; }
     }

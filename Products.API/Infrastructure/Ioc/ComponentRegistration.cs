@@ -5,8 +5,15 @@
     using Microsoft.Extensions.Configuration;
     using Products.Infrastructure.Data;
 
+    /// <summary>
+    /// Registers all application generic components (like services, repositories, etc)
+    /// </summary>
     public class ComponentRegistration : Module
     {
+        /// <summary>
+        /// Loads the container builder and registers generic components
+        /// </summary>
+        /// <param name="builder">Container builder</param>
         protected override void Load(ContainerBuilder builder)
         {
             builder.Register(context =>

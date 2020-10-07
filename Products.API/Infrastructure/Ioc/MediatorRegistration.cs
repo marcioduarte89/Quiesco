@@ -5,8 +5,15 @@
     using System.Reflection;
     using Module = Autofac.Module;
 
+    /// <summary>
+    /// Registers Mediator related configuration
+    /// </summary>
     public class MediatorRegistration : Module
     {
+        /// <summary>
+        /// Loads the container builder and registers mediator components
+        /// </summary>
+        /// <param name="builder">Container builder</param>
         protected override void Load(ContainerBuilder builder)
         {
 

@@ -1,11 +1,13 @@
-﻿namespace Products.API.Models.Output
+﻿namespace Products.API.Features.Properties.UpdateProperty
 {
     using Core.Enums;
+    using MediatR;
+    using Models.Output;
 
     /// <summary>
-    /// Output model for Property
+    /// Update property command
     /// </summary>
-    public class Property
+    public class UpdatePropertyCommand : IRequest<Property>
     {
         /// <summary>
         /// Property Id

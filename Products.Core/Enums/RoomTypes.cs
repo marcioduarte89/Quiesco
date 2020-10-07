@@ -1,5 +1,8 @@
 ﻿namespace Products.Core.Enums
 {
+    /// <summary>
+    /// Room types
+    /// </summary>
     public enum RoomTypes
     {
         SingleBed = 1,

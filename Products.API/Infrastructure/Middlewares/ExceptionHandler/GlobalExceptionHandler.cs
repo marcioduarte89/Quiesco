@@ -11,6 +11,9 @@ namespace Products.Api.Infrastructure.Middlewares.ExceptionHandler
     using System.Text.Json;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Global Exception Hander
+    /// </summary>
     public class GlobalExceptionHandler
     {
         /// <summary>
@@ -27,12 +30,22 @@ namespace Products.Api.Infrastructure.Middlewares.ExceptionHandler
         private readonly ILogger _logger;
         private readonly IWebHostEnvironment _env;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="next">RequestDelegate</param>
+        /// <param name="env">IWebHostEnvironment</param>
         public GlobalExceptionHandler(RequestDelegate next, IWebHostEnvironment env)
         {
             _next = next;
             _env = env;
         }
 
+        /// <summary>
+        /// Generic Invocation
+        /// </summary>
+        /// <param name="httpContext">Current HttpContext</param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try
@@ -89,6 +102,9 @@ namespace Products.Api.Infrastructure.Middlewares.ExceptionHandler
         }
     }
 
+    /// <summary>
+    /// Internal Error Details
+    /// </summary>
     internal struct ErrorDetails
     {
         public int StatusCode { get; set; }

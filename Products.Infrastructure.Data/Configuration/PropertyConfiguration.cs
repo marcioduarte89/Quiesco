@@ -4,8 +4,15 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Core.Models;
 
+    /// <summary>
+    /// EF Property configuration
+    /// </summary>
     public class PropertyConfiguration : IEntityTypeConfiguration<Property>
     {
+        /// <summary>
+        /// Configures Property
+        /// </summary>
+        /// <param name="builder">property builder</param>
         public void Configure(EntityTypeBuilder<Property> builder)
         {
             builder.ToTable(nameof(Property));

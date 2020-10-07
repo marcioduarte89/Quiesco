@@ -4,8 +4,15 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.OpenApi.Models;
 
+    /// <summary>
+    /// Swagger Configuration
+    /// </summary>
     public static class Swagger
     {
+        /// <summary>
+        /// Configures Swagger through ServiceCollection
+        /// </summary>
+        /// <param name="services"></param>
         public static void ConfigureSwagger(this IServiceCollection services)
         {
             services

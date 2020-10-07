@@ -5,8 +5,15 @@
     using System.Reflection;
     using Module = Autofac.Module;
 
+    /// <summary>
+    /// Registers AutoMapper profiles and related configuration
+    /// </summary>
     public class ProfileRegistration : Module
     {
+        /// <summary>
+        /// Loads the container builder and registers Automapper components
+        /// </summary>
+        /// <param name="builder">Container builder</param>
         protected override void Load(ContainerBuilder builder)
         {
 
