@@ -1,4 +1,4 @@
-﻿namespace Products.API.Models.Input.Property
+﻿namespace Products.API.Models.Input.Property.Create
 {
     using Core.Enums;
 

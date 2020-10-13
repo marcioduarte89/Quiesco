@@ -1,7 +1,7 @@
 ﻿namespace Products.API.Features.Properties.UpdateProperty.Profile
 {
     using AutoMapper;
-    using Models.Input.Property;
+    using Models.Input.Property.Update;
 
     /// <summary>
     /// Input Model for updating property Map

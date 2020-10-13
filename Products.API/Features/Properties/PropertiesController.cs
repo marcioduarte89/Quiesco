@@ -20,7 +20,7 @@
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        
+
 
         /// <summary>
         /// Constructor
@@ -41,13 +41,13 @@
         /// <returns>Returns an instance of the created <see cref="Output.Property"/></returns>
         [HttpPost("")]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateProperty(Models.Input.Property.CreateProperty property, 
+        public async Task<IActionResult> CreateProperty(Models.Input.Property.Create.CreateProperty property,
             CancellationToken cancellationToken)
         {
             var command = _mapper.Map<CreatePropertyCommand>(property);
             var newProperty = await _mediator.Send(command, cancellationToken);
 
-            return Created($"properties/{newProperty.Id}",  newProperty);
+            return Created($"properties/{newProperty.Id}", newProperty);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateProperty(int id, Models.Input.Property.UpdateProperty property,
+        public async Task<IActionResult> UpdateProperty(int id, Models.Input.Property.Update.UpdateProperty property,
             CancellationToken cancellationToken)
         {
             var command = _mapper.Map<UpdateRoomCommand>(property);
@@ -80,7 +80,7 @@
         [HttpPost("{id}/room")]
         [ProducesResponseType(typeof(Output.Room), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Output.Room), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> AddPropertyRoom(int id, Models.Input.Room.CreateRoom room,
+        public async Task<IActionResult> AddPropertyRoom(int id, Models.Input.Room.Create.CreateRoom room,
             CancellationToken cancellationToken)
         {
             var command = _mapper.Map<CreateRoomCommand>(room);
@@ -101,7 +101,7 @@
         [HttpPut("{id}/room/{roomId}")]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdatePropertyRoom(int id, int roomId, Models.Input.Room.UpdateRoom room,
+        public async Task<IActionResult> UpdatePropertyRoom(int id, int roomId, Models.Input.Room.Update.UpdateRoom room,
             CancellationToken cancellationToken)
         {
             var command = _mapper.Map<UpdateRoomCommand>(room);

@@ -1,11 +1,11 @@
-﻿namespace Products.API.Models.Input.Room
+﻿namespace Products.API.Models.Input.Room.Create
 {
     using Core.Enums;
 
     /// <summary>
-    /// Updates the Room
+    /// Created a new Room
     /// </summary>
-    public class UpdateRoom
+    public class CreateRoom
     {
         /// <summary>
         /// Room Accommodation type

@@ -11,6 +11,7 @@ namespace Products.API
     using Infrastructure.Swagger;
     using System.Reflection;
     using Infrastructure.Middlewares.ExceptionHandler;
+    using FluentValidation.AspNetCore;
 
     /// <summary>
     /// Startup class
@@ -44,7 +45,11 @@ namespace Products.API
                     x.UseCamelCasing(false);
                     x.SerializerSettings.Converters.Add(new StringEnumConverter());
                     x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
+                }).AddFluentValidation(c =>
+                {
+                    c.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    c.ImplicitlyValidateChildProperties = true;
+                }); ;
 
             services.ConfigureSwagger();
         }
@@ -68,7 +73,6 @@ namespace Products.API
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

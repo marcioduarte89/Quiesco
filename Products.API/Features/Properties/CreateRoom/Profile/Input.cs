@@ -1,7 +1,7 @@
 ﻿namespace Products.API.Features.Properties.CreateRoom.Profile
 {
     using AutoMapper;
-    using Models.Input.Room;
+    using Models.Input.Room.Create;
 
     /// <summary>
     /// Input Model for creating room Map

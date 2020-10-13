@@ -1,7 +1,7 @@
 ﻿namespace Products.API.Features.Properties.CreateProperty.Profile
 {
     using AutoMapper;
-    using Models.Input.Property;
+    using Models.Input.Property.Create;
 
     /// <summary>
     /// Input Model for creating property Map
