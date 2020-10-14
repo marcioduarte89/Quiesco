@@ -4,212 +4,277 @@
         <name>Products.API</name>
     </assembly>
     <members>
-        <member name="T:Products.API.Features.Create.CreateCommand">
+        <member name="T:Products.API.Features.Properties.CreateProperty.CreatePropertyCommand">
             <summary>
-            Create command
+            Create property command
             </summary>
         </member>
-        <member name="T:Products.API.Features.Create.CreateCommandHandler">
+        <member name="P:Products.API.Features.Properties.CreateProperty.CreatePropertyCommand.Type">
             <summary>
-            Create command handler
+            Property type
             </summary>
         </member>
-        <member name="M:Products.API.Features.Create.CreateCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="P:Products.API.Features.Properties.CreateProperty.CreatePropertyCommand.Name">
             <summary>
-            Constructor
-            </summary>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Products.API.Features.Create.CreateCommandHandler.Handle(Products.API.Features.Create.CreateCommand,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type CreateCommand
-            </summary>
-            <param name="request">Create property command</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
-        </member>
-        <member name="T:Products.API.Features.Create.Profile.Input">
-            <summary>
-            Input Model
+            Property Name
             </summary>
         </member>
-        <member name="M:Products.API.Features.Create.Profile.Input.#ctor">
+        <member name="T:Products.API.Features.Properties.CreateProperty.CreatePropertyCommandHandler">
             <summary>
-            Constructor
+            Create property command handler
+            Handles the creation of Properties within the Products API
             </summary>
         </member>
-        <member name="T:Products.API.Features.Create.Profile.Output">
-            <summary>
-            Output model Map
-            </summary>
-        </member>
-        <member name="M:Products.API.Features.Create.Profile.Output.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Products.API.Features.Delete.DeleteCommand">
-            <summary>
-            Delete command
-            </summary>
-        </member>
-        <member name="T:Products.API.Features.Delete.DeleteCommandHandler">
-            <summary>
-            Delete handler
-            </summary>
-        </member>
-        <member name="M:Products.API.Features.Delete.DeleteCommandHandler.#ctor(AutoMapper.IMapper)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Products.API.Features.Delete.DeleteCommandHandler.Handle(Products.API.Features.Delete.DeleteCommand,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type DeleteCommand 
-            </summary>
-            <param name="request">delete command</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
-        </member>
-        <member name="T:Products.API.Features.Delete.Profile.Input">
-            <summary>
-            Input Model for deleting
-            </summary>
-        </member>
-        <member name="M:Products.API.Features.Delete.Profile.Input.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Products.API.Features.EntitiesController">
-            <summary>
-            Entities controller
-            </summary>
-        </member>
-        <member name="M:Products.API.Features.EntitiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="mediator">mediator instance</param>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Products.API.Features.EntitiesController.CreateProperty(Products.API.Models.Input.Entity.Create.CreateEntity,System.Threading.CancellationToken)">
-            <summary>
-            Creates a new <see cref="T:Products.API.Models.Output.Entity"/>.
-            </summary>
-            <param name="entity">Entity details</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Entity"/></returns>
-        </member>
-        <member name="M:Products.API.Features.EntitiesController.UpdateProperty(System.Int32,Products.API.Models.Input.Entity.Update.UpdateEntity,System.Threading.CancellationToken)">
-            <summary>
-            Updates a <see cref="T:Products.API.Models.Output.Entity"/>.
-            </summary>
-            <param name="id">Entity id</param>
-            <param name="entity">Entity details</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Entity"/></returns>
-        </member>
-        <member name="M:Products.API.Features.EntitiesController.Get(System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Gets new <see cref="T:Products.API.Models.Output.Entity"/> 
-            </summary>
-            <param name="id">Property Id</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Entity"/></returns>
-        </member>
-        <member name="M:Products.API.Features.EntitiesController.UpdatePropertyRoom(System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Deletes a <see cref="T:Products.API.Models.Output.Entity"/>
-            </summary>
-            <param name="id">Entity Id</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Entity"/></returns>
-        </member>
-        <member name="T:Products.API.Features.Get.GetRequest">
-            <summary>
-            Update command
-            </summary>
-        </member>
-        <member name="T:Products.API.Features.Get.GetRequestHandler">
-            <summary>
-            Update command handler
-            </summary>
-        </member>
-        <member name="M:Products.API.Features.Get.GetRequestHandler.#ctor(AutoMapper.IMapper)">
+        <member name="M:Products.API.Features.Properties.CreateProperty.CreatePropertyCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
             <param name="context">Products Context</param>
             <param name="mapper">Mapper instance</param>
         </member>
-        <member name="M:Products.API.Features.Get.GetRequestHandler.Handle(Products.API.Features.Get.GetRequest,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.CreateProperty.CreatePropertyCommandHandler.Handle(Products.API.Features.Properties.CreateProperty.CreatePropertyCommand,System.Threading.CancellationToken)">
             <summary>
-            Handles commands of type GetCommand
+            Handles commands of type CreatePropertyCommand and creates Properties
             </summary>
-            <param name="request">GetCommand</param>
+            <param name="request">Create property command</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Property"/></returns>
         </member>
-        <member name="T:Products.API.Features.Get.Profile.Input">
+        <member name="T:Products.API.Features.Properties.CreateProperty.Profile.Input">
             <summary>
-            Input Model
+            Input Model for creating property Map
             </summary>
         </member>
-        <member name="M:Products.API.Features.Get.Profile.Input.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Products.API.Features.Update.Profile.Input">
-            <summary>
-            Input Model
-            </summary>
-        </member>
-        <member name="M:Products.API.Features.Update.Profile.Input.#ctor">
+        <member name="M:Products.API.Features.Properties.CreateProperty.Profile.Input.#ctor">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="T:Products.API.Features.Update.Profile.Output">
+        <member name="T:Products.API.Features.Properties.CreateProperty.Profile.Output">
             <summary>
-            Output model
+            Create properties output model Map
             </summary>
         </member>
-        <member name="M:Products.API.Features.Update.Profile.Output.#ctor">
+        <member name="M:Products.API.Features.Properties.CreateProperty.Profile.Output.#ctor">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="T:Products.API.Features.Update.UpdateCommand">
+        <member name="T:Products.API.Features.Properties.CreateRoom.CreateRoomCommand">
             <summary>
-            Update command
+            Create room command
             </summary>
         </member>
-        <member name="P:Products.API.Features.Update.UpdateCommand.Id">
+        <member name="P:Products.API.Features.Properties.CreateRoom.CreateRoomCommand.PropertyId">
             <summary>
-            Entity Id
+            Property Id
             </summary>
         </member>
-        <member name="T:Products.API.Features.Update.UpdateCommandHandler">
+        <member name="P:Products.API.Features.Properties.CreateRoom.CreateRoomCommand.AccommodationType">
             <summary>
-            Update handler
+            Accommodation type for the room
             </summary>
         </member>
-        <member name="M:Products.API.Features.Update.UpdateCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="P:Products.API.Features.Properties.CreateRoom.CreateRoomCommand.NrOfOccupants">
+            <summary>
+            Nr of occupants for the room
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.CreateRoomCommandHandler">
+            <summary>
+            Create room command handler
+            Handles the creation of rooms within a property for Products API
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.CreateRoomCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
+            <param name="context">Products Context</param>
             <param name="mapper">Mapper instance</param>
         </member>
-        <member name="M:Products.API.Features.Update.UpdateCommandHandler.Handle(Products.API.Features.Update.UpdateCommand,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.CreateRoom.CreateRoomCommandHandler.Handle(Products.API.Features.Properties.CreateRoom.CreateRoomCommand,System.Threading.CancellationToken)">
             <summary>
-            Handles commands of type UpdateCommand
+            Handles commands of type CreateRoomCommand and creates Rooms
             </summary>
-            <param name="request">Update Command</param>
+            <param name="request">Create room command</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Room"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.Profile.Input">
+            <summary>
+            Input Model for creating room Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.Profile.Output">
+            <summary>
+            Create room output model Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.Profile.Output.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.PropertiesController">
+            <summary>
+            Property controller - Aggregate Room for properties and Rooms
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mediator">mediator instance</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Properties.PropertiesController.CreateProperty(Products.API.Models.Input.Property.Create.CreateProperty,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new <see cref="T:Products.API.Models.Output.Property"/>.
+            </summary>
+            <param name="property">Property details</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Property"/></returns>
+        </member>
+        <member name="M:Products.API.Features.Properties.PropertiesController.UpdateProperty(System.Int32,Products.API.Models.Input.Property.Update.UpdateProperty,System.Threading.CancellationToken)">
+            <summary>
+            Updates a <see cref="T:Products.API.Models.Output.Property"/>.
+            </summary>
+            <param name="id">Property id</param>
+            <param name="property">Property details</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Property"/></returns>
+        </member>
+        <member name="M:Products.API.Features.Properties.PropertiesController.AddPropertyRoom(System.Int32,Products.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new <see cref="T:Products.API.Models.Output.Room"/> to a property
+            </summary>
+            <param name="id">Property Id</param>
+            <param name="room">Room details</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Room"/></returns>
+        </member>
+        <member name="M:Products.API.Features.Properties.PropertiesController.UpdatePropertyRoom(System.Int32,System.Int32,Products.API.Models.Input.Room.Update.UpdateRoom,System.Threading.CancellationToken)">
+            <summary>
+            Updates a <see cref="T:Products.API.Models.Output.Room"/> in an existing property
+            </summary>
+            <param name="id">Property Id</param>
+            <param name="roomId">Room id</param>
+            <param name="room">Room details</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Room"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateProperty.Profile.Input">
+            <summary>
+            Input Model for updating property Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateProperty.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand">
+            <summary>
+            Update property command
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Id">
+            <summary>
+            Property Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Type">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommandHandler">
+            <summary>
+            Update property command handler
+            Handles the update of Properties within the Products API
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Products Context</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommandHandler.Handle(Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type UpdatePropertyCommand and updates Properties
+            </summary>
+            <param name="request">update property command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Property"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateRoom.Profile.Input">
+            <summary>
+            Input Model for updating room Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateRoom.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand">
+            <summary>
+            Update property command
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.Id">
+            <summary>
+            Property Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.RoomId">
+            <summary>
+            Room Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.AccommodationType">
+            <summary>
+            Accommodation Type
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.NrOfOccupants">
+            <summary>
+            Number of Occupants
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommandHandler">
+            <summary>
+            Update room command handler
+            Handles the update of rooms for a property within the Products API
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Products Context</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommandHandler.Handle(Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type UpdateRoomCommand and updates rooms
+            </summary>
+            <param name="request">update room command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Room"/></returns>
         </member>
         <member name="T:Products.API.Infrastructure.Ioc.ComponentRegistration">
             <summary>
@@ -266,49 +331,139 @@
             </summary>
             <param name="services"></param>
         </member>
-        <member name="T:Products.API.Models.Input.Entity.Create.CreateEntity">
+        <member name="T:Products.API.Models.Input.Property.Create.CreateProperty">
             <summary>
-            Created a new Entity
+            Created a new Property
             </summary>
         </member>
-        <member name="T:Products.API.Models.Input.Entity.Create.CreateEntityValidator">
+        <member name="P:Products.API.Models.Input.Property.Create.CreateProperty.Type">
             <summary>
-            Create Entity validator
+            Property type
             </summary>
         </member>
-        <member name="M:Products.API.Models.Input.Entity.Create.CreateEntityValidator.#ctor">
+        <member name="P:Products.API.Models.Input.Property.Create.CreateProperty.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Property.Create.CreatePropertyValidator">
+            <summary>
+            Create property validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Property.Create.CreatePropertyValidator.#ctor">
             <summary>
             Validator constructor
             </summary>
         </member>
-        <member name="T:Products.API.Models.Input.Entity.Update.UpdateEntity">
+        <member name="T:Products.API.Models.Input.Property.Update.UpdateProperty">
             <summary>
-            Updates the Entity
+            Updates a Property
             </summary>
         </member>
-        <member name="P:Products.API.Models.Input.Entity.Update.UpdateEntity.Id">
+        <member name="P:Products.API.Models.Input.Property.Update.UpdateProperty.Name">
             <summary>
-            Entity Id
+            Property Name
             </summary>
         </member>
-        <member name="T:Products.API.Models.Input.Entity.Update.UpdateEntityValidator">
+        <member name="T:Products.API.Models.Input.Property.Update.UpdatePropertyValidator">
             <summary>
-            Update Entity validator
+            Update property validator
             </summary>
         </member>
-        <member name="M:Products.API.Models.Input.Entity.Update.UpdateEntityValidator.#ctor">
+        <member name="M:Products.API.Models.Input.Property.Update.UpdatePropertyValidator.#ctor">
+            <summary>
+            Validator Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Create.CreateRoom">
+            <summary>
+            Created a new Room
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Create.CreateRoom.AccommodationType">
+            <summary>
+            Room Accommodation type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Create.CreateRoom.NrOfOccupants">
+            <summary>
+            Nr of Occupants for the room
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Create.CreateRoomValidator">
+            <summary>
+            Create room validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Room.Create.CreateRoomValidator.#ctor">
             <summary>
             Validator constructor
             </summary>
         </member>
-        <member name="T:Products.API.Models.Output.Entity">
+        <member name="T:Products.API.Models.Input.Room.Update.UpdateRoom">
             <summary>
-            Output model
+            Updates the Room
             </summary>
         </member>
-        <member name="P:Products.API.Models.Output.Entity.Id">
+        <member name="P:Products.API.Models.Input.Room.Update.UpdateRoom.AccommodationType">
             <summary>
-            Entity Id
+            Room Accommodation type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Update.UpdateRoom.NrOfOccupants">
+            <summary>
+            Nr of Occupants for the room
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Update.UpdateRoomValidator">
+            <summary>
+            Update room validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Room.Update.UpdateRoomValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Output.Property">
+            <summary>
+            Output model for Property
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Property.Id">
+            <summary>
+            Property Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Property.Type">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Property.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Output.Room">
+            <summary>
+            Output model for the Room
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Room.RoomId">
+            <summary>
+            Room Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Room.AccommodationType">
+            <summary>
+            Room Accommodation Type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Room.NrOfOccupants">
+            <summary>
+            Nr of occupants for the Room
             </summary>
         </member>
         <member name="T:Products.API.Program">
@@ -390,7 +545,7 @@
             <param name="httpContext">Current HttpContext</param>
             <returns></returns>
         </member>
-        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.TranslateException(Products.Common.Exceptions.EntityException)">
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.TranslateException(Products.Common.Exceptions.ProductException)">
             <summary>
             Get a proper <see cref="T:System.Net.HttpStatusCode"/> based on exception's details
             </summary>
