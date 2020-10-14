@@ -1,12 +1,13 @@
 ﻿CREATE TABLE [dbo].[Room] (
-    [Id]               INT NOT NULL,
-    [Type]             INT NOT NULL,
-    [AccomodationType] INT NOT NULL,
-    [NrOfOccupants]       INT NOT NULL,
-    [PropertyId]       INT NOT NULL,
+    [Id]                INT IDENTITY (1, 1) NOT NULL,
+    [AccommodationType] INT NOT NULL,
+    [NrOfOccupants]     INT NOT NULL,
+    [PropertyId]        INT NOT NULL,
     CONSTRAINT [PK_Room] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Room_Property] FOREIGN KEY ([PropertyId]) REFERENCES [dbo].[Property] ([Id])
 );
+
+
 
 
 GO

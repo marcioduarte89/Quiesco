@@ -10,6 +10,7 @@ namespace Products.Api.Infrastructure.Middlewares.ExceptionHandler
     using System.Net;
     using System.Text.Json;
     using System.Threading.Tasks;
+    using Prometheus;
 
     /// <summary>
     /// Global Exception Hander
@@ -48,16 +49,25 @@ namespace Products.Api.Infrastructure.Middlewares.ExceptionHandler
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext httpContext)
         {
+            var counter = Metrics.CreateCounter("products_counter", "HTTP Requests Total", new CounterConfiguration
+            {
+                LabelNames = new[] { "path", "method", "status" }
+            });
+
             try
             {
                 await _next(httpContext);
+
+                counter.Labels(httpContext.Request.Path.Value, httpContext.Request.Method, httpContext.Response.StatusCode.ToString()).Inc();
             }
             catch (ProductException ex)
             {
+                counter.Labels(httpContext.Request.Path.Value, httpContext.Request.Method, HttpStatusCode.InternalServerError.ToString()).Inc();
                 await HandleExceptionAsync(httpContext, TranslateException(ex), ex.Message, ex.StackTrace);
             }
             catch (Exception ex)
             {
+                counter.Labels(httpContext.Request.Path.Value, httpContext.Request.Method, HttpStatusCode.InternalServerError.ToString()).Inc();
                 await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace);
             }
         }

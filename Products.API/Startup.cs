@@ -1,5 +1,6 @@
 namespace Products.API
 {
+    using System;
     using Autofac;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ namespace Products.API
     using System.Reflection;
     using Infrastructure.Middlewares.ExceptionHandler;
     using FluentValidation.AspNetCore;
+    using Prometheus;
 
     /// <summary>
     /// Startup class
@@ -86,6 +88,8 @@ namespace Products.API
             }
 
             app.UseHttpsRedirection();
+            app.UseMetricServer();
+            app.UseHttpMetrics();
             app.AddCustomExceptionHandler();
             app.UseRouting();
             app.UseAuthorization();
