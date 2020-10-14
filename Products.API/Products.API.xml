@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Products.API</name>
+    </assembly>
+    <members>
+        <member name="T:Products.API.Features.Create.CreateCommand">
+            <summary>
+            Create command
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Create.CreateCommandHandler">
+            <summary>
+            Create command handler
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Create.CreateCommandHandler.#ctor(AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Create.CreateCommandHandler.Handle(Products.API.Features.Create.CreateCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type CreateCommand
+            </summary>
+            <param name="request">Create property command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Create.Profile.Input">
+            <summary>
+            Input Model
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Create.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Create.Profile.Output">
+            <summary>
+            Output model Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Create.Profile.Output.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Delete.DeleteCommand">
+            <summary>
+            Delete command
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Delete.DeleteCommandHandler">
+            <summary>
+            Delete handler
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Delete.DeleteCommandHandler.#ctor(AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Delete.DeleteCommandHandler.Handle(Products.API.Features.Delete.DeleteCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type DeleteCommand 
+            </summary>
+            <param name="request">delete command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Delete.Profile.Input">
+            <summary>
+            Input Model for deleting
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Delete.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.EntitiesController">
+            <summary>
+            Entities controller
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.EntitiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mediator">mediator instance</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.EntitiesController.CreateProperty(Products.API.Models.Input.Entity.Create.CreateEntity,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new <see cref="T:Products.API.Models.Output.Entity"/>.
+            </summary>
+            <param name="entity">Entity details</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="M:Products.API.Features.EntitiesController.UpdateProperty(System.Int32,Products.API.Models.Input.Entity.Update.UpdateEntity,System.Threading.CancellationToken)">
+            <summary>
+            Updates a <see cref="T:Products.API.Models.Output.Entity"/>.
+            </summary>
+            <param name="id">Entity id</param>
+            <param name="entity">Entity details</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="M:Products.API.Features.EntitiesController.Get(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets new <see cref="T:Products.API.Models.Output.Entity"/> 
+            </summary>
+            <param name="id">Property Id</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="M:Products.API.Features.EntitiesController.UpdatePropertyRoom(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a <see cref="T:Products.API.Models.Output.Entity"/>
+            </summary>
+            <param name="id">Entity Id</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Get.GetRequest">
+            <summary>
+            Update command
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Get.GetRequestHandler">
+            <summary>
+            Update command handler
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Get.GetRequestHandler.#ctor(AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Products Context</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Get.GetRequestHandler.Handle(Products.API.Features.Get.GetRequest,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type GetCommand
+            </summary>
+            <param name="request">GetCommand</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Get.Profile.Input">
+            <summary>
+            Input Model
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Get.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Update.Profile.Input">
+            <summary>
+            Input Model
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Update.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Update.Profile.Output">
+            <summary>
+            Output model
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Update.Profile.Output.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Update.UpdateCommand">
+            <summary>
+            Update command
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Update.UpdateCommand.Id">
+            <summary>
+            Entity Id
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Update.UpdateCommandHandler">
+            <summary>
+            Update handler
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Update.UpdateCommandHandler.#ctor(AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Update.UpdateCommandHandler.Handle(Products.API.Features.Update.UpdateCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type UpdateCommand
+            </summary>
+            <param name="request">Update Command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Entity"/></returns>
+        </member>
+        <member name="T:Products.API.Infrastructure.Ioc.ComponentRegistration">
+            <summary>
+            Registers all application generic components (like services, repositories, etc)
+            </summary>
+        </member>
+        <member name="M:Products.API.Infrastructure.Ioc.ComponentRegistration.Load(Autofac.ContainerBuilder)">
+            <summary>
+            Loads the container builder and registers generic components
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="T:Products.API.Infrastructure.Ioc.MediatorRegistration">
+            <summary>
+            Registers Mediator related configuration
+            </summary>
+        </member>
+        <member name="M:Products.API.Infrastructure.Ioc.MediatorRegistration.Load(Autofac.ContainerBuilder)">
+            <summary>
+            Loads the container builder and registers mediator components
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="T:Products.API.Infrastructure.Ioc.ProfileRegistration">
+            <summary>
+            Registers AutoMapper profiles and related configuration
+            </summary>
+        </member>
+        <member name="M:Products.API.Infrastructure.Ioc.ProfileRegistration.Load(Autofac.ContainerBuilder)">
+            <summary>
+            Loads the container builder and registers Automapper components
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="T:Products.API.Infrastructure.Middlewares.ExceptionHandler.ExceptionHandlerExtensions">
+            <summary>
+            Exception Handler Exceptions
+            </summary>
+        </member>
+        <member name="M:Products.API.Infrastructure.Middlewares.ExceptionHandler.ExceptionHandlerExtensions.AddCustomExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds custom Exception Handler middleware
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:Products.API.Infrastructure.Swagger.Swagger">
+            <summary>
+            Swagger Configuration
+            </summary>
+        </member>
+        <member name="M:Products.API.Infrastructure.Swagger.Swagger.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures Swagger through ServiceCollection
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:Products.API.Models.Input.Entity.Create.CreateEntity">
+            <summary>
+            Created a new Entity
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Entity.Create.CreateEntityValidator">
+            <summary>
+            Create Entity validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Entity.Create.CreateEntityValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Entity.Update.UpdateEntity">
+            <summary>
+            Updates the Entity
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Entity.Update.UpdateEntity.Id">
+            <summary>
+            Entity Id
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Entity.Update.UpdateEntityValidator">
+            <summary>
+            Update Entity validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Entity.Update.UpdateEntityValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Output.Entity">
+            <summary>
+            Output model
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Entity.Id">
+            <summary>
+            Entity Id
+            </summary>
+        </member>
+        <member name="T:Products.API.Program">
+            <summary>
+            Main program - Entry point
+            </summary>
+        </member>
+        <member name="M:Products.API.Program.Main(System.String[])">
+            <summary>
+            Entry point
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Products.API.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Created Host
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Products.API.Startup">
+            <summary>
+            Startup class
+            </summary>
+        </member>
+        <member name="M:Products.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration">Configuration</param>
+        </member>
+        <member name="P:Products.API.Startup.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
+        <member name="M:Products.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Products.API.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            Configure Container will be called after running ConfigureServices
+            Any registration here will override registrations made in ConfigureServices
+            Don't need to build the container as its done automatically
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="M:Products.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+        <member name="T:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler">
+            <summary>
+            Global Exception Hander
+            </summary>
+        </member>
+        <member name="F:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.CodeToStatusCodeMap">
+            <summary>
+            Map internal error codes to HTTP status code
+            </summary>
+        </member>
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="next">RequestDelegate</param>
+            <param name="env">IWebHostEnvironment</param>
+        </member>
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Generic Invocation
+            </summary>
+            <param name="httpContext">Current HttpContext</param>
+            <returns></returns>
+        </member>
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.TranslateException(Products.Common.Exceptions.EntityException)">
+            <summary>
+            Get a proper <see cref="T:System.Net.HttpStatusCode"/> based on exception's details
+            </summary>
+            <param name="e">An exception</param>
+            <returns>A status code</returns>
+        </member>
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Net.HttpStatusCode,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Handles and re-writes the response with the exception details
+            </summary>
+            <param name="context">Http Context</param>
+            <param name="statusCode">Http Status code</param>
+            <param name="message">Exception message</param>
+            <param name="details">Exception details</param>
+            <param name="invalidProperties">Invalid properties</param>
+        </member>
+        <member name="T:Products.Api.Infrastructure.Middlewares.ExceptionHandler.ErrorDetails">
+            <summary>
+            Internal Error Details
+            </summary>
+        </member>
+    </members>
+</doc>
