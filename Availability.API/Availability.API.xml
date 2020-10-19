@@ -4,9 +4,58 @@
         <name>Availability.API</name>
     </assembly>
     <members>
+        <member name="T:Availability.API.Features.BookSlots.BookSlotsCommand">
+            <summary>
+            Books slots for the room for a given time period
+            </summary>
+        </member>
+        <member name="T:Availability.API.Features.BookSlots.BookSlotsCommandHandler">
+            <summary>
+            Command handler to book room slots
+            </summary>
+        </member>
+        <member name="M:Availability.API.Features.BookSlots.BookSlotsCommandHandler.#ctor(AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Availability.API.Features.BookSlots.BookSlotsCommandHandler.Handle(Availability.API.Features.BookSlots.BookSlotsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type BookSlotsCommand
+            </summary>
+            <param name="request">Book slots command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
+        </member>
         <member name="T:Availability.API.Features.CreateRoom.CreateCommand">
             <summary>
             Create command
+            </summary>
+        </member>
+        <member name="P:Availability.API.Features.CreateRoom.CreateCommand.PropertyId">
+            <summary>
+            Property Id where the Room belongs to
+            </summary>
+        </member>
+        <member name="P:Availability.API.Features.CreateRoom.CreateCommand.RoomId">
+            <summary>
+            Room id
+            </summary>
+        </member>
+        <member name="P:Availability.API.Features.CreateRoom.CreateCommand.DefaultPrice">
+            <summary>
+            Default price used when no ranges are specified
+            </summary>
+        </member>
+        <member name="P:Availability.API.Features.CreateRoom.CreateCommand.Prices">
+            <summary>
+            Prices for time ranges
+            </summary>
+        </member>
+        <member name="P:Availability.API.Features.CreateRoom.CreateCommand.BookedSlots">
+            <summary>
+            Slots when the room is booked
             </summary>
         </member>
         <member name="T:Availability.API.Features.CreateRoom.CreateCommandHandler">
@@ -14,11 +63,12 @@
             Create command handler
             </summary>
         </member>
-        <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.#ctor(AutoMapper.IMapper,Availability.Infrastructure.Data.Repositories.IRoomsRepository)">
             <summary>
             Constructor
             </summary>
             <param name="mapper">Mapper instance</param>
+            <param name="repository">rooms repository</param>
         </member>
         <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.Handle(Availability.API.Features.CreateRoom.CreateCommand,System.Threading.CancellationToken)">
             <summary>
@@ -38,12 +88,12 @@
             Constructor
             </summary>
         </member>
-        <member name="T:Availability.API.Features.Create.Profile.Output">
+        <member name="T:Availability.API.Features.CreateRoom.Profile.Output">
             <summary>
             Output model Map
             </summary>
         </member>
-        <member name="M:Availability.API.Features.Create.Profile.Output.#ctor">
+        <member name="M:Availability.API.Features.CreateRoom.Profile.Output.#ctor">
             <summary>
             Constructor
             </summary>
@@ -117,104 +167,85 @@
             Constructor
             </summary>
         </member>
-        <member name="T:Availability.API.Features.RoomsController">
+        <member name="T:Availability.API.Features.PropertiesController">
             <summary>
             Entities controller
             </summary>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
+        <member name="M:Availability.API.Features.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper,MongoDB.Driver.IMongoDatabase)">
             <summary>
             Constructor
             </summary>
             <param name="mediator">mediator instance</param>
             <param name="mapper">Mapper instance</param>
+            <param name="database"></param>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.CreateRoom(Availability.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
+        <member name="M:Availability.API.Features.PropertiesController.CreateRoom(System.Int32,Availability.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
             <summary>
             Creates a new <see cref="T:Availability.API.Models.Output.Room"/>.
             </summary>
+            <param name="id">Property Id</param>
             <param name="room">room details</param>
             <param name="cancellationToken"></param>
             <returns>Returns an instance of the created <see cref="T:Availability.API.Models.Output.Room"/></returns>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.UpdateProperty(System.Int32,Availability.API.Models.Input.Entity.Update.UpdateRoomAvailability,System.Threading.CancellationToken)">
+        <member name="M:Availability.API.Features.PropertiesController.ChangePrice(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{Availability.API.Models.Input.Room.Common.Price},System.Threading.CancellationToken)">
             <summary>
-            Updates a <see cref="T:Availability.API.Models.Output.Room"/>.
+            Updates a <see cref="T:Availability.API.Models.Output.Room"/> price for a given date range.
             </summary>
             <param name="id">Entity id</param>
-            <param name="entity">Entity details</param>
+            <param name="prices">room prices</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/> with updated prices</returns>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.Get(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Availability.API.Features.PropertiesController.ChangePrice(System.Int32,System.Int32,System.DateTime[],System.Threading.CancellationToken)">
             <summary>
-            Gets new <see cref="T:Availability.API.Models.Output.Room"/> 
+            Books a <see cref="T:Availability.API.Models.Output.Room"/>. for a certain time period 
             </summary>
-            <param name="id">Property Id</param>
+            <param name="id">Property id</param>
+            <param name="roomId">Room id</param>
+            <param name="bookedSlots">Booked slots</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of the created <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/> slots</returns>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.UpdatePropertyRoom(System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Deletes a <see cref="T:Availability.API.Models.Output.Room"/>
-            </summary>
-            <param name="id">Entity Id</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
-        <member name="T:Availability.API.Features.Update.Profile.Input">
-            <summary>
-            Input Model
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Update.Profile.Input.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Update.Profile.Output">
-            <summary>
-            Output model
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Update.Profile.Output.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Update.UpdateCommand">
+        <member name="T:Availability.API.Features.UpdatePrices.UpdatePricesCommand">
             <summary>
             Update command
             </summary>
         </member>
-        <member name="P:Availability.API.Features.Update.UpdateCommand.Id">
+        <member name="P:Availability.API.Features.UpdatePrices.UpdatePricesCommand.PropertyId">
             <summary>
-            Entity Id
+            Property Id
             </summary>
         </member>
-        <member name="T:Availability.API.Features.Update.UpdateCommandHandler">
+        <member name="P:Availability.API.Features.UpdatePrices.UpdatePricesCommand.RoomId">
+            <summary>
+            Room Id
+            </summary>
+        </member>
+        <member name="P:Availability.API.Features.UpdatePrices.UpdatePricesCommand.Prices">
+            <summary>
+            Updated room prices
+            </summary>
+        </member>
+        <member name="T:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler">
             <summary>
             Update handler
             </summary>
         </member>
-        <member name="M:Availability.API.Features.Update.UpdateCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.#ctor(AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
             <param name="mapper">Mapper instance</param>
         </member>
-        <member name="M:Availability.API.Features.Update.UpdateCommandHandler.Handle(Availability.API.Features.Update.UpdateCommand,System.Threading.CancellationToken)">
+        <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.Handle(Availability.API.Features.UpdatePrices.UpdatePricesCommand,System.Threading.CancellationToken)">
             <summary>
             Handles commands of type UpdateCommand
             </summary>
             <param name="request">Update Command</param>
             <param name="cancellationToken"></param>
             <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
-        <member name="T:Availability.API.Infrastructure.ClassMap.ClassMap">
-            <summary>
-            Load and Register class maps
-            </summary>
         </member>
         <member name="T:Availability.API.Infrastructure.Ioc.ComponentRegistration">
             <summary>
@@ -306,6 +337,27 @@
             Internal Error Details
             </summary>
         </member>
+        <member name="T:Availability.API.Infrastructure.Services.MongoConfigurationService">
+            <summary>
+            Configures MongoDB instance
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Services.MongoConfigurationService.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Services.MongoConfigurationService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggered when the application host is ready to start the service.
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Services.MongoConfigurationService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggered when the application host is performing a graceful shutdown.
+            </summary>
+        </member>
         <member name="T:Availability.API.Infrastructure.Swagger.Swagger">
             <summary>
             Swagger Configuration
@@ -325,11 +377,13 @@
         <member name="P:Availability.API.Models.Input.Room.Common.Price.FromDate">
             <summary>
             From Date when the price is to be set
+            ddmmyyyy - format used to simplify queries
             </summary>
         </member>
         <member name="P:Availability.API.Models.Input.Room.Common.Price.ToDate">
             <summary>
             To Date until when the price is to be set
+            ddmmyyyy - format used to simplify queries
             </summary>
         </member>
         <member name="P:Availability.API.Models.Input.Room.Common.Price.Value">
@@ -345,11 +399,6 @@
         <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.RoomId">
             <summary>
             Room Id
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.PropertyId">
-            <summary>
-            Property Id where the Room belongs to
             </summary>
         </member>
         <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.DefaultPrice">
@@ -377,22 +426,22 @@
             Validator constructor
             </summary>
         </member>
-        <member name="T:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailability">
+        <member name="T:Availability.API.Models.Input.Room.Update.UpdateRoomAvailability">
             <summary>
             Updates the Entity
             </summary>
         </member>
-        <member name="P:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailability.Id">
+        <member name="P:Availability.API.Models.Input.Room.Update.UpdateRoomAvailability.Id">
             <summary>
             Entity Id
             </summary>
         </member>
-        <member name="T:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailabilityValidator">
+        <member name="T:Availability.API.Models.Input.Room.Update.UpdateRoomAvailabilityValidator">
             <summary>
             Update Entity validator
             </summary>
         </member>
-        <member name="M:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailabilityValidator.#ctor">
+        <member name="M:Availability.API.Models.Input.Room.Update.UpdateRoomAvailabilityValidator.#ctor">
             <summary>
             Validator constructor
             </summary>
