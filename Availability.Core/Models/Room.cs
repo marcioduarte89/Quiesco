@@ -28,6 +28,7 @@
             PropertyId = propertyId;
             RoomId = roomId;
             _bookedSlots = new List<int>();
+            Prices = new HashSet<Price>();
         }
 
         /// <summary>
@@ -53,7 +54,7 @@
         /// <summary>
         /// Prices for time ranges
         /// </summary>
-        public IEnumerable<Price> Prices { get; private set; }
+        public HashSet<Price> Prices { get; private set; }
 
         /// <summary>
         /// Slots when the room is booked
@@ -66,6 +67,7 @@
         /// <param name="bookedSlots">Booked slots</param>
         public void AddBookings(int[] bookedSlots)
         {
+            // Check for any duplicates
             var hashSet = new HashSet<int>(bookedSlots);
             if (hashSet.Count != bookedSlots.Length)
             {
@@ -74,12 +76,14 @@
 
             foreach (var bookedSlot in bookedSlots)
             {
+                // Check if there are any bookings for past dates
                 var bookedSlotAsDate = DateExtensions.Convert(bookedSlot);
-                if (bookedSlotAsDate.CompareTo(DateTime.Now) < 0)
+                if (bookedSlotAsDate.CompareTo(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)) <= 0)
                 {
                     throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot create a booking for a past date");
                 }
 
+                // Trying to create a booking for an already existing booking
                 if (_bookedSlots.Any(x => x == bookedSlot))
                 {
                     throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot have overlapping bookings or double bookings");
@@ -91,11 +95,27 @@
 
         public void SetDatePrices(List<Price> prices)
         {
-            if (prices != null && prices.Any())
+            if (prices == null || !prices.Any())
             {
-
+                return;
             }
-            Prices = prices;
+
+            if (prices.Any(x => _bookedSlots.Any(y => x.Date == y)))
+            {
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot change the price for a time slot where a booking is already made");
+            }
+
+            foreach (var newPrice in prices)
+            {
+                if (Prices.TryGetValue(newPrice, out var price))
+                {
+                    price.SetPriceValue(newPrice.Value);
+                }
+                else
+                {
+                    Prices.Add(newPrice);
+                }
+            }
         }
     }
 }

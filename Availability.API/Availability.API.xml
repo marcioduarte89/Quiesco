@@ -193,20 +193,11 @@
             <summary>
             Updates a <see cref="T:Availability.API.Models.Output.Room"/> price for a given date range.
             </summary>
-            <param name="id">Entity id</param>
+            <param name="id">Property id</param>
+            <param name="roomId">Room id</param>
             <param name="prices">room prices</param>
             <param name="cancellationToken"></param>
             <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/> with updated prices</returns>
-        </member>
-        <member name="M:Availability.API.Features.PropertiesController.ChangePrice(System.Int32,System.Int32,System.DateTime[],System.Threading.CancellationToken)">
-            <summary>
-            Books a <see cref="T:Availability.API.Models.Output.Room"/>. for a certain time period 
-            </summary>
-            <param name="id">Property id</param>
-            <param name="roomId">Room id</param>
-            <param name="bookedSlots">Booked slots</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/> slots</returns>
         </member>
         <member name="T:Availability.API.Features.UpdatePrices.UpdatePricesCommand">
             <summary>
@@ -233,11 +224,12 @@
             Update handler
             </summary>
         </member>
-        <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.#ctor(AutoMapper.IMapper,Availability.Infrastructure.Data.Repositories.IRoomsRepository)">
             <summary>
             Constructor
             </summary>
             <param name="mapper">Mapper instance</param>
+            <param name="repository">Rooms repository</param>
         </member>
         <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.Handle(Availability.API.Features.UpdatePrices.UpdatePricesCommand,System.Threading.CancellationToken)">
             <summary>
@@ -374,15 +366,9 @@
             Room price
             </summary>
         </member>
-        <member name="P:Availability.API.Models.Input.Room.Common.Price.FromDate">
+        <member name="P:Availability.API.Models.Input.Room.Common.Price.Date">
             <summary>
-            From Date when the price is to be set
-            ddmmyyyy - format used to simplify queries
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Common.Price.ToDate">
-            <summary>
-            To Date until when the price is to be set
+            Date when the price is to be set
             ddmmyyyy - format used to simplify queries
             </summary>
         </member>
@@ -446,14 +432,9 @@
             Validator constructor
             </summary>
         </member>
-        <member name="P:Availability.API.Models.Output.Price.FromDate">
+        <member name="P:Availability.API.Models.Output.Price.Date">
             <summary>
-            From Date when the price is to be set
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Price.ToDate">
-            <summary>
-            To Date until when the price is to be set
+            Date when the price is to be set
             </summary>
         </member>
         <member name="P:Availability.API.Models.Output.Price.Value">

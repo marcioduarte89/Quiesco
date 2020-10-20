@@ -1,24 +1,31 @@
-﻿namespace Availability.Infrastructure.Data.Configuration
+﻿namespace Availability.Infrastructure.Data.Configuration.ClassMaps
 {
     using Core.Models;
     using MongoDB.Bson.Serialization;
-    using MongoDB.Bson.Serialization.Serializers;
 
+    /// <summary>
+    /// Room class map registrations
+    /// </summary>
     public class RoomClassMapRegistration : IClassMapRegistration
     {
+        /// <summary>
+        /// Loads class map registrations
+        /// </summary>
         public void Load()
         {
             BsonClassMap.RegisterClassMap<Room>(x =>
             {
                 x.AutoMap();
                 x.MapIdField(y => y.Id);
-                x.MapField("_bookedSlots").SetElementName("BookedSlots");
+                x.MapField("_bookedSlots").SetElementName("bookedSlots");
                 x.UnmapMember(y => y.BookedSlots);
             });
 
             BsonClassMap.RegisterClassMap<Price>(x =>
             {
                 x.AutoMap();
+                x.MapProperty(y => y.Value);
+                x.MapProperty(y => y.Date);
             });
         }
     }

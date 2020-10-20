@@ -16,32 +16,53 @@ namespace Availability.Core.Tests {
         [TestCase(-1)]
         public void Price_InvalidValue_ThrowsAvailabilityException(decimal value)
         {
-            Assert.Throws<AvailabilityException>(() => new Price(int.Parse(DateTime.Now.ToString("ddmmyyyy")), int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy")), value));
-        }
-
-        [Test]
-        public void Price_InvalidDateRangesSameDate_ThrowsAvailabilityException()
-        {
-            var sameDate = int.Parse(DateTime.Now.ToString("ddMMyyyy"));
-            Assert.Throws<AvailabilityException>(() => new Price(sameDate, sameDate, 1));
+            Assert.Throws<AvailabilityException>(() => new Price(int.Parse(DateTime.Now.ToString("ddMMyyyy")), value));
         }
 
         [Test]
         public void Price_InvalidDateRangesToLessThanFrom_ThrowsAvailabilityException()
         {
-            Assert.Throws<AvailabilityException>(() => new Price(int.Parse(DateTime.Now.Date.ToString("ddMMyyyy")), int.Parse(DateTime.Now.AddDays(-1).ToString("ddMMyyyy")), 1));
+            Assert.Throws<AvailabilityException>(() => new Price(int.Parse(DateTime.Now.Date.ToString("ddMMyyyy")), 1));
         }
 
         [Test]
-        public void Price_ValidDateRanges_CreatesPrice()
+        public void Price_ValidDate_CreatesPrice()
         {
-            var fromDate = int.Parse(DateTime.Now.Date.ToString("ddMMyyyy"));
-            var toDate = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
-            var price = new Price(fromDate, toDate, 1);
+            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var price = new Price(date, 1);
             Assert.IsNotNull(price);
             Assert.AreEqual(1, price.Value);
-            Assert.AreEqual(fromDate, price.FromDate);
-            Assert.AreEqual(toDate, price.ToDate);
+        }
+
+        [Test]
+        public void SetPriceValue_ValidValue_UpdatesPrice()
+        {
+            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var price = new Price(date, 1);
+            price.SetPriceValue(2);
+            Assert.IsNotNull(price);
+            Assert.AreEqual(2, price.Value);
+        }
+
+        [Test]
+        public void Price_EqualPricesBasedOnDate_ReturnsTrue()
+        {
+            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var price = new Price(date, 1);
+            var otherPrice = new Price(date, 1);
+
+            Assert.IsTrue(price.Equals(otherPrice));
+        }
+
+        [Test]
+        public void Price_NotEqualPrices_ReturnsTrue()
+        {
+            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var dateTwo = int.Parse(DateTime.Now.AddDays(2).ToString("ddMMyyyy"));
+            var price = new Price(date, 1);
+            var otherPrice = new Price(dateTwo, 1);
+
+            Assert.IsFalse(price.Equals(otherPrice));
         }
     }
 }

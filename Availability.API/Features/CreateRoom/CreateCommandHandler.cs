@@ -46,8 +46,8 @@
             var room = new Room(request.PropertyId, request.RoomId, request.DefaultPrice);
 
             // In case there were pre-bookings before the launch of the venue
+            room.SetDatePrices(request.Prices?.Select(x => new Price(x.Date, x.Value)).ToList());
             room.AddBookings(request.BookedSlots);
-            room.SetDatePrices(request.Prices?.Select(x => new Price(x.FromDate, x.ToDate, x.Value)).ToList());
 
             await _repository.Save(room, cancellationToken);
 

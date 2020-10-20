@@ -2,18 +2,14 @@
 {
     using Availability.Common.Exceptions;
     using System;
+    using Common.Extensions;
 
     public class Price
     {
         /// <summary>
-        /// From Date when the price is to be set
+        /// Date when the price is to be set
         /// </summary>
-        public int FromDate { get; private set; }
-
-        /// <summary>
-        /// To Date until when the price is to be set
-        /// </summary>
-        public int ToDate { get; private set; }
+        public int Date { get; private set; }
 
         /// <summary>
         /// Value for the price between FromDate to ToDate
@@ -23,15 +19,24 @@
         /// <summary>
         /// Constructor 
         /// </summary>
-        /// <param name="fromDate">From date where the price will be applied</param>
-        /// <param name="toDate">From date where the price will be applied</param>
+        /// <param name="date">Date where the price will be applied</param>
         /// <param name="value">Price value</param>
-        public Price(int fromDate, int toDate, decimal value)
+        public Price(int date, decimal value)
         {
-            ValidateDateRanges(fromDate, toDate);
+            ValidateDate(date);
             ValidatePrice(value);
-            FromDate = fromDate;
-            ToDate = toDate;
+            Date = date;
+            Value = value;
+        }
+
+        /// <summary>
+        /// Sets price value
+        /// </summary>
+        /// <param name="value">Price value</param>
+        /// <exception cref="AvailabilityException">Throws <see cref="AvailabilityException"/>If value is invalid</exception>
+        public void SetPriceValue(decimal value)
+        {
+            ValidatePrice(value);
             Value = value;
         }
 
@@ -49,17 +54,31 @@
         }
 
         /// <summary>
-        /// Validates date ranges
+        /// Validates date
         /// </summary>
-        /// <param name="fromDate">From date</param>
-        /// <param name="toDate"></param>
+        /// <param name="date">date</param>
         /// <exception cref="AvailabilityException">Throws <see cref="AvailabilityException"/>Date ranges are invalid</exception>
-        private void ValidateDateRanges(int fromDate, int toDate)
+        private void ValidateDate(int date)
         {
-            if (fromDate >= toDate)
+            if (DateExtensions.Convert(date) < DateTime.Now)
             {
-                throw new AvailabilityException(AvailabilityException.INVALID_DATA, "Date from needs to be less than toDate");
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, "Date cannot be less than today's date");
             }
+        }
+
+        public override int GetHashCode()
+        {
+             return Date.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Price price)
+            {
+                return Date == price.Date;
+            }
+
+            return  false;
         }
     }
 }

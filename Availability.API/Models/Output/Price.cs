@@ -5,14 +5,9 @@ namespace Availability.API.Models.Output
     public class Price
     {
         /// <summary>
-        /// From Date when the price is to be set
+        /// Date when the price is to be set
         /// </summary>
-        public DateTime FromDate { get; set; }
-
-        /// <summary>
-        /// To Date until when the price is to be set
-        /// </summary>
-        public DateTime ToDate { get; set; }
+        public int Date { get; set; }
 
         /// <summary>
         /// Value for the price between FromDate to ToDate

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Availability.Common.Extensions
+﻿namespace Availability.Common.Extensions
 {
+    using System;
     using System.Globalization;
 
     public static class DateExtensions

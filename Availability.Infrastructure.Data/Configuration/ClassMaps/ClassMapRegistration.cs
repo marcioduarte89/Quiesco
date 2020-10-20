@@ -1,4 +1,4 @@
-﻿namespace Availability.Infrastructure.Data.Configuration
+﻿namespace Availability.Infrastructure.Data.Configuration.ClassMaps
 {
     using System;
     using System.Linq;

@@ -1,25 +1,17 @@
 ﻿namespace Availability.API.Features
 {
-    using System;
     using AutoMapper;
-    using Availability.Infrastructure.Data.Configuration;
     using CreateRoom;
-    using Delete;
-    using Get;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Input.Room.Common;
-    using Models.Input.Room.Update;
-    using MongoDB.Bson;
     using MongoDB.Driver;
+    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using UpdatePrices;
     using Output = Models.Output;
-    using Availability.Core.Models;
-    using Price = Core.Models.Price;
 
     /// <summary>
     /// Entities controller
@@ -69,7 +61,8 @@
         /// <summary>
         /// Updates a <see cref="Output.Room"/> price for a given date range.
         /// </summary>
-        /// <param name="id">Entity id</param>
+        /// <param name="id">Property id</param>
+        /// <param name="roomId">Room id</param>
         /// <param name="prices">room prices</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Returns an instance of the updated <see cref="Output.Room"/> with updated prices</returns>
@@ -84,27 +77,6 @@
             var updatedRoom = await _mediator.Send(command, cancellationToken);
 
             return Ok(updatedRoom);
-        }
-
-        /// <summary>
-        /// Books a <see cref="Output.Room"/>. for a certain time period 
-        /// </summary>
-        /// <param name="id">Property id</param>
-        /// <param name="roomId">Room id</param>
-        /// <param name="bookedSlots">Booked slots</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Returns an instance of the updated <see cref="Output.Room"/> slots</returns>
-        [HttpPut("{id}/room/{roomId}/book")]
-        [ProducesResponseType(typeof(Output.Room), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Output.Room), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ChangePrice(int id, int roomId, DateTime[] bookedSlots,
-            CancellationToken cancellationToken)
-        {
-            //var command = _mapper.Map<UpdatePricesCommand>(entity);
-            //command.Id = id;
-            //var newProperty = await _mediator.Send(command, cancellationToken);
-
-            return Ok(null);
         }
     }
 }

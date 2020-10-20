@@ -11,6 +11,7 @@
         /// </summary>
         public Output() {
             CreateMap<Room, Models.Output.Room>();
+            CreateMap<Price, Models.Output.Price>();
         }
     }
 }
