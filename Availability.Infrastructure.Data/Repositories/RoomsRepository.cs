@@ -41,17 +41,6 @@
             return (await _roomCollection.FindAsync(filter, cancellationToken: cancellationToken)).FirstOrDefault();
         }
 
-        ///// <summary>
-        ///// Creates a room
-        ///// </summary>
-        ///// <param name="room">room details</param>
-        ///// <param name="cancellationToken"></param>
-        ///// <returns>Returns an instance of <see cref="Room"/> of the created room</returns>
-        //public async Task Create(Room room, CancellationToken cancellationToken)
-        //{
-        //    await _roomCollection.InsertOneAsync(room, cancellationToken: cancellationToken);
-        //}
-
         /// <summary>
         /// Saves a room
         /// </summary>
