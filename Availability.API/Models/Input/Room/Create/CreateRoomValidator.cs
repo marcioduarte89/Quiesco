@@ -1,5 +1,7 @@
 ﻿namespace Availability.API.Models.Input.Room.Create
 {
+    using System.Linq;
+    using Availability.Common.Extensions;
     using FluentValidation;
 
     /// <summary>
@@ -19,6 +21,10 @@
             RuleFor(x => x.DefaultPrice)
                 .GreaterThan(0)
                 .WithMessage(x => "Default price must be greater than 0");
+
+            RuleFor(x => x.BookedSlots)
+                .Must(x => x == null || !x.Any() || x.All(DateExtensions.IsValid))
+                .WithMessage(x => "Prices must have ");
         }
     }
 }

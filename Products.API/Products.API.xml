@@ -1,297 +1,558 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Availability.API</name>
+        <name>Products.API</name>
     </assembly>
     <members>
-        <member name="T:Availability.API.Features.CreateRoom.CreateCommand">
+        <member name="T:Products.API.Features.Properties.CreateProperty.CreatePropertyCommand">
             <summary>
-            Create command
+            Create property command
             </summary>
         </member>
-        <member name="T:Availability.API.Features.CreateRoom.CreateCommandHandler">
+        <member name="P:Products.API.Features.Properties.CreateProperty.CreatePropertyCommand.Type">
             <summary>
-            Create command handler
+            Property type
             </summary>
         </member>
-        <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="P:Products.API.Features.Properties.CreateProperty.CreatePropertyCommand.Name">
             <summary>
-            Constructor
-            </summary>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.Handle(Availability.API.Features.CreateRoom.CreateCommand,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type CreateCommand
-            </summary>
-            <param name="request">Create property command</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
-        <member name="T:Availability.API.Features.CreateRoom.Profile.Input">
-            <summary>
-            Input Model
+            Property Name
             </summary>
         </member>
-        <member name="M:Availability.API.Features.CreateRoom.Profile.Input.#ctor">
+        <member name="T:Products.API.Features.Properties.CreateProperty.CreatePropertyCommandHandler">
             <summary>
-            Constructor
+            Create property command handler
+            Handles the creation of Properties within the Products API
             </summary>
         </member>
-        <member name="T:Availability.API.Features.Create.Profile.Output">
-            <summary>
-            Output model Map
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Create.Profile.Output.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Delete.DeleteCommand">
-            <summary>
-            Delete command
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Delete.DeleteCommandHandler">
-            <summary>
-            Delete handler
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Delete.DeleteCommandHandler.#ctor(AutoMapper.IMapper)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Availability.API.Features.Delete.DeleteCommandHandler.Handle(Availability.API.Features.Delete.DeleteCommand,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type DeleteCommand 
-            </summary>
-            <param name="request">delete command</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
-        <member name="T:Availability.API.Features.Delete.Profile.Input">
-            <summary>
-            Input Model for deleting
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Delete.Profile.Input.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Get.GetRequest">
-            <summary>
-            Update command
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Get.GetRequestHandler">
-            <summary>
-            Update command handler
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Get.GetRequestHandler.#ctor(AutoMapper.IMapper)">
+        <member name="M:Products.API.Features.Properties.CreateProperty.CreatePropertyCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
             <param name="context">Products Context</param>
             <param name="mapper">Mapper instance</param>
         </member>
-        <member name="M:Availability.API.Features.Get.GetRequestHandler.Handle(Availability.API.Features.Get.GetRequest,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.CreateProperty.CreatePropertyCommandHandler.Handle(Products.API.Features.Properties.CreateProperty.CreatePropertyCommand,System.Threading.CancellationToken)">
             <summary>
-            Handles commands of type GetCommand
+            Handles commands of type CreatePropertyCommand and creates Properties
             </summary>
-            <param name="request">GetCommand</param>
+            <param name="request">Create property command</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Property"/></returns>
         </member>
-        <member name="T:Availability.API.Features.Get.Profile.Input">
+        <member name="T:Products.API.Features.Properties.CreateProperty.Profile.Input">
             <summary>
-            Input Model
+            Input Model for creating property Map
             </summary>
         </member>
-        <member name="M:Availability.API.Features.Get.Profile.Input.#ctor">
+        <member name="M:Products.API.Features.Properties.CreateProperty.Profile.Input.#ctor">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="T:Availability.API.Features.RoomsController">
+        <member name="T:Products.API.Features.Properties.CreateProperty.Profile.Output">
             <summary>
-            Entities controller
+            Create properties output model Map
             </summary>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
+        <member name="M:Products.API.Features.Properties.CreateProperty.Profile.Output.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.CreateRoomCommand">
+            <summary>
+            Create room command
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.CreateRoom.CreateRoomCommand.PropertyId">
+            <summary>
+            Property Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.CreateRoom.CreateRoomCommand.AccommodationType">
+            <summary>
+            Accommodation type for the room
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.CreateRoom.CreateRoomCommand.NrOfOccupants">
+            <summary>
+            Nr of occupants for the room
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.CreateRoomCommandHandler">
+            <summary>
+            Create room command handler
+            Handles the creation of rooms within a property for Products API
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.CreateRoomCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Products Context</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.CreateRoomCommandHandler.Handle(Products.API.Features.Properties.CreateRoom.CreateRoomCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type CreateRoomCommand and creates Rooms
+            </summary>
+            <param name="request">Create room command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Room"/></returns>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.Profile.Input">
+            <summary>
+            Input Model for creating room Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.CreateRoom.Profile.Output">
+            <summary>
+            Create room output model Map
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.CreateRoom.Profile.Output.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.PropertiesController">
+            <summary>
+            Property controller - Aggregate Room for properties and Rooms
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
             <param name="mediator">mediator instance</param>
             <param name="mapper">Mapper instance</param>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.CreateRoom(Availability.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.PropertiesController.CreateProperty(Products.API.Models.Input.Property.Create.CreateProperty,System.Threading.CancellationToken)">
             <summary>
-            Creates a new <see cref="T:Availability.API.Models.Output.Room"/>.
+            Creates a new <see cref="T:Products.API.Models.Output.Property"/>.
             </summary>
-            <param name="room">room details</param>
+            <param name="property">Property details</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of the created <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Property"/></returns>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.UpdateProperty(System.Int32,Availability.API.Models.Input.Entity.Update.UpdateRoomAvailability,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.PropertiesController.UpdateProperty(System.Int32,Products.API.Models.Input.Property.Update.UpdateProperty,System.Threading.CancellationToken)">
             <summary>
-            Updates a <see cref="T:Availability.API.Models.Output.Room"/>.
+            Updates a <see cref="T:Products.API.Models.Output.Property"/>.
             </summary>
-            <param name="id">Entity id</param>
-            <param name="entity">Entity details</param>
+            <param name="id">Property id</param>
+            <param name="property">Property details</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Property"/></returns>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.Get(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.PropertiesController.AddPropertyRoom(System.Int32,Products.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
             <summary>
-            Gets new <see cref="T:Availability.API.Models.Output.Room"/> 
+            Adds a new <see cref="T:Products.API.Models.Output.Room"/> to a property
             </summary>
             <param name="id">Property Id</param>
+            <param name="room">Room details</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of the created <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of the created <see cref="T:Products.API.Models.Output.Room"/></returns>
         </member>
-        <member name="M:Availability.API.Features.RoomsController.UpdatePropertyRoom(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.PropertiesController.UpdatePropertyRoom(System.Int32,System.Int32,Products.API.Models.Input.Room.Update.UpdateRoom,System.Threading.CancellationToken)">
             <summary>
-            Deletes a <see cref="T:Availability.API.Models.Output.Room"/>
+            Updates a <see cref="T:Products.API.Models.Output.Room"/> in an existing property
             </summary>
-            <param name="id">Entity Id</param>
+            <param name="id">Property Id</param>
+            <param name="roomId">Room id</param>
+            <param name="room">Room details</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of the updated <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of the updated <see cref="T:Products.API.Models.Output.Room"/></returns>
         </member>
-        <member name="T:Availability.API.Features.Update.Profile.Input">
+        <member name="T:Products.API.Features.Properties.UpdateProperty.Profile.Input">
             <summary>
-            Input Model
+            Input Model for updating property Map
             </summary>
         </member>
-        <member name="M:Availability.API.Features.Update.Profile.Input.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Update.Profile.Output">
-            <summary>
-            Output model
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Update.Profile.Output.#ctor">
+        <member name="M:Products.API.Features.Properties.UpdateProperty.Profile.Input.#ctor">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="T:Availability.API.Features.Update.UpdateCommand">
+        <member name="T:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand">
             <summary>
-            Update command
+            Update property command
             </summary>
         </member>
-        <member name="P:Availability.API.Features.Update.UpdateCommand.Id">
+        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Id">
             <summary>
-            Entity Id
+            Property Id
             </summary>
         </member>
-        <member name="T:Availability.API.Features.Update.UpdateCommandHandler">
+        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Type">
             <summary>
-            Update handler
+            Property type
             </summary>
         </member>
-        <member name="M:Availability.API.Features.Update.UpdateCommandHandler.#ctor(AutoMapper.IMapper)">
+        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommandHandler">
+            <summary>
+            Update property command handler
+            Handles the update of Properties within the Products API
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
             <summary>
             Constructor
             </summary>
+            <param name="context">Products Context</param>
             <param name="mapper">Mapper instance</param>
         </member>
-        <member name="M:Availability.API.Features.Update.UpdateCommandHandler.Handle(Availability.API.Features.Update.UpdateCommand,System.Threading.CancellationToken)">
+        <member name="M:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommandHandler.Handle(Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand,System.Threading.CancellationToken)">
             <summary>
-            Handles commands of type UpdateCommand
+            Handles commands of type UpdatePropertyCommand and updates Properties
             </summary>
-            <param name="request">Update Command</param>
+            <param name="request">update property command</param>
             <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Property"/></returns>
         </member>
-        <member name="T:Availability.API.Infrastructure.ClassMap.ClassMap">
+        <member name="T:Products.API.Features.Properties.UpdateRoom.Profile.Input">
             <summary>
-            Load and Register class maps
+            Input Model for updating room Map
             </summary>
         </member>
-        <member name="T:Availability.API.Infrastructure.Ioc.ComponentRegistration">
+        <member name="M:Products.API.Features.Properties.UpdateRoom.Profile.Input.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand">
+            <summary>
+            Update property command
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.Id">
+            <summary>
+            Property Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.RoomId">
+            <summary>
+            Room Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.AccommodationType">
+            <summary>
+            Accommodation Type
+            </summary>
+        </member>
+        <member name="P:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand.NrOfOccupants">
+            <summary>
+            Number of Occupants
+            </summary>
+        </member>
+        <member name="T:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommandHandler">
+            <summary>
+            Update room command handler
+            Handles the update of rooms for a property within the Products API
+            </summary>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommandHandler.#ctor(Products.Infrastructure.Data.ProductsContext,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Products Context</param>
+            <param name="mapper">Mapper instance</param>
+        </member>
+        <member name="M:Products.API.Features.Properties.UpdateRoom.UpdateRoomCommandHandler.Handle(Products.API.Features.Properties.UpdateRoom.UpdateRoomCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handles commands of type UpdateRoomCommand and updates rooms
+            </summary>
+            <param name="request">update room command</param>
+            <param name="cancellationToken"></param>
+            <returns>Returns an instance of type <see cref="T:Products.API.Models.Output.Room"/></returns>
+        </member>
+        <member name="T:Products.API.Infrastructure.Ioc.ComponentRegistration">
             <summary>
             Registers all application generic components (like services, repositories, etc)
             </summary>
         </member>
-        <member name="M:Availability.API.Infrastructure.Ioc.ComponentRegistration.Load(Autofac.ContainerBuilder)">
+        <member name="M:Products.API.Infrastructure.Ioc.ComponentRegistration.Load(Autofac.ContainerBuilder)">
             <summary>
             Loads the container builder and registers generic components
             </summary>
             <param name="builder">Container builder</param>
         </member>
-        <member name="T:Availability.API.Infrastructure.Ioc.MediatorRegistration">
+        <member name="T:Products.API.Infrastructure.Ioc.MediatorRegistration">
             <summary>
             Registers Mediator related configuration
             </summary>
         </member>
-        <member name="M:Availability.API.Infrastructure.Ioc.MediatorRegistration.Load(Autofac.ContainerBuilder)">
+        <member name="M:Products.API.Infrastructure.Ioc.MediatorRegistration.Load(Autofac.ContainerBuilder)">
             <summary>
             Loads the container builder and registers mediator components
             </summary>
             <param name="builder">Container builder</param>
         </member>
-        <member name="T:Availability.API.Infrastructure.Ioc.ProfileRegistration">
+        <member name="T:Products.API.Infrastructure.Ioc.ProfileRegistration">
             <summary>
             Registers AutoMapper profiles and related configuration
             </summary>
         </member>
-        <member name="M:Availability.API.Infrastructure.Ioc.ProfileRegistration.Load(Autofac.ContainerBuilder)">
+        <member name="M:Products.API.Infrastructure.Ioc.ProfileRegistration.Load(Autofac.ContainerBuilder)">
             <summary>
             Loads the container builder and registers Automapper components
             </summary>
             <param name="builder">Container builder</param>
         </member>
-        <member name="T:Availability.API.Infrastructure.Middlewares.ExceptionHandler.ExceptionHandlerExtensions">
+        <member name="T:Products.API.Infrastructure.Middlewares.ExceptionHandler.ExceptionHandlerExtensions">
             <summary>
             Exception Handler Exceptions
             </summary>
         </member>
-        <member name="M:Availability.API.Infrastructure.Middlewares.ExceptionHandler.ExceptionHandlerExtensions.AddCustomExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+        <member name="M:Products.API.Infrastructure.Middlewares.ExceptionHandler.ExceptionHandlerExtensions.AddCustomExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Adds custom Exception Handler middleware
             </summary>
             <param name="builder"></param>
         </member>
-        <member name="T:Availability.API.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler">
+        <member name="T:Products.API.Infrastructure.Swagger.Swagger">
             <summary>
-            Global Exception Handler
+            Swagger Configuration
             </summary>
         </member>
-        <member name="F:Availability.API.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.CodeToStatusCodeMap">
+        <member name="M:Products.API.Infrastructure.Swagger.Swagger.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures Swagger through ServiceCollection
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:Products.API.Models.Input.Property.Create.CreateProperty">
+            <summary>
+            Created a new Property
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Property.Create.CreateProperty.Type">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Property.Create.CreateProperty.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Property.Create.CreatePropertyValidator">
+            <summary>
+            Create property validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Property.Create.CreatePropertyValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Property.Update.UpdateProperty">
+            <summary>
+            Updates a Property
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Property.Update.UpdateProperty.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Property.Update.UpdatePropertyValidator">
+            <summary>
+            Update property validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Property.Update.UpdatePropertyValidator.#ctor">
+            <summary>
+            Validator Constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Create.CreateRoom">
+            <summary>
+            Created a new Room
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Create.CreateRoom.AccommodationType">
+            <summary>
+            Room Accommodation type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Create.CreateRoom.NrOfOccupants">
+            <summary>
+            Nr of Occupants for the room
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Create.CreateRoomValidator">
+            <summary>
+            Create room validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Room.Create.CreateRoomValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Update.UpdateRoom">
+            <summary>
+            Updates the Room
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Update.UpdateRoom.AccommodationType">
+            <summary>
+            Room Accommodation type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Input.Room.Update.UpdateRoom.NrOfOccupants">
+            <summary>
+            Nr of Occupants for the room
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Input.Room.Update.UpdateRoomValidator">
+            <summary>
+            Update room validator
+            </summary>
+        </member>
+        <member name="M:Products.API.Models.Input.Room.Update.UpdateRoomValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Output.Property">
+            <summary>
+            Output model for Property
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Property.Id">
+            <summary>
+            Property Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Property.Type">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Property.Name">
+            <summary>
+            Property Name
+            </summary>
+        </member>
+        <member name="T:Products.API.Models.Output.Room">
+            <summary>
+            Output model for the Room
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Room.RoomId">
+            <summary>
+            Room Id
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Room.AccommodationType">
+            <summary>
+            Room Accommodation Type
+            </summary>
+        </member>
+        <member name="P:Products.API.Models.Output.Room.NrOfOccupants">
+            <summary>
+            Nr of occupants for the Room
+            </summary>
+        </member>
+        <member name="T:Products.API.Program">
+            <summary>
+            Main program - Entry point
+            </summary>
+        </member>
+        <member name="M:Products.API.Program.Main(System.String[])">
+            <summary>
+            Entry point
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Products.API.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Created Host
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Products.API.Startup">
+            <summary>
+            Startup class
+            </summary>
+        </member>
+        <member name="M:Products.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration">Configuration</param>
+        </member>
+        <member name="P:Products.API.Startup.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
+        <member name="M:Products.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Products.API.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            Configure Container will be called after running ConfigureServices
+            Any registration here will override registrations made in ConfigureServices
+            Don't need to build the container as its done automatically
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="M:Products.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+        <member name="T:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler">
+            <summary>
+            Global Exception Hander
+            </summary>
+        </member>
+        <member name="F:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.CodeToStatusCodeMap">
             <summary>
             Map internal error codes to HTTP status code
             </summary>
         </member>
-        <member name="M:Availability.API.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
             Constructor
             </summary>
             <param name="next">RequestDelegate</param>
             <param name="env">IWebHostEnvironment</param>
         </member>
-        <member name="M:Availability.API.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             Generic Invocation
             </summary>
             <param name="httpContext">Current HttpContext</param>
             <returns></returns>
         </member>
-        <member name="M:Availability.API.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.TranslateException(Availability.Common.Exceptions.AvailabilityException)">
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.TranslateException(Products.Common.Exceptions.ProductException)">
             <summary>
             Get a proper <see cref="T:System.Net.HttpStatusCode"/> based on exception's details
             </summary>
             <param name="e">An exception</param>
             <returns>A status code</returns>
         </member>
-        <member name="M:Availability.API.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Net.HttpStatusCode,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Products.Api.Infrastructure.Middlewares.ExceptionHandler.GlobalExceptionHandler.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Net.HttpStatusCode,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Handles and re-writes the response with the exception details
             </summary>
@@ -301,201 +562,10 @@
             <param name="details">Exception details</param>
             <param name="invalidProperties">Invalid properties</param>
         </member>
-        <member name="T:Availability.API.Infrastructure.Middlewares.ExceptionHandler.ErrorDetails">
+        <member name="T:Products.Api.Infrastructure.Middlewares.ExceptionHandler.ErrorDetails">
             <summary>
             Internal Error Details
             </summary>
-        </member>
-        <member name="T:Availability.API.Infrastructure.Swagger.Swagger">
-            <summary>
-            Swagger Configuration
-            </summary>
-        </member>
-        <member name="M:Availability.API.Infrastructure.Swagger.Swagger.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Configures Swagger through ServiceCollection
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="T:Availability.API.Models.Input.Room.Common.Price">
-            <summary>
-            Room price
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Common.Price.FromDate">
-            <summary>
-            From Date when the price is to be set
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Common.Price.ToDate">
-            <summary>
-            To Date until when the price is to be set
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Common.Price.Value">
-            <summary>
-            Value for the price between FromDate to ToDate
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Input.Room.Create.CreateRoom">
-            <summary>
-            Creates availability for a new room
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.RoomId">
-            <summary>
-            Room Id
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.PropertyId">
-            <summary>
-            Property Id where the Room belongs to
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.DefaultPrice">
-            <summary>
-            Default price used when no ranges are specified
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.Prices">
-            <summary>
-            Prices for time ranges
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Create.CreateRoom.BookedSlots">
-            <summary>
-            Slots when the room is booked
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Input.Room.Create.CreateRoomValidator">
-            <summary>
-            Create AddRoomAvailability validator
-            </summary>
-        </member>
-        <member name="M:Availability.API.Models.Input.Room.Create.CreateRoomValidator.#ctor">
-            <summary>
-            Validator constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailability">
-            <summary>
-            Updates the Entity
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailability.Id">
-            <summary>
-            Entity Id
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailabilityValidator">
-            <summary>
-            Update Entity validator
-            </summary>
-        </member>
-        <member name="M:Availability.API.Models.Input.Entity.Update.UpdateRoomAvailabilityValidator.#ctor">
-            <summary>
-            Validator constructor
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Price.FromDate">
-            <summary>
-            From Date when the price is to be set
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Price.ToDate">
-            <summary>
-            To Date until when the price is to be set
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Price.Value">
-            <summary>
-            Value for the price between FromDate to ToDate
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Output.Room">
-            <summary>
-            Room Output model
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Room.RoomId">
-            <summary>
-            Room Id
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Room.PropertyId">
-            <summary>
-            Property Id where the Room belongs to
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Room.DefaultPrice">
-            <summary>
-            Default price used when no ranges are specified
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Room.Prices">
-            <summary>
-            Prices for time ranges
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Output.Room.BookedSlots">
-            <summary>
-            Slots when the room is booked
-            </summary>
-        </member>
-        <member name="T:Availability.API.Program">
-            <summary>
-            Main program - Entry point
-            </summary>
-        </member>
-        <member name="M:Availability.API.Program.Main(System.String[])">
-            <summary>
-            Entry point
-            </summary>
-            <param name="args"></param>
-        </member>
-        <member name="M:Availability.API.Program.CreateHostBuilder(System.String[])">
-            <summary>
-            Created Host
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Availability.API.Startup">
-            <summary>
-            Startup class
-            </summary>
-        </member>
-        <member name="M:Availability.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="configuration">Configuration</param>
-        </member>
-        <member name="P:Availability.API.Startup.Configuration">
-            <summary>
-            Configuration
-            </summary>
-        </member>
-        <member name="M:Availability.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            This method gets called by the runtime. Use this method to add services to the container.
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:Availability.API.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
-            <summary>
-            Configure Container will be called after running ConfigureServices
-            Any registration here will override registrations made in ConfigureServices
-            Don't need to build the container as its done automatically
-            </summary>
-            <param name="builder">Container builder</param>
-        </member>
-        <member name="M:Availability.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
-            <summary>
-            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            </summary>
-            <param name="app"></param>
-            <param name="env"></param>
         </member>
     </members>
 </doc>

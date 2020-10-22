@@ -4,30 +4,6 @@
         <name>Availability.API</name>
     </assembly>
     <members>
-        <member name="T:Availability.API.Features.BookSlots.BookSlotsCommand">
-            <summary>
-            Books slots for the room for a given time period
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.BookSlots.BookSlotsCommandHandler">
-            <summary>
-            Command handler to book room slots
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.BookSlots.BookSlotsCommandHandler.#ctor(AutoMapper.IMapper)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Availability.API.Features.BookSlots.BookSlotsCommandHandler.Handle(Availability.API.Features.BookSlots.BookSlotsCommand,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type BookSlotsCommand
-            </summary>
-            <param name="request">Book slots command</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
         <member name="T:Availability.API.Features.CreateRoom.CreateCommand">
             <summary>
             Create command
@@ -94,75 +70,6 @@
             </summary>
         </member>
         <member name="M:Availability.API.Features.CreateRoom.Profile.Output.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Delete.DeleteCommand">
-            <summary>
-            Delete command
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Delete.DeleteCommandHandler">
-            <summary>
-            Delete handler
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Delete.DeleteCommandHandler.#ctor(AutoMapper.IMapper)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Availability.API.Features.Delete.DeleteCommandHandler.Handle(Availability.API.Features.Delete.DeleteCommand,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type DeleteCommand 
-            </summary>
-            <param name="request">delete command</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
-        <member name="T:Availability.API.Features.Delete.Profile.Input">
-            <summary>
-            Input Model for deleting
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Delete.Profile.Input.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Get.GetRequest">
-            <summary>
-            Update command
-            </summary>
-        </member>
-        <member name="T:Availability.API.Features.Get.GetRequestHandler">
-            <summary>
-            Update command handler
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Get.GetRequestHandler.#ctor(AutoMapper.IMapper)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="context">Products Context</param>
-            <param name="mapper">Mapper instance</param>
-        </member>
-        <member name="M:Availability.API.Features.Get.GetRequestHandler.Handle(Availability.API.Features.Get.GetRequest,System.Threading.CancellationToken)">
-            <summary>
-            Handles commands of type GetCommand
-            </summary>
-            <param name="request">GetCommand</param>
-            <param name="cancellationToken"></param>
-            <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
-        </member>
-        <member name="T:Availability.API.Features.Get.Profile.Input">
-            <summary>
-            Input Model
-            </summary>
-        </member>
-        <member name="M:Availability.API.Features.Get.Profile.Input.#ctor">
             <summary>
             Constructor
             </summary>
@@ -377,6 +284,16 @@
             Value for the price between FromDate to ToDate
             </summary>
         </member>
+        <member name="T:Availability.API.Models.Input.Room.Common.PriceValidator">
+            <summary>
+            Create AddRoomAvailability validator
+            </summary>
+        </member>
+        <member name="M:Availability.API.Models.Input.Room.Common.PriceValidator.#ctor">
+            <summary>
+            Validator constructor
+            </summary>
+        </member>
         <member name="T:Availability.API.Models.Input.Room.Create.CreateRoom">
             <summary>
             Creates availability for a new room
@@ -408,26 +325,6 @@
             </summary>
         </member>
         <member name="M:Availability.API.Models.Input.Room.Create.CreateRoomValidator.#ctor">
-            <summary>
-            Validator constructor
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Input.Room.Update.UpdateRoomAvailability">
-            <summary>
-            Updates the Entity
-            </summary>
-        </member>
-        <member name="P:Availability.API.Models.Input.Room.Update.UpdateRoomAvailability.Id">
-            <summary>
-            Entity Id
-            </summary>
-        </member>
-        <member name="T:Availability.API.Models.Input.Room.Update.UpdateRoomAvailabilityValidator">
-            <summary>
-            Update Entity validator
-            </summary>
-        </member>
-        <member name="M:Availability.API.Models.Input.Room.Update.UpdateRoomAvailabilityValidator.#ctor">
             <summary>
             Validator constructor
             </summary>

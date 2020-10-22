@@ -9,5 +9,15 @@
         {
             return DateTime.ParseExact(date.ToString(), "ddMMyyyy", CultureInfo.InvariantCulture); ;
         }
+
+        public static bool IsValid(int date)
+        {
+            if (DateTime.TryParseExact(date.ToString(), "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
