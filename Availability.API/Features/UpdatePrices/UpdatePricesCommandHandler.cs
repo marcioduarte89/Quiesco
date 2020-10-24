@@ -39,10 +39,10 @@
 
             if (existingRoom == null)
             {
-                throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Could not find room with id {request.RoomId} in property id {request.PropertyId}");
+                throw new AvailabilityException(AvailabilityException.NOT_FOUND, $"Could not find room with id {request.RoomId} in property id {request.PropertyId}");
             }
 
-            existingRoom.SetDatePrices(request.Prices?.Select(x => new Price(x.Date, x.Value)).ToList());
+            existingRoom.SetDatePrices(request.Prices?.Select(x => Price.Create(x.Date, x.Value)).ToList());
 
             await _repository.Save(existingRoom, cancellationToken);
 

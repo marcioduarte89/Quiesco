@@ -24,7 +24,7 @@
 
             RuleFor(x => x.BookedSlots)
                 .Must(x => x == null || !x.Any() || x.All(DateExtensions.IsValid))
-                .WithMessage(x => "Prices must have ");
+                .WithMessage(x => "Booked slots must have a valid date");
         }
     }
 }

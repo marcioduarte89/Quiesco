@@ -1,8 +1,8 @@
 ﻿namespace Availability.Core.Models
 {
     using Availability.Common.Exceptions;
-    using System;
     using Common.Extensions;
+    using System;
 
     public class Price
     {
@@ -19,14 +19,21 @@
         /// <summary>
         /// Constructor 
         /// </summary>
+        private Price()
+        {
+        }
+
+        /// <summary>
+        /// Price creator 
+        /// </summary>
         /// <param name="date">Date where the price will be applied</param>
         /// <param name="value">Price value</param>
-        public Price(int date, decimal value)
+        public static Price Create(int date, decimal value)
         {
             ValidateDate(date);
             ValidatePrice(value);
-            Date = date;
-            Value = value;
+
+            return new Price() { Date = date, Value = value };
         }
 
         /// <summary>
@@ -45,7 +52,7 @@
         /// </summary>
         /// <param name="value">price value</param>
         /// <exception cref="AvailabilityException">Throws <see cref="AvailabilityException"/>If value is invalid</exception>
-        private void ValidatePrice(decimal value)
+        private static void ValidatePrice(decimal value)
         {
             if (value < 0)
             {
@@ -58,7 +65,7 @@
         /// </summary>
         /// <param name="date">date</param>
         /// <exception cref="AvailabilityException">Throws <see cref="AvailabilityException"/>Date ranges are invalid</exception>
-        private void ValidateDate(int date)
+        private static void ValidateDate(int date)
         {
             if (DateExtensions.Convert(date) < DateTime.Now)
             {

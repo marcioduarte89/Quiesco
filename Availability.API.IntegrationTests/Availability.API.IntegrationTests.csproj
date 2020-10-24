@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.0.2" />
+    <PackageReference Include="Bogus" Version="31.0.3" />
     <PackageReference Include="Docker.DotNet" Version="3.125.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
-    <PackageReference Include="Microsoft.SqlServer.Dac" Version="1.0.1" />
     <PackageReference Include="Microsoft.SqlServer.DacFx" Version="150.4897.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
@@ -19,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Availability.API\Availability.API.csproj" />
+    <ProjectReference Include="..\Availability.Common\Availability.Common.csproj" />
+    <ProjectReference Include="..\SharedKernel.Tests\SharedKernel.Tests.csproj" />
   </ItemGroup>
 
 </Project>

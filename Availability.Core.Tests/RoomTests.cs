@@ -17,9 +17,33 @@
         }
 
         [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void Create_InvalidPropertyId_ThrowsAvailabilityException(int propertyId)
+        {
+            Assert.Throws<AvailabilityException>(() => Room.Create(propertyId, 1, 1));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void Create_InvalidRoomId_ThrowsAvailabilityException(int roomId)
+        {
+            Assert.Throws<AvailabilityException>(() => Room.Create(1, roomId, 1));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void Create_InvalidDefaultPrice_ThrowsAvailabilityException(int defaultPrice)
+        {
+            Assert.Throws<AvailabilityException>(() => Room.Create(1, 1, defaultPrice));
+        }
+
+        [Test]
         public void AddBookings_DuplicatedBookings_ThrowsAvailabilityException()
         {
-            var room = new Room(1, 1, 10);
+            var room = Room.Create(1, 1, 10);
 
             Assert.Throws<AvailabilityException>(() => room.AddBookings(new []{ 10102020, 10102020}));
         }
@@ -27,7 +51,7 @@
         [Test]
         public void AddBookings_BookingForAPastDate_ThrowsAvailabilityException()
         {
-            _sut = new Room(1, 1, 10);
+            _sut = Room.Create(1, 1, 10);
 
             Assert.Throws<AvailabilityException>(() => _sut.AddBookings(new[] { 10102020, 20102020 }));
         }
@@ -35,7 +59,7 @@
         [Test]
         public void AddBookings_AlreadyExistingBooking_ThrowsAvailabilityException()
         {
-            _sut = new Room(1, 1, 10);
+            _sut = Room.Create(1, 1, 10);
             _sut.AddBookings(new[]
             {
                 int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")),
@@ -51,7 +75,7 @@
         [Test]
         public void AddBookings_AddValidBooking_CreatesBookings()
         {
-            _sut = new Room(1, 1, 10);
+            _sut = Room.Create(1, 1, 10);
             _sut.AddBookings(new[]
             {
                 int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")),
@@ -66,24 +90,24 @@
         public void SetDatePrices_ChangePriceWhenBookingAlreadyExistsInFromDate_ThrowsAvailabilityException()
         {
 
-            _sut = new Room(1, 1, 10);
+            _sut = Room.Create(1, 1, 10);
             _sut.AddBookings(new []{ int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy")) });
 
             Assert.Throws<AvailabilityException>(() => _sut.SetDatePrices(new List<Price>()
             {
-                new Price(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10 ),
-                new Price(int.Parse(DateTime.Now.Date.AddDays(4).ToString("ddMMyyyy")), 10 )
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10 ),
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(4).ToString("ddMMyyyy")), 10 )
             }));
         }
 
         [Test]
         public void SetDatePrices_ValidPriceRange_SetsPrices()
         {
-            _sut = new Room(1, 1, 10);
+            _sut = Room.Create(1, 1, 10);
             _sut.SetDatePrices(new List<Price>()
             {
-                new Price(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10),
-                new Price(int.Parse(DateTime.Now.Date.AddDays(4).ToString("ddMMyyyy")), 10)
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10),
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(4).ToString("ddMMyyyy")), 10)
             });
 
             Assert.IsNotNull(_sut.Prices);
@@ -93,16 +117,16 @@
         [Test]
         public void SetDatePrices_OneNewPriceAndOneUpdated_SetsPrices()
         {
-            _sut = new Room(1, 1, 10);
+            _sut = Room.Create(1, 1, 10);
             _sut.SetDatePrices(new List<Price>()
             {
-                new Price(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10)
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10)
             });
 
             _sut.SetDatePrices(new List<Price>()
             {
-                new Price(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 20),
-                new Price(int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy")), 30)
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 20),
+                Price.Create(int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy")), 30)
             });
 
             Assert.IsNotNull(_sut.Prices);

@@ -43,10 +43,10 @@
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"The room with id {request.RoomId} in property id {request.PropertyId} already exists");
             }
 
-            var room = new Room(request.PropertyId, request.RoomId, request.DefaultPrice);
+            var room = Room.Create(request.PropertyId, request.RoomId, request.DefaultPrice);
 
             // In case there were pre-bookings before the launch of the venue
-            room.SetDatePrices(request.Prices?.Select(x => new Price(x.Date, x.Value)).ToList());
+            room.SetDatePrices(request.Prices?.Select(x => Price.Create(x.Date, x.Value)).ToList());
             room.AddBookings(request.BookedSlots);
 
             await _repository.Save(room, cancellationToken);

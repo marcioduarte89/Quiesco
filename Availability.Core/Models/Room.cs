@@ -19,16 +19,27 @@
         /// <summary>
         /// Constructor
         /// </summary>
+        private Room()
+        {
+            _bookedSlots = new List<int>();
+            Prices = new HashSet<Price>();
+        }
+
+        /// <summary>
+        /// Room creator
+        /// </summary>
         /// <param name="propertyId"></param>
         /// <param name="roomId"></param>
         /// <param name="defaultPrice">room default price</param>
-        public Room(int propertyId, int roomId, decimal defaultPrice)
+        public static Room Create(int propertyId, int roomId, decimal defaultPrice)
         {
-            DefaultPrice = defaultPrice;
-            PropertyId = propertyId;
-            RoomId = roomId;
-            _bookedSlots = new List<int>();
-            Prices = new HashSet<Price>();
+            ValidateRoom(propertyId, roomId, defaultPrice);
+            return new Room()
+            {
+                DefaultPrice = defaultPrice,
+                PropertyId = propertyId,
+                RoomId = roomId
+            };
         }
 
         /// <summary>
@@ -100,6 +111,12 @@
                 return;
             }
 
+            // Check for any duplicates
+            if (prices.Count != prices.Distinct().Count())
+            {
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Prices cannot contain duplicates");
+            }
+
             if (prices.Any(x => _bookedSlots.Any(y => x.Date == y)))
             {
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot change the price for a time slot where a booking is already made");
@@ -115,6 +132,31 @@
                 {
                     Prices.Add(newPrice);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Validates room for creation
+        /// </summary>
+        /// <param name="propertyId">property id</param>
+        /// <param name="roomId">room id</param>
+        /// <param name="defaultPrice">default price</param>
+        ///<exception cref="AvailabilityException">If either propertyId, roomId or default price are invalid</exception>
+        private static void ValidateRoom(int propertyId, int roomId, decimal defaultPrice)
+        {
+            if (propertyId <= 0)
+            {
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, "Property id can't be <= 0");
+            }
+
+            if (roomId <= 0)
+            {
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, "Room id can't be <= 0");
+            }
+
+            if (defaultPrice <= 0)
+            {
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, "Default price id can't be <= 0");
             }
         }
     }

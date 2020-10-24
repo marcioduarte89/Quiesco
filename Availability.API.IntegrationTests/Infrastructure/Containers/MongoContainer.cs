@@ -1,29 +1,64 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Availability.API.IntegrationTests.Infrastructure.Containers
+﻿namespace Availability.API.IntegrationTests.Infrastructure.Containers
 {
     using Docker.DotNet.Models;
+    using MongoDB.Driver;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class MongoContainer : DockerContainerBase
     {
-        public MongoContainer(string imageName, string containerName) : base(imageName, containerName)
+        public static readonly string ConnectionString = "mongodb://127.0.0.1:27017";
+
+        public MongoContainer() : base("mongo:latest", $"mongo{ContainerPrefix}{Guid.NewGuid()}")
         {
         }
 
-        protected override Task<bool> IsReady()
+        protected override async Task<bool> IsReady()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var client = new MongoClient(ConnectionString);
+                var dbNames = await (await client.ListDatabaseNamesAsync()).ToListAsync();
+
+                if (dbNames != null && dbNames.Any())
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return false;
         }
 
         protected override HostConfig ToHostConfig()
         {
-            throw new NotImplementedException();
+            return new HostConfig
+            {
+                PortBindings = new Dictionary<string, IList<PortBinding>>
+                {
+                    {
+                        "27017/tcp",
+                        new List<PortBinding>
+                        {
+                            new PortBinding
+                            {
+                                HostPort = "27017",
+                                HostIP = "127.0.0.1"
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         protected override Config ToConfig()
         {
-            throw new NotImplementedException();
+            return new Config();
         }
     }
 }

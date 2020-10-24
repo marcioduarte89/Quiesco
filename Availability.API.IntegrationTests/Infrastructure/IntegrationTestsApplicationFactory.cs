@@ -29,7 +29,7 @@
                     config.SetBasePath(Directory.GetCurrentDirectory());
                     config
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true); ;
+                        .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true); ;
                 });
             ;
         }
