@@ -17,12 +17,19 @@ namespace Availability.API
     /// <summary>
     /// Startup class
     /// </summary>
-    public class Startup {
+    public class Startup
+    {
+
+        private readonly IHostEnvironment _environment;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration">Configuration</param>
-        public Startup(IConfiguration configuration) {
+        /// <param name="environment">environment</param>
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
+        {
+            _environment = environment;
             Configuration = configuration;
         }
 
@@ -39,17 +46,22 @@ namespace Availability.API
         {
             services.AddHostedService<MongoConfigurationService>();
             services.AddControllers()
-                .AddNewtonsoftJson(x => {
+                .AddNewtonsoftJson(x =>
+                {
                     x.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     x.UseCamelCasing(false);
                     x.SerializerSettings.Converters.Add(new StringEnumConverter());
                     x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                }).AddFluentValidation(c => {
+                }).AddFluentValidation(c =>
+                {
                     c.RegisterValidatorsFromAssemblyContaining<Startup>();
                     c.ImplicitlyValidateChildProperties = true;
                 }); ;
 
-            services.ConfigureSwagger();
+            if (!_environment.IsProduction())
+            {
+                services.ConfigureSwagger();
+            }
         }
 
         /// <summary>
@@ -58,7 +70,8 @@ namespace Availability.API
         /// Don't need to build the container as its done automatically
         /// </summary>
         /// <param name="builder">Container builder</param>
-        public void ConfigureContainer(ContainerBuilder builder) {
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
             // Register your own things directly with Autofac
             builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
         }
@@ -68,14 +81,19 @@ namespace Availability.API
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            app.UseSwagger();
-            app.UseSwaggerUI(c => {
-                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
-                c.SwaggerEndpoint($"v1/swagger.json", "Products API");
-            });
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (!_environment.IsProduction())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"v1/swagger.json", "Products API");
+                });
+            }
 
-            if (env.IsDevelopment()) {
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
             }
 
@@ -83,7 +101,8 @@ namespace Availability.API
             app.AddCustomExceptionHandler();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => {
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllers();
             });
         }

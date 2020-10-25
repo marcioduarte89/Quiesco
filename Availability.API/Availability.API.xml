@@ -392,11 +392,12 @@
             Startup class
             </summary>
         </member>
-        <member name="M:Availability.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Availability.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Hosting.IHostEnvironment)">
             <summary>
             Constructor
             </summary>
             <param name="configuration">Configuration</param>
+            <param name="environment">environment</param>
         </member>
         <member name="P:Availability.API.Startup.Configuration">
             <summary>
