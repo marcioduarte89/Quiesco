@@ -38,7 +38,8 @@
             {
                 DefaultPrice = defaultPrice,
                 PropertyId = propertyId,
-                RoomId = roomId
+                RoomId = roomId,
+                Id = Guid.NewGuid(),
             };
         }
 

@@ -2,6 +2,7 @@
 {
     using Core.Models;
     using MongoDB.Bson.Serialization;
+    using MongoDB.Bson.Serialization.IdGenerators;
 
     /// <summary>
     /// Room class map registrations
@@ -16,7 +17,7 @@
             BsonClassMap.RegisterClassMap<Room>(x =>
             {
                 x.AutoMap();
-                x.MapIdField(y => y.Id);
+                x.MapIdField(y => y.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                 x.MapField("_bookedSlots").SetElementName("bookedSlots");
                 x.UnmapMember(y => y.BookedSlots);
             });
