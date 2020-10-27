@@ -1,5 +1,6 @@
 ﻿namespace Availability.API.IntegrationTests
 {
+    using System;
     using Builders;
     using Builders.Fakers;
     using Models.Input.Room.Common;
@@ -32,8 +33,9 @@
         public async Task CreateRoom_WhenProvidingOnlyRequiredFieldsDetails_ShouldCreateRoom()
         {
             var room = CreateRoomFaker.Generate(false, false);
-            var response = await CreateRoom(1, room);
 
+            var response = await CreateRoom(1, room);
+            
             Assert.IsNotNull(response.Room);
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             Assert.AreEqual(response.Room.RoomId, response.Room.RoomId);
@@ -46,6 +48,7 @@
         public async Task CreateRoom_WhenProvidingExistingRoom_ReturnsBadRequest()
         {
             var room = CreateRoomFaker.Generate(false, false);
+
             await CreateRoom(1, room);
             var responseNew = await CreateRoom(1, room);
 
@@ -56,6 +59,7 @@
         public async Task CreateRoom_WhenCreatingARoomWithSameIdUnderDifferentProperty_CreatesRoom()
         {
             var room = CreateRoomFaker.Generate(true, true);
+
             var response = await CreateRoom(2, room);
 
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
@@ -75,6 +79,7 @@
         public async Task ChangePrice_WhenChangingPriceForBookedSlots_ReturnsBadRequest()
         {
             var room = CreateRoomFaker.Generate(true, true);
+
             var roomResponse = await CreateRoom(1, room);
 
             var price = PricesFaker.Generate();
@@ -88,12 +93,14 @@
         public async Task ChangePrice_WhenUpdatingOneAndAddingOnePrice_ShouldCreateRoom()
         {
             var room = CreateRoomFaker.Generate(true, true);
+
             var roomResponse = await CreateRoom(1, room);
 
             var price = PricesFaker.Generate();
             price.Date = roomResponse.Room.Prices.FirstOrDefault().Date;
             price.Value = 1500;
             var otherPrice = PricesFaker.Generate();
+            otherPrice.Date = int.Parse(DateTime.Now.AddDays(2).ToString("ddMMyyyy"));
             var response = await ChangePrices(roomResponse.Room.PropertyId, roomResponse.Room.RoomId, new List<Price> { price, otherPrice });
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);

@@ -8,6 +8,7 @@
     using System;
     using System.IO;
     using System.Net.Http;
+    using System.Threading.Tasks;
 
     [SetUpFixture]
     public class IntegrationTestSetup
@@ -21,7 +22,7 @@
         protected internal static HttpClient Client;
 
         [OneTimeSetUp]
-        public void RunBeforeAnyTests()
+        public async Task RunBeforeAnyTests()
         {
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -38,7 +39,7 @@
             DockerContainerBase.CleanupOrphanedContainers(_dockerClient).Wait(30000);
 
             _mongoContainer = new MongoContainer();
-            _mongoContainer.Start(_dockerClient).Wait(30000);
+            await _mongoContainer.Start(_dockerClient);
 
             _factory = new IntegrationTestsApplicationFactory<Startup>();
             Client = _factory.CreateClient();
