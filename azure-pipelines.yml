@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
@@ -46,9 +46,10 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    command: build
-    projects: Quiesco.sln
-    arguments: '-c $(buildConfiguration) --no-restore'
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Start unit testing
