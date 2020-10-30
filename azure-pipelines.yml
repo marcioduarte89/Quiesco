@@ -28,10 +28,11 @@ steps:
     dockerComposeFile: 'docker-compose-integration.yml'
     dockerComposeCommand: 'up -d'
     
-- task: ShellScript@2
+- task: Bash@3
   inputs:
-    scriptPath: ./wait-for-it.sh
-    args: 'localhost:27017 -- echo "mongo is up"' # Optional
+    targetType: 'filePath'
+    filePath: ./wait-for-it.sh
+    arguments: 'localhost:27017 -- echo "mongo is up"' # Optional
     #disableAutoCwd: false # Optional
     #cwd: '' # Optional
     #failOnStandardError: false
