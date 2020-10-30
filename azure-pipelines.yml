@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
@@ -38,17 +38,17 @@ steps:
   inputs:
     targetType: 'filePath'
     filePath: ./wait-for-it.sh
-    arguments: 'localhost:27017 -- echo "mongo is up"' # Optional
+    arguments: 'localhost:27018 -- echo "mongo is up"' # Optional
     #disableAutoCwd: false # Optional
     #cwd: '' # Optional
     #failOnStandardError: false
 
-- task: DotNetCoreCLI@2
-  displayName: Build
+- task: VSBuild@1
   inputs:
-    command: build
-    projects: Quiesco.sln
-    arguments: '-c $(buildConfiguration) --no-restore'
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Start unit testing
