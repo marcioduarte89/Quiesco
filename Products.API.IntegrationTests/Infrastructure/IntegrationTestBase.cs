@@ -1,4 +1,4 @@
-﻿namespace Products.API.IntegrationTests.Infrastructure
+﻿namespace Products.API.IntegrationTests
 {
     using System.Net.Http;
 

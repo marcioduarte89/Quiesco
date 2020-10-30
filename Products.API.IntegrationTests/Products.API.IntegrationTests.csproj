@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.0.2" />
+    <PackageReference Include="Bogus" Version="31.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
     <PackageReference Include="Microsoft.SqlServer.Dac" Version="1.0.1" />
     <PackageReference Include="Microsoft.SqlServer.DacFx" Version="150.4897.1" />
@@ -19,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Products.API\Products.API.csproj" />
     <ProjectReference Include="..\Products.DB\Products.DB.sqlproj" />
+    <ProjectReference Include="..\SharedKernel.Tests\SharedKernel.Tests.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

@@ -11,6 +11,7 @@
     using System.Threading.Tasks;
 
     [TestFixture]
+    [Category("Integration")]
     public class RoomTests : RoomBuilder
     {
         [Test]

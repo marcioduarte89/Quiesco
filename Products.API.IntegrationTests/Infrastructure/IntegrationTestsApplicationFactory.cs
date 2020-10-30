@@ -1,4 +1,4 @@
-﻿namespace Products.API.IntegrationTests.Infrastructure
+﻿namespace Products.API.IntegrationTests
 {
     using System.IO;
     using Autofac.Extensions.DependencyInjection;
@@ -29,7 +29,7 @@
                     config.SetBasePath(Directory.GetCurrentDirectory());
                     config
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true); ;
+                        .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true); ;
                 });
         }
     }

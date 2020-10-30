@@ -1,8 +1,9 @@
-﻿namespace Products.API.IntegrationTests.Infrastructure
+﻿namespace Products.API.IntegrationTests
 {
     using System;
     using System.IO;
     using System.Net.Http;
+    using Infrastructure;
     using Microsoft.Data.SqlClient;
     using Microsoft.Extensions.Configuration;
     using Microsoft.SqlServer.Dac;
@@ -104,7 +105,7 @@
             var suffix = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
 
             var builder = new SqlConnectionStringBuilder(connectionString);
-            builder.InitialCatalog += $"_{suffix}";
+            builder.InitialCatalog = builder.InitialCatalog + $"_{suffix}";
 
             return builder.ConnectionString;
         }

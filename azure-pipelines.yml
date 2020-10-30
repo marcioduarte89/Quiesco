@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   solution: '**/*.sln'
@@ -20,6 +20,21 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
+    
+- task: DockerCompose@0
+  displayName: Start integration test dependencies (docker-compose)
+  inputs:
+    containerregistrytype: Container Registry
+    dockerComposeFile: 'docker-compose-integration.yml'
+    dockerComposeCommand: 'up -d'
+    
+- task: ShellScript@2
+  inputs:
+    scriptPath: ./wait-for-it.sh
+    args: 'localhost:27017 -- echo "mongo is up"' # Optional
+    #disableAutoCwd: false # Optional
+    #cwd: '' # Optional
+    #failOnStandardError: false
 
 - task: VSBuild@1
   inputs:
@@ -29,7 +44,15 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: Start unit testing
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration) --filter TestCategory!=Integration'
+    
+- task: DotNetCoreCLI@2
+  displayName: Start integration testing
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration'
