@@ -3,6 +3,7 @@
     using API.Models.Input.Room.Common;
     using FluentValidation.TestHelper;
     using NUnit.Framework;
+    using System;
 
     public class PriceTests
     {
@@ -30,19 +31,17 @@
         }
 
         [Test]
-        [TestCase(0)]
-        [TestCase(101020000)]
-        [TestCase(20201510)]
-        public void Should_HaveError_WhenDatedHasInvalidValue(int date)
+        public void Should_HaveError_WhenDatedHasInvalidValue()
         {
+            var date = DateTime.Now.AddDays(-1);
             _validator.ShouldHaveValidationErrorFor(x => x.Date, date);
         }
 
         [Test]
-        [TestCase(10102020)]
-        public void Should_HaveNotHaveError_WhenDateHasValidValue(int value)
+        public void Should_HaveNotHaveError_WhenDateHasValidValue()
         {
-            _validator.ShouldNotHaveValidationErrorFor(x => x.Date, value);
+            var date = DateTime.Now.AddDays(1);
+            _validator.ShouldNotHaveValidationErrorFor(x => x.Date, date);
         }
     }
 }

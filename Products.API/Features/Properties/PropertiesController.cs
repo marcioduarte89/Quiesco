@@ -6,6 +6,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Products.API.Features.Properties.UpdateProperty;
     using System.Threading;
     using System.Threading.Tasks;
     using UpdateRoom;
@@ -63,7 +64,7 @@
         public async Task<IActionResult> UpdateProperty(int id, Models.Input.Property.Update.UpdateProperty property,
             CancellationToken cancellationToken)
         {
-            var command = _mapper.Map<UpdateRoomCommand>(property);
+            var command = _mapper.Map<UpdatePropertyCommand>(property);
             command.Id = id;
             var newProperty = await _mediator.Send(command, cancellationToken);
 

@@ -16,19 +16,19 @@ namespace Availability.Core.Tests {
         [TestCase(-1)]
         public void Price_InvalidValue_ThrowsAvailabilityException(decimal value)
         {
-            Assert.Throws<AvailabilityException>(() => Price.Create(int.Parse(DateTime.Now.ToString("ddMMyyyy")), value));
+            Assert.Throws<AvailabilityException>(() => Price.Create(DateTime.Now, value));
         }
 
         [Test]
         public void Price_InvalidDateRangesToLessThanFrom_ThrowsAvailabilityException()
         {
-            Assert.Throws<AvailabilityException>(() => Price.Create(int.Parse(DateTime.Now.Date.ToString("ddMMyyyy")), 1));
+            Assert.Throws<AvailabilityException>(() => Price.Create(DateTime.Now.Date, 1));
         }
 
         [Test]
         public void Price_ValidDate_CreatesPrice()
         {
-            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var date = DateTime.Now.AddDays(1);
             var price = Price.Create(date, 1);
             Assert.IsNotNull(price);
             Assert.AreEqual(1, price.Value);
@@ -37,7 +37,7 @@ namespace Availability.Core.Tests {
         [Test]
         public void SetPriceValue_ValidValue_UpdatesPrice()
         {
-            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var date = DateTime.Now.AddDays(1);
             var price = Price.Create(date, 1);
             price.SetPriceValue(2);
             Assert.IsNotNull(price);
@@ -47,7 +47,7 @@ namespace Availability.Core.Tests {
         [Test]
         public void Price_EqualPricesBasedOnDate_ReturnsTrue()
         {
-            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
+            var date = DateTime.Now.AddDays(1);
             var price = Price.Create(date, 1);
             var otherPrice = Price.Create(date, 1);
 
@@ -57,8 +57,8 @@ namespace Availability.Core.Tests {
         [Test]
         public void Price_NotEqualPrices_ReturnsTrue()
         {
-            var date = int.Parse(DateTime.Now.AddDays(1).ToString("ddMMyyyy"));
-            var dateTwo = int.Parse(DateTime.Now.AddDays(2).ToString("ddMMyyyy"));
+            var date = DateTime.Now.AddDays(1);
+            var dateTwo = DateTime.Now.AddDays(2);
             var price = Price.Create(date, 1);
             var otherPrice = Price.Create(dateTwo, 1);
 

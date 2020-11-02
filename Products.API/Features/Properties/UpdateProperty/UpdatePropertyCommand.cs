@@ -15,11 +15,6 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Property type
-        /// </summary>
-        public PropertyTypes Type { get; set; }
-
-        /// <summary>
         /// Property Name
         /// </summary>
         public string Name { get; set; }

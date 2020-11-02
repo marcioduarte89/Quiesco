@@ -45,7 +45,9 @@
         {
             var room = Room.Create(1, 1, 10);
 
-            Assert.Throws<AvailabilityException>(() => room.AddBookings(new []{ 10102020, 10102020}));
+            var duplicatedDateTime = DateTime.Now.AddDays(1);
+
+            Assert.Throws<AvailabilityException>(() => room.AddBookings(new []{ duplicatedDateTime, duplicatedDateTime }));
         }
 
         [Test]
@@ -53,7 +55,9 @@
         {
             _sut = Room.Create(1, 1, 10);
 
-            Assert.Throws<AvailabilityException>(() => _sut.AddBookings(new[] { 10102020, 20102020 }));
+            var pastDateTime = DateTime.Now.AddDays(-1);
+
+            Assert.Throws<AvailabilityException>(() => _sut.AddBookings(new[] { pastDateTime, DateTime.Now.AddDays(1) }));
         }
 
         [Test]
@@ -62,13 +66,13 @@
             _sut = Room.Create(1, 1, 10);
             _sut.AddBookings(new[]
             {
-                int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")),
-                int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy"))
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
             });
 
            Assert.Throws<AvailabilityException>(() => _sut.AddBookings(new[]
            {
-               int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy"))
+               DateTime.Now.Date.AddDays(1)
            }));
         }
 
@@ -78,8 +82,8 @@
             _sut = Room.Create(1, 1, 10);
             _sut.AddBookings(new[]
             {
-                int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")),
-                int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy"))
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
             });
 
             Assert.IsNotNull(_sut.BookedSlots);
@@ -91,12 +95,12 @@
         {
 
             _sut = Room.Create(1, 1, 10);
-            _sut.AddBookings(new []{ int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy")) });
+            _sut.AddBookings(new []{ DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2) });
 
             Assert.Throws<AvailabilityException>(() => _sut.SetDatePrices(new List<Price>()
             {
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10 ),
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(4).ToString("ddMMyyyy")), 10 )
+                Price.Create(DateTime.Now.Date.AddDays(1), 10 ),
+                Price.Create(DateTime.Now.Date.AddDays(4), 10 )
             }));
         }
 
@@ -106,8 +110,8 @@
             _sut = Room.Create(1, 1, 10);
             _sut.SetDatePrices(new List<Price>()
             {
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10),
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(4).ToString("ddMMyyyy")), 10)
+                Price.Create(DateTime.Now.Date.AddDays(1), 10),
+                Price.Create(DateTime.Now.Date.AddDays(4), 10)
             });
 
             Assert.IsNotNull(_sut.Prices);
@@ -120,13 +124,13 @@
             _sut = Room.Create(1, 1, 10);
             _sut.SetDatePrices(new List<Price>()
             {
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 10)
+                Price.Create(DateTime.Now.Date.AddDays(1), 10)
             });
 
             _sut.SetDatePrices(new List<Price>()
             {
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(1).ToString("ddMMyyyy")), 20),
-                Price.Create(int.Parse(DateTime.Now.Date.AddDays(2).ToString("ddMMyyyy")), 30)
+                Price.Create(DateTime.Now.Date.AddDays(1), 20),
+                Price.Create(DateTime.Now.Date.AddDays(2), 30)
             });
 
             Assert.IsNotNull(_sut.Prices);

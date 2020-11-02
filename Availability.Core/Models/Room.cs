@@ -14,14 +14,14 @@
         /// <summary>
         /// Booked slots
         /// </summary>
-        private List<int> _bookedSlots;
+        private List<DateTime> _bookedSlots;
 
         /// <summary>
         /// Constructor
         /// </summary>
         private Room()
         {
-            _bookedSlots = new List<int>();
+            _bookedSlots = new List<DateTime>();
             Prices = new HashSet<Price>();
         }
 
@@ -71,16 +71,16 @@
         /// <summary>
         /// Slots when the room is booked
         /// </summary>
-        public IEnumerable<int> BookedSlots { get { return _bookedSlots; } }
+        public IEnumerable<DateTime> BookedSlots { get { return _bookedSlots; } }
 
         /// <summary>
         /// Adds room booking
         /// </summary>
         /// <param name="bookedSlots">Booked slots</param>
-        public void AddBookings(int[] bookedSlots)
+        public void AddBookings(DateTime[] bookedSlots)
         {
             // Check for any duplicates
-            var hashSet = new HashSet<int>(bookedSlots);
+            var hashSet = new HashSet<DateTime>(bookedSlots);
             if (hashSet.Count != bookedSlots.Length)
             {
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Bookings cannot contain duplicates");
@@ -89,8 +89,7 @@
             foreach (var bookedSlot in bookedSlots)
             {
                 // Check if there are any bookings for past dates
-                var bookedSlotAsDate = DateExtensions.Convert(bookedSlot);
-                if (bookedSlotAsDate.CompareTo(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)) <= 0)
+                if (bookedSlot.CompareTo(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)) <= 0)
                 {
                     throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot create a booking for a past date");
                 }
@@ -101,7 +100,7 @@
                     throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot have overlapping bookings or double bookings");
                 }
 
-                _bookedSlots.Add(bookedSlot);
+                _bookedSlots.Add(bookedSlot.Date);
             }
         }
 
@@ -118,7 +117,7 @@
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Prices cannot contain duplicates");
             }
 
-            if (prices.Any(x => _bookedSlots.Any(y => x.Date == y)))
+            if (prices.Any(x => _bookedSlots.Any(y => x.Date.Date == y.Date)))
             {
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Cannot change the price for a time slot where a booking is already made");
             }

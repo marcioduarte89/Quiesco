@@ -1,5 +1,6 @@
 ﻿namespace Availability.API.Models.Input.Room.Create
 {
+    using System;
     using System.Collections.Generic;
     using Common;
 
@@ -26,6 +27,6 @@
         /// <summary>
         /// Slots when the room is booked
         /// </summary>
-        public int[] BookedSlots { get; set; }
+        public DateTime[] BookedSlots { get; set; }
     }
 }

@@ -1,10 +1,13 @@
 ﻿namespace Availability.API.IntegrationTests
 {
-    using System;
+    using AutoFixture;
+    using AutoFixture.NUnit3;
+    using Availability.API.Models.Input.Room.Create;
+    using Availability.Common.Extensions;
     using Builders;
-    using Builders.Fakers;
     using Models.Input.Room.Common;
     using NUnit.Framework;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -14,10 +17,20 @@
     [Category("Integration")]
     public class RoomTests : RoomBuilder
     {
-        [Test]
-        public async Task CreateRoom_WhenProvidingAllValidDetails_ShouldCreateRoom()
+        [Test, AutoData]
+        public async Task CreateRoom_WhenProvidingAllValidDetails_ShouldCreateRoom(CreateRoom room)
         {
-            var room = CreateRoomFaker.Generate(true, true);
+            room.RoomId = 1;
+            room.BookedSlots = new[] { DateTime.Now.AddYears(1) };
+            room.Prices = new Price[]
+            {
+                new Price()
+                {
+                    Date =  DateTime.Now.AddDays(1),
+                    Value = 10
+                }
+            };
+
             var response = await CreateRoom(1, room);
 
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
@@ -30,13 +43,15 @@
             Assert.AreEqual(1, response.Room.Prices.Count());
         }
 
-        [Test]
-        public async Task CreateRoom_WhenProvidingOnlyRequiredFieldsDetails_ShouldCreateRoom()
+        [Test, AutoData]
+        public async Task CreateRoom_WhenProvidingOnlyRequiredFieldsDetails_ShouldCreateRoom(CreateRoom room)
         {
-            var room = CreateRoomFaker.Generate(false, false);
+            room.RoomId = 2;
+            room.BookedSlots = null;
+            room.Prices = null;
 
             var response = await CreateRoom(1, room);
-            
+
             Assert.IsNotNull(response.Room);
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             Assert.AreEqual(response.Room.RoomId, response.Room.RoomId);
@@ -45,21 +60,21 @@
             Assert.IsEmpty(response.Room.Prices);
         }
 
-        [Test]
-        public async Task CreateRoom_WhenProvidingExistingRoom_ReturnsBadRequest()
+        [Test, AutoData]
+        public async Task CreateRoom_WhenProvidingExistingRoom_ReturnsBadRequest(CreateRoom room)
         {
-            var room = CreateRoomFaker.Generate(false, false);
-
             await CreateRoom(1, room);
             var responseNew = await CreateRoom(1, room);
 
             Assert.AreEqual(HttpStatusCode.BadRequest, responseNew.StatusCode);
         }
 
-        [Test]
-        public async Task CreateRoom_WhenCreatingARoomWithSameIdUnderDifferentProperty_CreatesRoom()
+        [Test, AutoData]
+        public async Task CreateRoom_WhenCreatingARoomWithSameIdUnderDifferentProperty_CreatesRoom(CreateRoom room)
         {
-            var room = CreateRoomFaker.Generate(true, true);
+            room.RoomId = 2;
+            room.BookedSlots = new[] { DateTime.Now.AddYears(1) };
+            room.Prices = null;
 
             var response = await CreateRoom(2, room);
 
@@ -67,41 +82,49 @@
             Assert.IsNotNull(response.Room);
         }
 
-        [Test]
-        public async Task ChangePrice_WhenProvidingNonExistingRoom_ReturnsNotFound()
+        [Test, AutoData]
+        public async Task ChangePrice_WhenProvidingNonExistingRoom_ReturnsNotFound(Price price)
         {
-            var price = PricesFaker.Generate();
+            price.Date =  DateTime.Now.AddDays(1) ;
             var response = await ChangePrices(1111111, 1111111, new List<Price> { price });
 
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        [Test]
-        public async Task ChangePrice_WhenChangingPriceForBookedSlots_ReturnsBadRequest()
+        [Test, AutoData]
+        public async Task ChangePrice_WhenChangingPriceForBookedSlots_ReturnsBadRequest(CreateRoom room, Price price)
         {
-            var room = CreateRoomFaker.Generate(true, true);
-
+            room.RoomId = 3;
+            room.BookedSlots = new[] { DateTime.Now.AddYears(1) };
+            room.Prices = null;
             var roomResponse = await CreateRoom(1, room);
 
-            var price = PricesFaker.Generate();
             price.Date = roomResponse.Room.BookedSlots[0];
             var response = await ChangePrices(roomResponse.Room.PropertyId, roomResponse.Room.RoomId, new List<Price> { price });
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Test]
-        public async Task ChangePrice_WhenUpdatingOneAndAddingOnePrice_ShouldCreateRoom()
+        [Test, AutoData]
+        public async Task ChangePrice_WhenUpdatingOneAndAddingOnePrice_ShouldCreateRoom(CreateRoom room, Price price)
         {
-            var room = CreateRoomFaker.Generate(true, true);
+            room.RoomId = 4;
+            room.BookedSlots = new[] { DateTime.Now.AddYears(1) };
+            room.Prices = new Price[]
+            {
+                new Price()
+                {
+                    Date =  DateTime.Now.AddDays(1),
+                    Value = 10
+                }
+            };
 
             var roomResponse = await CreateRoom(1, room);
 
-            var price = PricesFaker.Generate();
             price.Date = roomResponse.Room.Prices.FirstOrDefault().Date;
             price.Value = 1500;
-            var otherPrice = PricesFaker.Generate();
-            otherPrice.Date = int.Parse(DateTime.Now.AddDays(2).ToString("ddMMyyyy"));
+            var otherPrice = new Fixture().Create<Price>();
+            otherPrice.Date = DateTime.Now.AddDays(2);
             var response = await ChangePrices(roomResponse.Room.PropertyId, roomResponse.Room.RoomId, new List<Price> { price, otherPrice });
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);

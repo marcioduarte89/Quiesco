@@ -57,9 +57,9 @@ steps:
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration) --filter TestCategory!=Integration'
     
-- task: DotNetCoreCLI@2
-  displayName: Start integration testing
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration'
+# - task: DotNetCoreCLI@2
+  # displayName: Start integration testing
+  # inputs:
+    # command: test
+    # projects: '**/*Tests/*.csproj'
+    # arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration'

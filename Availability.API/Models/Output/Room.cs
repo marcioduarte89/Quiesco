@@ -1,5 +1,6 @@
 ﻿namespace Availability.API.Models.Output
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -30,6 +31,6 @@
         /// <summary>
         /// Slots when the room is booked
         /// </summary>
-        public int[] BookedSlots { get; set; }
+        public DateTime[] BookedSlots { get; set; }
     }
 }

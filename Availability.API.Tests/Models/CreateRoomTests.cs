@@ -3,6 +3,7 @@
     using API.Models.Input.Room.Create;
     using FluentValidation.TestHelper;
     using NUnit.Framework;
+    using System;
 
     public class CreateRoomTests
     {
@@ -47,21 +48,21 @@
         [Test]
         public void Should_HaveHaveError_WhenBookedSlotsHaveInvalidDates()
         {
-            var bookedSlots = new[] { 0, 101020000, 20201510 };
+            var bookedSlots = new[] { DateTime.Now.AddDays(-1) };
             _validator.ShouldHaveValidationErrorFor(x => x.BookedSlots, bookedSlots);
         }
 
         [Test]
         public void Should_HaveNotHaveError_WhenBookedSlotsIsNull()
         {
-            int[] bookedSlots = null;
+            DateTime[] bookedSlots = null;
             _validator.ShouldNotHaveValidationErrorFor(x => x.BookedSlots, bookedSlots);
         }
 
         [Test]
         public void Should_HaveNotHaveError_WhenBookedSlotsIsEmpty()
         {
-            var bookedSlots = new int[]{};
+            var bookedSlots = new DateTime[]{};
             _validator.ShouldNotHaveValidationErrorFor(x => x.BookedSlots, bookedSlots);
         }
     }

@@ -26,7 +26,7 @@
                .AddJsonFile("appsettings.Development.json")
                .Build();
 
-            _applicationConnectionString = EnsureUniqueDbName(_config.GetConnectionString("Main"));
+            _applicationConnectionString = GetConnectionString(_config.GetConnectionString("Main"));
             UpdateConfig();
 
             DeployDb(_applicationConnectionString, "Products.DB.dacpac");
@@ -100,12 +100,13 @@
 
             return builder.ConnectionString;
         }
-        private string EnsureUniqueDbName(string connectionString)
+        private string GetConnectionString(string connectionString)
         {
-            var suffix = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
-
             var builder = new SqlConnectionStringBuilder(connectionString);
-            builder.InitialCatalog = builder.InitialCatalog + $"_{suffix}";
+            if (!builder.InitialCatalog.Equals("Products.Tests"))
+            {
+                builder.InitialCatalog = "Products.Tests";
+            }
 
             return builder.ConnectionString;
         }

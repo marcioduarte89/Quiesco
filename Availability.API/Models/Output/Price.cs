@@ -7,7 +7,7 @@ namespace Availability.API.Models.Output
         /// <summary>
         /// Date when the price is to be set
         /// </summary>
-        public int Date { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Value for the price between FromDate to ToDate

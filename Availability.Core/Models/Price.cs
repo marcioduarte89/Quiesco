@@ -1,7 +1,6 @@
 ﻿namespace Availability.Core.Models
 {
     using Availability.Common.Exceptions;
-    using Common.Extensions;
     using System;
 
     public class Price
@@ -9,7 +8,7 @@
         /// <summary>
         /// Date when the price is to be set
         /// </summary>
-        public int Date { get; private set; }
+        public DateTime Date { get; private set; }
 
         /// <summary>
         /// Value for the price between FromDate to ToDate
@@ -28,12 +27,12 @@
         /// </summary>
         /// <param name="date">Date where the price will be applied</param>
         /// <param name="value">Price value</param>
-        public static Price Create(int date, decimal value)
+        public static Price Create(DateTime date, decimal value)
         {
             ValidateDate(date);
             ValidatePrice(value);
 
-            return new Price() { Date = date, Value = value };
+            return new Price() { Date = date.Date, Value = value };
         }
 
         /// <summary>
@@ -65,9 +64,9 @@
         /// </summary>
         /// <param name="date">date</param>
         /// <exception cref="AvailabilityException">Throws <see cref="AvailabilityException"/>Date ranges are invalid</exception>
-        private static void ValidateDate(int date)
+        private static void ValidateDate(DateTime date)
         {
-            if (DateExtensions.Convert(date) < DateTime.Now)
+            if (date.CompareTo(DateTime.Now) < 0)
             {
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, "Date cannot be less than today's date");
             }
@@ -82,7 +81,7 @@
         {
             if (obj is Price price)
             {
-                return Date == price.Date;
+                return Date.Date == price.Date.Date;
             }
 
             return  false;
