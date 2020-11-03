@@ -446,7 +446,7 @@
             Output model for the Room
             </summary>
         </member>
-        <member name="P:Products.API.Models.Output.Room.RoomId">
+        <member name="P:Products.API.Models.Output.Room.Id">
             <summary>
             Room Id
             </summary>

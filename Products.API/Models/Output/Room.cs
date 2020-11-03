@@ -10,7 +10,7 @@
         /// <summary>
         /// Room Id
         /// </summary>
-        public int RoomId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Room Accommodation Type

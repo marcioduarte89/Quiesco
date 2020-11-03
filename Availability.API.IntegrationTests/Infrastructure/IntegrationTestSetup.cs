@@ -18,12 +18,15 @@
         private DockerClient _dockerClient;
         private MongoContainer _mongoContainer;
         private Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Startup> _factory;
+        private string isTestingEnv = Environment.GetEnvironmentVariable("CI");
 
         protected internal static HttpClient Client;
 
         [OneTimeSetUp]
         public async Task RunBeforeAnyTests()
         {
+            TestContext.Progress.WriteLine(isTestingEnv);
+
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile("appsettings.Development.json")
@@ -31,15 +34,18 @@
 
             UpdateConfig();
 
-            _dockerClient = new DockerClientConfiguration(
+            if (!bool.TryParse(isTestingEnv, out var result) || !result)
+            {
+                _dockerClient = new DockerClientConfiguration(
                     // TODO: This needs to be configurable in order to execute tests in CI
                     new Uri("npipe://./pipe/docker_engine"))
                 .CreateClient();
 
-            DockerContainerBase.CleanupOrphanedContainers(_dockerClient).Wait(30000);
+                DockerContainerBase.CleanupOrphanedContainers(_dockerClient).Wait(30000);
 
-            _mongoContainer = new MongoContainer();
-            await _mongoContainer.Start(_dockerClient);
+                _mongoContainer = new MongoContainer();
+                await _mongoContainer.Start(_dockerClient);
+            }
 
             _factory = new IntegrationTestsApplicationFactory<Startup>();
             Client = _factory.CreateClient();
@@ -48,7 +54,10 @@
         [OneTimeTearDown]
         public void RunAfterAnyTests()
         {
-            _mongoContainer.Remove(_dockerClient).Wait(30000);
+            if (!bool.TryParse(isTestingEnv, out var result) && !result)
+            {
+                _mongoContainer.Remove(_dockerClient).Wait(30000);
+            }
             _factory?.Dispose();
             Client?.Dispose();
         }

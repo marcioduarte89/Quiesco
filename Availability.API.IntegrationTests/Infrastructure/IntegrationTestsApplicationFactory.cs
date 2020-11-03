@@ -16,7 +16,6 @@
         /// <returns></returns>
         protected override IHostBuilder CreateHostBuilder()
         {
-
             return Host.CreateDefaultBuilder()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(x => {
