@@ -32,10 +32,9 @@
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
 
-            UpdateConfig();
-
             if (!bool.TryParse(isTestingEnv, out var result) || !result)
             {
+                UpdateConfig("mongodb://127.0.0.1:27017");
                 _dockerClient = new DockerClientConfiguration(
                     // TODO: This needs to be configurable in order to execute tests in CI
                     new Uri("npipe://./pipe/docker_engine"))
@@ -45,6 +44,10 @@
 
                 _mongoContainer = new MongoContainer();
                 await _mongoContainer.Start(_dockerClient);
+            }
+            else
+            {
+                UpdateConfig("mongodb://127.0.0.1:27018");
             }
 
             _factory = new IntegrationTestsApplicationFactory<Startup>();
@@ -62,7 +65,7 @@
             Client?.Dispose();
         }
 
-        private void UpdateConfig()
+        private void UpdateConfig(string connectionString)
         {
             try
             {
