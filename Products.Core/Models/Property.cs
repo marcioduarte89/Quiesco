@@ -73,11 +73,6 @@
         /// <param name="room">Room details</param>
         public void AddRoom(Room room)
         {
-            if (_rooms == null)
-            {
-                throw new ProductException(ProductException.INVALID_DATA, "_rooms have not been loaded");
-            }
-
             if (room == null)
             {
                 throw new ProductException(ProductException.INVALID_DATA, "room cannot be null");
@@ -95,11 +90,6 @@
         /// <exception cref="ProductException">If room is not found</exception>
         public Room GetRoom(int roomId)
         {
-            if (_rooms == null)
-            {
-                throw new ProductException(ProductException.INVALID_DATA, "_rooms have not been loaded");
-            }
-
             var room = _rooms.FirstOrDefault(x => x.Id == roomId);
 
             if (room == null)

@@ -6,6 +6,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Products.API.Features.Properties.UpdateProperty;
     using System.Threading;
     using System.Threading.Tasks;
     using UpdateRoom;
@@ -63,7 +64,7 @@
         public async Task<IActionResult> UpdateProperty(int id, Models.Input.Property.Update.UpdateProperty property,
             CancellationToken cancellationToken)
         {
-            var command = _mapper.Map<UpdateRoomCommand>(property);
+            var command = _mapper.Map<UpdatePropertyCommand>(property);
             command.Id = id;
             var newProperty = await _mediator.Send(command, cancellationToken);
 
@@ -77,7 +78,7 @@
         /// <param name="room">Room details</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Returns an instance of the created <see cref="Output.Room"/></returns>
-        [HttpPost("{id}/room")]
+        [HttpPost("{id}/rooms")]
         [ProducesResponseType(typeof(Output.Room), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Output.Room), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AddPropertyRoom(int id, Models.Input.Room.Create.CreateRoom room,
@@ -87,7 +88,7 @@
             command.PropertyId = id;
             var newProperty = await _mediator.Send(command, cancellationToken);
 
-            return Created($"properties/{id}/room/{newProperty.RoomId}", newProperty);
+            return Created($"properties/{id}/room/{newProperty.Id}", newProperty);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@
         /// <param name="room">Room details</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Returns an instance of the updated <see cref="Output.Room"/></returns>
-        [HttpPut("{id}/room/{roomId}")]
+        [HttpPut("{id}/rooms/{roomId}")]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Output.Property), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdatePropertyRoom(int id, int roomId, Models.Input.Room.Update.UpdateRoom room,

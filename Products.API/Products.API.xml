@@ -189,11 +189,6 @@
             Property Id
             </summary>
         </member>
-        <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Type">
-            <summary>
-            Property type
-            </summary>
-        </member>
         <member name="P:Products.API.Features.Properties.UpdateProperty.UpdatePropertyCommand.Name">
             <summary>
             Property Name
@@ -451,7 +446,7 @@
             Output model for the Room
             </summary>
         </member>
-        <member name="P:Products.API.Models.Output.Room.RoomId">
+        <member name="P:Products.API.Models.Output.Room.Id">
             <summary>
             Room Id
             </summary>
