@@ -4,6 +4,7 @@ namespace Availability.API.Infrastructure.Middlewares.ExceptionHandler
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
+    using Prometheus;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -44,11 +45,26 @@ namespace Availability.API.Infrastructure.Middlewares.ExceptionHandler
         /// <param name="httpContext">Current HttpContext</param>
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext httpContext) {
-            try {
+
+            var counter = Metrics.CreateCounter("availabity_counter", "HTTP Requests Total", new CounterConfiguration
+            {
+                LabelNames = new[] { "path", "method", "status" }
+            });
+
+            try
+            {
                 await _next(httpContext);
-            } catch (AvailabilityException ex) {
+
+                counter.Labels(httpContext.Request.Path.Value, httpContext.Request.Method, httpContext.Response.StatusCode.ToString()).Inc();
+            }
+            catch (AvailabilityException ex)
+            {
+                counter.Labels(httpContext.Request.Path.Value, httpContext.Request.Method, HttpStatusCode.InternalServerError.ToString()).Inc();
                 await HandleExceptionAsync(httpContext, TranslateException(ex), ex.Message, ex.StackTrace);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
+                counter.Labels(httpContext.Request.Path.Value, httpContext.Request.Method, HttpStatusCode.InternalServerError.ToString()).Inc();
                 await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace);
             }
         }

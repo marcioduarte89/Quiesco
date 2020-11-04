@@ -51,11 +51,19 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Install .NET Core tools from local manifest'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'restore'
+
+- task: DotNetCoreCLI@2
   displayName: Start unit testing
   inputs:
     command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --filter TestCategory!=Integration --no-build'
+    arguments: '--configuration $(buildConfiguration) --filter TestCategory!=Integration --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    publishTestResults: true
+    projects: '**/*Tests/*.csproj'    
 
 - task: PowerShell@2
   displayName: 'Start mssqllocaldb'
@@ -67,5 +75,14 @@ steps:
   displayName: Start integration testing
   inputs:
     command: test
+    arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    publishTestResults: true
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration --no-build'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Create code coverage report'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
+

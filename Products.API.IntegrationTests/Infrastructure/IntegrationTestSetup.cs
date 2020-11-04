@@ -1,13 +1,12 @@
 ﻿namespace Products.API.IntegrationTests
 {
-    using System;
-    using System.IO;
-    using System.Net.Http;
-    using Infrastructure;
     using Microsoft.Data.SqlClient;
     using Microsoft.Extensions.Configuration;
     using Microsoft.SqlServer.Dac;
     using NUnit.Framework;
+    using System;
+    using System.IO;
+    using System.Net.Http;
 
     [SetUpFixture]
     public class IntegrationTestSetup
@@ -15,6 +14,7 @@
         private string _applicationConnectionString;
         private IConfiguration _config;
         private Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Startup> _factory;
+        private string isTestingEnv = Environment.GetEnvironmentVariable("CI");
 
         protected internal static HttpClient Client;
 
@@ -27,7 +27,11 @@
                .Build();
 
             _applicationConnectionString = GetConnectionString(_config.GetConnectionString("Main"));
-            UpdateConfig();
+
+            if (!bool.TryParse(isTestingEnv, out var result) || !result)
+            {
+                UpdateConfig();
+            }
 
             DeployDb(_applicationConnectionString, "Products.DB.dacpac");
 
@@ -38,7 +42,6 @@
         [OneTimeTearDown]
         public void RunAfterAnyTests()
         {
-
             _factory?.Dispose();
             Client?.Dispose();
             DropDb(_applicationConnectionString);
@@ -102,16 +105,16 @@
         }
         private string GetConnectionString(string connectionString)
         {
-            TestContext.Progress.WriteLine("Connectionstring" + connectionString);
-
             var builder = new SqlConnectionStringBuilder(connectionString);
-            //if (!builder.InitialCatalog.Equals("Products.Tests"))
-            //{
-            //    builder.InitialCatalog = "Products.Tests";
-            //}
 
-
-            TestContext.Progress.WriteLine("Updated Connectionstring" + builder.ConnectionString);
+            // Need to change this so is agnostic of who's running it
+            if (!bool.TryParse(isTestingEnv, out var result) || !result)
+            {
+                if (!builder.InitialCatalog.Equals("Products.Tests"))
+                {
+                    builder.InitialCatalog = "Products.Tests";
+                }
+            }
 
             return builder.ConnectionString;
         }
@@ -140,7 +143,6 @@
 
                 SetSectionPath("ConnectionStrings:Main", _applicationConnectionString);
                 string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                TestContext.Progress.WriteLine("Whole obj" + output);
                 File.WriteAllText(filePath, output);
             }
             catch (Exception ex)
