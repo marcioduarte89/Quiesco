@@ -54,7 +54,7 @@
                 CreateNewDatabase = true
             };
 
-            Console.WriteLine($"Deploying {dbName}...");
+            TestContext.Progress.WriteLine($"Deploying {dbName}...");
 
             var dacServiceInstance = new DacServices(connectionString);
 
@@ -69,7 +69,7 @@
         private void DropDb(string connectionString)
         {
             var dbName = GetDbName(connectionString);
-            Console.WriteLine($"Dropping {dbName}...");
+            TestContext.Progress.WriteLine($"Dropping {dbName}...");
 
             // use "original" connection string, otherwise DB will be in use
             using (var cnn = new SqlConnection(UseMasterDb(connectionString)))
@@ -102,11 +102,16 @@
         }
         private string GetConnectionString(string connectionString)
         {
+            TestContext.Progress.WriteLine("Connectionstring" + connectionString);
+
             var builder = new SqlConnectionStringBuilder(connectionString);
             if (!builder.InitialCatalog.Equals("Products.Tests"))
             {
                 builder.InitialCatalog = "Products.Tests";
             }
+
+
+            TestContext.Progress.WriteLine("Updated Connectionstring" + builder.ConnectionString);
 
             return builder.ConnectionString;
         }
@@ -135,11 +140,12 @@
 
                 SetSectionPath("ConnectionStrings:Main", _applicationConnectionString);
                 string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                TestContext.Progress.WriteLine("Whole obj" + output);
                 File.WriteAllText(filePath, output);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error writing app settings");
+                TestContext.Progress.WriteLine("Error writing app settings", ex);
             }
         }
     }
