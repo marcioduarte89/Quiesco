@@ -57,14 +57,6 @@ steps:
     custom: tool
     arguments: 'restore'
 
-- task: DotNetCoreCLI@2
-  displayName: Start unit testing
-  inputs:
-    command: test
-    arguments: '--configuration $(buildConfiguration) --filter TestCategory!=Integration --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    publishTestResults: true
-    projects: '**/*Tests/*.csproj'    
-
 - task: PowerShell@2
   displayName: 'Start mssqllocaldb'
   inputs:
@@ -72,23 +64,31 @@ steps:
     script: 'sqllocaldb start mssqllocaldb'
 
 - task: DotNetCoreCLI@2
-  displayName: Start integration testing
+  displayName: Run Tests
   inputs:
     command: test
-    arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    publishTestResults: true
-    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    # publishTestResults: true
+    projects: '**/*Tests/*.csproj'    
+
+
+
+# - task: DotNetCoreCLI@2
+  # displayName: Start integration testing
+  # inputs:
+    # command: test
+    # arguments: '--configuration $(buildConfiguration) --filter TestCategory=Integration --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    # publishTestResults: true
+    # projects: '**/*Tests/*.csproj'
     
-- task: DotNetCoreCLI@2
-  displayName: 'Create code coverage report'
+- task: reportgenerator@4
   inputs:
-    command: custom
-    custom: tool
-    arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
-    
+    reports: '$(Build.SourcesDirectory)/**/*.cobertura.xml'
+    targetdir: '$(Build.SourcesDirectory)/CoverageResults'
+
 - task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage report'
+  displayName: 'Publish code coverage'
   inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/CoverageResults/Cobertura.xml'
 
