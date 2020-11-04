@@ -105,10 +105,10 @@
             TestContext.Progress.WriteLine("Connectionstring" + connectionString);
 
             var builder = new SqlConnectionStringBuilder(connectionString);
-            if (!builder.InitialCatalog.Equals("Products.Tests"))
-            {
-                builder.InitialCatalog = "Products.Tests";
-            }
+            //if (!builder.InitialCatalog.Equals("Products.Tests"))
+            //{
+            //    builder.InitialCatalog = "Products.Tests";
+            //}
 
 
             TestContext.Progress.WriteLine("Updated Connectionstring" + builder.ConnectionString);
