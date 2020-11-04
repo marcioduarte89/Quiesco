@@ -67,7 +67,7 @@ steps:
   displayName: Run Tests
   inputs:
     command: test
-    arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
     # publishTestResults: true
     projects: '**/*Tests/*.csproj'    
 
