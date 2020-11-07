@@ -168,6 +168,17 @@
             </summary>
             <param name="builder">Container builder</param>
         </member>
+        <member name="T:Availability.API.Infrastructure.Ioc.NServiceBusRegistration">
+            <summary>
+            NServicebus components registration
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Ioc.NServiceBusRegistration.Load(Autofac.ContainerBuilder)">
+            <summary>
+            Loads the container builder and registers generic components
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
         <member name="T:Availability.API.Infrastructure.Ioc.ProfileRegistration">
             <summary>
             Registers AutoMapper profiles and related configuration
@@ -236,6 +247,21 @@
             Internal Error Details
             </summary>
         </member>
+        <member name="T:Availability.API.Infrastructure.NServiceBusBootstrapper">
+            <summary>
+            Reservations NServicebus bootstrapper
+            </summary>
+        </member>
+        <member name="F:Availability.API.Infrastructure.NServiceBusBootstrapper.Endpoint">
+            <summary>
+            Instance registered in the container, to be injected where required 
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.NServiceBusBootstrapper.StartEndpoint(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Configure and start <see cref="F:Availability.API.Infrastructure.NServiceBusBootstrapper.Endpoint"/>
+            </summary>
+        </member>
         <member name="T:Availability.API.Infrastructure.Services.MongoConfigurationService">
             <summary>
             Configures MongoDB instance
@@ -253,6 +279,27 @@
             </summary>
         </member>
         <member name="M:Availability.API.Infrastructure.Services.MongoConfigurationService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggered when the application host is performing a graceful shutdown.
+            </summary>
+        </member>
+        <member name="T:Availability.API.Infrastructure.Service.NServiceBusService">
+            <summary>
+            NServiceBus Service
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Service.NServiceBusService.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Service.NServiceBusService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Triggered when the application host is ready to start the service.
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Service.NServiceBusService.StopAsync(System.Threading.CancellationToken)">
             <summary>
             Triggered when the application host is performing a graceful shutdown.
             </summary>

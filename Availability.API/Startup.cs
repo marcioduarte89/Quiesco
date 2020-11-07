@@ -1,6 +1,7 @@
 namespace Availability.API
 {
     using Autofac;
+    using Availability.API.Infrastructure.Service;
     using FluentValidation.AspNetCore;
     using Infrastructure.Middlewares.ExceptionHandler;
     using Infrastructure.Services;
@@ -45,6 +46,7 @@ namespace Availability.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHostedService<MongoConfigurationService>();
+            services.AddHostedService<NServiceBusService>();
             services.AddControllers()
                 .AddNewtonsoftJson(x =>
                 {
@@ -88,7 +90,7 @@ namespace Availability.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint($"v1/swagger.json", "Products API");
+                    c.SwaggerEndpoint($"v1/swagger.json", "Availability API");
                 });
             }
 
