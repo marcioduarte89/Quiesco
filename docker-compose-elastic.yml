@@ -11,17 +11,17 @@ services:
    networks:
     - quiesconetwork    
 
-  sqlDb:
-    image: microsoft/mssql-server-linux:latest
-    environment:
-      SA_PASSWORD: "SomePassword123"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "5434:1433"
-    volumes:
-     - sql-data:/var/opt/mssql/data
-    networks:
-     - quiesconetwork
+  # db:
+    # image: microsoft/mssql-server-linux:latest
+    # environment:
+      # SA_PASSWORD: "SomePassword123"
+      # ACCEPT_EULA: "Y"
+    # ports:
+      # - "5434:1433"
+    # volumes:
+     # - sql-data:/var/opt/mssql/data
+    # networks:
+     # - quiesconetwork
 
   elasticsearch:
     image: elasticsearch:7.9.3
@@ -36,7 +36,9 @@ services:
      - quiesconetwork
       
   logstash:
-    build: ./Logstash
+    build:
+      context: ./logstash
+      dockerfile: ./logstash/Dockerfile
     container_name: logstash
     hostname: logstash
     ports:

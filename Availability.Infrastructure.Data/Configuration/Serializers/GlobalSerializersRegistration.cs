@@ -14,7 +14,7 @@
         /// </summary>
         public void Load()
         {
-            BsonSerializer.RegisterSerializer(new DecimalSerializer(BsonType.Decimal128));
+            BsonSerializer.RegisterSerializer(new DecimalSerializer(BsonType.String));
         }
     }
 }

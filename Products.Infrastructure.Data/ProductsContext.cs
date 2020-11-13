@@ -3,6 +3,10 @@
     using Microsoft.EntityFrameworkCore;
     using Core.Models;
     using System.Reflection;
+    using System.Linq;
+    using System;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     /// Products Context
@@ -21,7 +25,6 @@
 
         public ProductsContext(DbContextOptions<ProductsContext> contextOptions) : base(contextOptions)
         {
-
         }
 
         /// <summary>
@@ -36,6 +39,27 @@
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            var entries = ChangeTracker
+               .Entries()
+               .Where(e => e.Entity is BaseEntity && (
+                       e.State == EntityState.Added
+                       || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((BaseEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                {
+                    ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now;
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -9,7 +9,7 @@
     /// <summary>
     /// Room domain entity
     /// </summary>
-    public class Room
+    public class Room :  BaseEntity
     {
         /// <summary>
         /// Booked slots
@@ -40,6 +40,8 @@
                 PropertyId = propertyId,
                 RoomId = roomId,
                 Id = Guid.NewGuid(),
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
             };
         }
 
@@ -101,6 +103,7 @@
                 }
 
                 _bookedSlots.Add(bookedSlot.Date);
+                UpdatedDate = DateTime.Now; // need to refactor this - leaving it here for now..
             }
         }
 
@@ -132,6 +135,8 @@
                 {
                     Prices.Add(newPrice);
                 }
+
+                UpdatedDate = DateTime.Now; // need to refactor this - leaving it here for now..
             }
         }
 
