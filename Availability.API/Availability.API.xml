@@ -79,13 +79,14 @@
             Entities controller
             </summary>
         </member>
-        <member name="M:Availability.API.Features.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper,MongoDB.Driver.IMongoDatabase)">
+        <member name="M:Availability.API.Features.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper,MongoDB.Driver.IMongoDatabase,Nest.IElasticClient)">
             <summary>
             Constructor
             </summary>
             <param name="mediator">mediator instance</param>
             <param name="mapper">Mapper instance</param>
             <param name="database"></param>
+            <param name="client">Elastic client</param>
         </member>
         <member name="M:Availability.API.Features.PropertiesController.CreateRoom(System.Int32,Availability.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
             <summary>
@@ -152,6 +153,17 @@
             </summary>
         </member>
         <member name="M:Availability.API.Infrastructure.Ioc.ComponentRegistration.Load(Autofac.ContainerBuilder)">
+            <summary>
+            Loads the container builder and registers generic components
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="T:Availability.API.Infrastructure.Ioc.ElasticSearchRegistration">
+            <summary>
+            Elastic Search Registration
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Ioc.ElasticSearchRegistration.Load(Autofac.ContainerBuilder)">
             <summary>
             Loads the container builder and registers generic components
             </summary>

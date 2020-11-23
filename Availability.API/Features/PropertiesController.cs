@@ -1,11 +1,13 @@
 ﻿namespace Availability.API.Features
 {
     using AutoMapper;
+    using Availability.Core.Models;
     using CreateRoom;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using MongoDB.Driver;
+    using Nest;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -23,6 +25,7 @@
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IMongoDatabase _database;
+        private readonly IElasticClient _client;
 
 
         /// <summary>
@@ -31,11 +34,13 @@
         /// <param name="mediator">mediator instance</param>
         /// <param name="mapper">Mapper instance</param>
         /// <param name="database"></param>
-        public PropertiesController(IMediator mediator, IMapper mapper, IMongoDatabase database)
+        /// <param name="client">Elastic client</param>
+        public PropertiesController(IMediator mediator, IMapper mapper, IMongoDatabase database, IElasticClient client)
         {
             _mediator = mediator;
             _mapper = mapper;
             _database = database;
+            _client = client;
         }
 
         /// <summary>
@@ -56,6 +61,53 @@
             var newRoom = await _mediator.Send(command, cancellationToken);
 
             return Created($"room/{newRoom}", newRoom);
+        }
+
+        [HttpGet("")]
+        public async Task<IActionResult> Stuff(CancellationToken cancellationToken)
+        {
+            //var settings = new ConnectionSettings(new Uri("http://localhost:9200/"))
+            //    .DefaultMappingFor<Room>(x =>
+            //        x.IndexName("availability")
+            //        .IdProperty(p => p.Id)
+            //    )
+            //    .EnableDebugMode()
+            //    .OnRequestCompleted((x) => { 
+                
+            //    });
+
+            //var client = new ElasticClient(settings);
+
+            //var room = Room.Create(1, 3, 100);
+
+            //var indexedRoom = client.Index<Room>(room, x => x.Index("availability"));
+
+            int roomId = 100;
+            int propertyId = 1;
+
+
+
+            var tt = await _client.SearchAsync<Room>(x =>
+           x.Query(q =>
+
+                q.Bool(b =>
+                    b.Must(
+                        m => m.Term(t1 => t1.PropertyId, propertyId),
+                        m => m.Term(t1 => t1.RoomId, roomId)
+                    )
+                )
+            )
+         );
+
+            var tt2 = await _client.SearchAsync<Room>(x =>
+          x.Query(q =>
+               q.Match(m => m
+                   .Field(x => x.PropertyId).Query(roomId.ToString())
+                   )
+               )
+          );
+
+            return Ok();
         }
 
         /// <summary>
