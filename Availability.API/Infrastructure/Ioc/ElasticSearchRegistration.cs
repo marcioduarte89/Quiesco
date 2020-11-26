@@ -26,12 +26,13 @@ namespace Availability.API.Infrastructure.Ioc
                 var searchConfiguration = configuration.GetSection("SearchConfiguration").Get<SearchConfiguration>();
                 searchConfiguration.EnvironmentName = environment.EnvironmentName; // need a better place to handler this
 
-                var elasticClient = ElasticClientSetup.Initialise(searchConfiguration)
-                .ConnectionsSettingsSetup()
-                .AddClientMappings<Room>(x =>
-                    x.IndexName("availability")
-                    .IdProperty(p => p.Id)
-                ).Create();
+                var elasticClient = ElasticClientSetup
+                    .Initialise(searchConfiguration)
+                    .ConnectionsSettingsSetup()
+                    .AddClientMappings<Room>(x =>
+                        x.IndexName("availability")
+                        .IdProperty(p => p.Id)
+                    ).Create();
 
                 return elasticClient;
             }).AsImplementedInterfaces()

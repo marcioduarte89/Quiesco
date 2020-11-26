@@ -25,7 +25,7 @@ steps:
   displayName: Start integration test dependencies (docker-compose)
   inputs:
     containerregistrytype: Container Registry
-    dockerComposeFile: 'docker-compose.yml'
+    dockerComposeFile: 'docker-compose-ci.yml'
     dockerComposeCommand: 'up -d'
 
 - task: UseDotNet@2

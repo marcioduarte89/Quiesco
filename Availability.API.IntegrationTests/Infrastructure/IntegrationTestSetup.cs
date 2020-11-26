@@ -17,7 +17,7 @@
         private IConfiguration _config;
         private DockerClient _dockerClient;
         private MongoContainer _mongoContainer;
-        private Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Startup> _factory;
+        private Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<TestStartup> _factory;
         private string isTestingEnv = Environment.GetEnvironmentVariable("CI");
 
         protected internal static HttpClient Client;
@@ -29,7 +29,7 @@
 
             _config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile("appsettings.Development.json")
+                .AddJsonFile("appsettings.Integration.json")
                 .Build();
 
             if (!bool.TryParse(isTestingEnv, out var result) || !result)
@@ -50,7 +50,8 @@
                 UpdateConfig("mongodb://127.0.0.1:27018");
             }
 
-            _factory = new IntegrationTestsApplicationFactory<Startup>();
+            _factory = new IntegrationTestsApplicationFactory<TestStartup>();
+
             Client = _factory.CreateClient();
         }
 
@@ -69,7 +70,7 @@
         {
             try
             {
-                var filePath = Path.Combine(AppContext.BaseDirectory, "appsettings.Development.json");
+                var filePath = Path.Combine(AppContext.BaseDirectory, "appsettings.Integration.json");
                 var json = File.ReadAllText(filePath);
                 dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 

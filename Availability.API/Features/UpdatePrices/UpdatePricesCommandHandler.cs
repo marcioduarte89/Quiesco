@@ -14,14 +14,14 @@
     /// </summary>
     public class UpdatePricesCommandHandler : IRequestHandler<UpdatePricesCommand, Output.Room> {
         private readonly IMapper _mapper;
-        private readonly IRoomsRepository _repository;
+        private readonly IRoomRepository _repository;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mapper">Mapper instance</param>
         /// <param name="repository">Rooms repository</param>
-        public UpdatePricesCommandHandler(IMapper mapper, IRoomsRepository repository)
+        public UpdatePricesCommandHandler(IMapper mapper, IRoomRepository repository)
         {
             _mapper = mapper;
             _repository = repository;

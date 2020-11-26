@@ -5,9 +5,9 @@
     using Core.Models;
 
     /// <summary>
-    /// Rooms repository Interface
+    /// Room repository Interface
     /// </summary>
-    public interface IRoomsRepository
+    public interface IRoomRepository
     {
         /// <summary>
         /// Gets the room with property and room ids

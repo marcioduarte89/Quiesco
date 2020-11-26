@@ -8,7 +8,7 @@
     /// <summary>
     /// Property domain entity
     /// </summary>
-    public class Property
+    public class Property : BaseEntity
     {
         /// <summary>
         /// Property rooms

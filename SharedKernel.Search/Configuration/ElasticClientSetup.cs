@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Nest;
+﻿using Nest;
 using SharedKernel.Search.Models;
 using System;
-using System.Collections.Generic;
 
 namespace SharedKernel.Search.Configuration
 {
@@ -23,12 +21,14 @@ namespace SharedKernel.Search.Configuration
 
         public ElasticClientSetup ConnectionsSettingsSetup()
         {
-            if(searchConfig.EnvironmentName.Equals("Development", StringComparison.OrdinalIgnoreCase))
+            _connectionSettings = new ConnectionSettings(new Uri(searchConfig.Uri));
+            if (searchConfig.EnvironmentName.Equals("Development", StringComparison.OrdinalIgnoreCase) || 
+                searchConfig.EnvironmentName.Equals("Integration", StringComparison.OrdinalIgnoreCase))
             {
-                _connectionSettings = new ConnectionSettings(new Uri(searchConfig.Uri))
+                _connectionSettings = _connectionSettings
                     .EnableDebugMode();
             }
-            
+
             return this;
         }
 
@@ -46,14 +46,14 @@ namespace SharedKernel.Search.Configuration
 
         public ElasticClientSetup RegisterOnRequestComplete()
         {
-            if(_connectionSettings == null)
+            if (_connectionSettings == null)
             {
                 throw new InvalidOperationException("Cannot register on request complete without having setup Connection Settings");
             }
 
             _connectionSettings.OnRequestCompleted(x =>
             {
-                
+
                 // do stuff here
             });
             return this;
