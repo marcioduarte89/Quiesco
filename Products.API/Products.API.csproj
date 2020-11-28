@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\mduart639\source\repos\Quiesco\Products.API\Products.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\Products.API.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
