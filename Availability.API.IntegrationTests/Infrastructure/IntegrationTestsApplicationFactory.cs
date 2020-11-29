@@ -19,8 +19,9 @@
             return Host.CreateDefaultBuilder()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(x => {
+
                     x.UseTestServer()
-                        .UseStartup<TStartup>();
+                        .UseStartup<TStartup>().UseEnvironment("Integration");
                 })
                 .ConfigureAppConfiguration((hostingContext, config) => {
                     config.Sources.Clear();
@@ -28,7 +29,7 @@
                     config.SetBasePath(Directory.GetCurrentDirectory());
                     config
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true); ;
+                        .AddJsonFile($"appsettings.Integration.json", optional: true, reloadOnChange: true); ;
                 });
             ;
         }

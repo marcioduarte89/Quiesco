@@ -5,8 +5,6 @@
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using MongoDB.Driver;
-    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -22,20 +20,16 @@
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IMongoDatabase _database;
-
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mediator">mediator instance</param>
         /// <param name="mapper">Mapper instance</param>
-        /// <param name="database"></param>
-        public PropertiesController(IMediator mediator, IMapper mapper, IMongoDatabase database)
+        public PropertiesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _database = database;
         }
 
         /// <summary>

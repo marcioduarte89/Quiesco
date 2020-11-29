@@ -39,7 +39,7 @@
             Create command handler
             </summary>
         </member>
-        <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.#ctor(AutoMapper.IMapper,Availability.Infrastructure.Data.Repositories.IRoomsRepository)">
+        <member name="M:Availability.API.Features.CreateRoom.CreateCommandHandler.#ctor(AutoMapper.IMapper,Availability.Infrastructure.Data.Repositories.IRoomRepository)">
             <summary>
             Constructor
             </summary>
@@ -79,13 +79,14 @@
             Entities controller
             </summary>
         </member>
-        <member name="M:Availability.API.Features.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper,MongoDB.Driver.IMongoDatabase)">
+        <member name="M:Availability.API.Features.PropertiesController.#ctor(MediatR.IMediator,AutoMapper.IMapper,MongoDB.Driver.IMongoDatabase,Nest.IElasticClient,Availability.Infrastructure.Data.Repositories.IGlobalReadRepository)">
             <summary>
             Constructor
             </summary>
             <param name="mediator">mediator instance</param>
             <param name="mapper">Mapper instance</param>
             <param name="database"></param>
+            <param name="client">Elastic client</param>
         </member>
         <member name="M:Availability.API.Features.PropertiesController.CreateRoom(System.Int32,Availability.API.Models.Input.Room.Create.CreateRoom,System.Threading.CancellationToken)">
             <summary>
@@ -131,7 +132,7 @@
             Update handler
             </summary>
         </member>
-        <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.#ctor(AutoMapper.IMapper,Availability.Infrastructure.Data.Repositories.IRoomsRepository)">
+        <member name="M:Availability.API.Features.UpdatePrices.UpdatePricesCommandHandler.#ctor(AutoMapper.IMapper,Availability.Infrastructure.Data.Repositories.IRoomRepository)">
             <summary>
             Constructor
             </summary>
@@ -146,12 +147,59 @@
             <param name="cancellationToken"></param>
             <returns>Returns an instance of type <see cref="T:Availability.API.Models.Output.Room"/></returns>
         </member>
+        <member name="T:Availability.API.Infrastructure.Behaviours.VerifyPropertyGloballyBehaviour`2">
+            <summary>
+            Verifies a property is available and created globally before allowing it setting it up
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Behaviours.VerifyPropertyGloballyBehaviour`2.#ctor(System.Func{Availability.Infrastructure.Data.Repositories.IGlobalReadRepository})">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Behaviours.VerifyPropertyGloballyBehaviour`2.Handle(`0,System.Threading.CancellationToken,MediatR.RequestHandlerDelegate{`1})">
+            <summary>
+            Checks if a property exists locally - If not, an error will be thrown
+            </summary>
+            <param name="request">Current request</param>
+            <param name="cancellationToken"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Availability.API.Infrastructure.Interfaces.IShouldVerifyPropertyGlobally">
+            <summary>
+            Interface used when we need to check if the property exists globally
+            </summary>
+        </member>
+        <member name="P:Availability.API.Infrastructure.Interfaces.IShouldVerifyPropertyGlobally.PropertyId">
+            <summary>
+            Property Id where the Room belongs to
+            </summary>
+        </member>
+        <member name="P:Availability.API.Infrastructure.Interfaces.IShouldVerifyPropertyGlobally.RoomId">
+            <summary>
+            Room id
+            </summary>
+        </member>
         <member name="T:Availability.API.Infrastructure.Ioc.ComponentRegistration">
             <summary>
             Registers all application generic components (like services, repositories, etc)
             </summary>
         </member>
         <member name="M:Availability.API.Infrastructure.Ioc.ComponentRegistration.Load(Autofac.ContainerBuilder)">
+            <summary>
+            Loads the container builder and registers generic components
+            </summary>
+            <param name="builder">Container builder</param>
+        </member>
+        <member name="T:Availability.API.Infrastructure.Ioc.ElasticSearchRegistration">
+            <summary>
+            Elastic Search Registration
+            </summary>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Ioc.ElasticSearchRegistration.Load(Autofac.ContainerBuilder)">
             <summary>
             Loads the container builder and registers generic components
             </summary>
@@ -167,6 +215,12 @@
             Loads the container builder and registers mediator components
             </summary>
             <param name="builder">Container builder</param>
+        </member>
+        <member name="M:Availability.API.Infrastructure.Ioc.MediatorRegistration.RegisterBehaviors(Autofac.ContainerBuilder)">
+            <summary>
+            Register mediator behaviours
+            </summary>
+            <param name="builder"></param>
         </member>
         <member name="T:Availability.API.Infrastructure.Ioc.NServiceBusRegistration">
             <summary>

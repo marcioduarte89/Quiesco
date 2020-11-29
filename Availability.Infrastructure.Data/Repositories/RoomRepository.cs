@@ -2,7 +2,6 @@
 {
     using Core.Models;
     using MongoDB.Driver;
-    using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -10,11 +9,11 @@
     /// <summary>
     /// Rooms repository
     /// </summary>
-    public class RoomsRepository : RepositoryBase, IRoomsRepository
+    public class RoomRepository : RepositoryBase, IRoomRepository
     {
         private readonly IMongoCollection<Room> _roomCollection;
 
-        public RoomsRepository(IMongoDatabase mongoDatabase) : base(mongoDatabase)
+        public RoomRepository(IMongoDatabase mongoDatabase) : base(mongoDatabase)
         {
             _roomCollection = GetTypeCollection<Room>();
         }
