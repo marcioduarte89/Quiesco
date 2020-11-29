@@ -24,11 +24,12 @@ services:
      - quiesconetwork
 
   elasticsearch:
-    image: elasticsearch:7.9.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
     container_name: elasticsearch
     hostname: elasticsearch
     environment:
         - "discovery.type=single-node"
+        - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
     ports:
      - 9200:9200
      - 9300:9300
@@ -49,6 +50,18 @@ services:
      - elasticsearch
     networks:
      - quiesconetwork
+     
+  kibana:
+    build:
+      context: ./Kibana
+    volumes:
+     - ./Kibana/Config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+    networks:
+      - quiesconetwork
+    depends_on:
+      - elasticsearch
      
    # prometheus:
     # image: prom/prometheus
