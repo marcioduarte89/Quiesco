@@ -1,16 +1,17 @@
 ﻿namespace Availability.API.Features.CreateRoom
 {
-    using System;
-    using System.Collections.Generic;
+    using Availability.API.Infrastructure.Interfaces;
     using MediatR;
     using Models.Output;
+    using System;
+    using System.Collections.Generic;
     using Price = Models.Input.Room.Common.Price;
 
     /// <summary>
     /// Create command
     /// </summary>
-    public class CreateCommand : IRequest<Room> {
-
+    public class CreateCommand : IShouldVerifyPropertyGlobally, IRequest<Room> 
+    {
         /// <summary>
         /// Property Id where the Room belongs to
         /// </summary>

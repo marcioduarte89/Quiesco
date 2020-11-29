@@ -1,54 +1,120 @@
 version : '3'
  
 services:
-  productsapi:
-    image: productsapi
-    ports:
-      - 8082:8080
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://*:8080
-      - connectionStrings__main=Data Source=192.168.56.1,1433; Initial Catalog=Products; User Id=DockerUser; Password=s[qfBKS/r((2Cg+m
-    build:
-      context: .
-      dockerfile: ./Products.API/Dockerfile
-    networks:
-      - dotnetcorepromgrafana
-      
-  availabilityapi:
-    image: availabilityapi
-    ports:
-      - 8083:8080
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://*:8080
-    build:
-      context: .
-      dockerfile: ./Availability.API/Dockerfile
-    networks:
-      - dotnetcorepromgrafana
-      
-  prometheus:
-    image: prom/prometheus
-    restart: always
-    ports:
-      - 9091:9090
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    networks:
-      - dotnetcorepromgrafana
 
-  grafana: 
-    image: grafana/grafana
-    #command:
+  mongo:
+   image: mongo
+   ports:
+    - 27018:27017
+   volumes:
+    - mongo-data:/data/db
+   networks:
+    - quiesconetwork    
+
+  sqlDb:
+    image: microsoft/mssql-server-linux:latest
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=P@ssw0rd
-    restart: always
+      SA_PASSWORD: "SomePassword123"
+      ACCEPT_EULA: "Y"
     ports:
-      - 3000:3000
+      - "5434:1433"
+    volumes:
+     - sql-data:/var/opt/mssql/data
     networks:
-      - dotnetcorepromgrafana
+     - quiesconetwork
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    container_name: elasticsearch
+    hostname: elasticsearch
+    environment:
+        - "discovery.type=single-node"
+        - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    ports:
+     - 9200:9200
+     - 9300:9300
+    networks:
+     - quiesconetwork
+      
+  logstash:
+    build: ./Logstash
+    container_name: logstash
+    hostname: logstash
+    ports:
+     - 5001:5001
+    volumes:
+     - .\Logstash\Config:/usr/share/logstash/pipeline/
+    links:
+     - elasticsearch:elasticsearch
+    depends_on:
+     - elasticsearch
+    networks:
+     - quiesconetwork
+     
+  kibana:
+    build:
+      context: ./Kibana
+    volumes:
+     - ./Kibana/Config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+    networks:
+      - quiesconetwork
+    depends_on:
+      - elasticsearch
+     
+   # prometheus:
+    # image: prom/prometheus
+    # restart: always
+    # ports:
+      # - 9091:9090
+    # volumes:
+      # - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    # networks:
+      # - quiesconetwork
+
+  # grafana: 
+    # image: grafana/grafana
+    # #command:
+    # environment:
+      # - GF_SECURITY_ADMIN_PASSWORD=P@ssw0rd
+    # restart: always
+    # ports:
+      # - 3000:3000
+    # networks:
+      # - quiesconetwork
+      
+   # productsapi:
+    # image: productsapi
+    # ports:
+      # - 8082:8080
+    # environment:
+      # - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_URLS=http://*:8080
+      # - connectionStrings__main=Data Source=192.168.56.1,1433; Initial Catalog=Products; User Id=DockerUser; Password=s[qfBKS/r((2Cg+m
+    # build:
+      # context: .
+      # dockerfile: ./Products.API/Dockerfile
+    # networks:
+      # - quiesconetwork
+      
+  # availabilityapi:
+    # image: availabilityapi
+    # ports:
+      # - 8083:8080
+    # environment:
+      # - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_URLS=http://*:8080
+    # build:
+      # context: .
+      # dockerfile: ./Availability.API/Dockerfile
+    # networks:
+      # - quiesconetwork
 
 ### put all the networks here
 networks:
-  dotnetcorepromgrafana:
+  quiesconetwork:
+  
+volumes:
+    sql-data:
+    mongo-data:

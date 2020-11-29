@@ -15,14 +15,14 @@
     /// </summary>
     public class CreateCommandHandler : IRequestHandler<CreateCommand, Output.Room> {
         private readonly IMapper _mapper;
-        private readonly IRoomsRepository _repository;
+        private readonly IRoomRepository _repository;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mapper">Mapper instance</param>
         /// <param name="repository">rooms repository</param>
-        public CreateCommandHandler(IMapper mapper, IRoomsRepository repository)
+        public CreateCommandHandler(IMapper mapper, IRoomRepository repository)
         {
             _mapper = mapper;
             _repository = repository;

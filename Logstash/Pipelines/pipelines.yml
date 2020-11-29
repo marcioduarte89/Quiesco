@@ -1,0 +1,6 @@
+- pipeline.id: sqlPipeline
+  path.config: "./sqlConfig.conf"
+  pipeline.workers: 1
+- pipeline.id: mongoPipeline
+  path.config: "./mongoConfig.conf"
+  pipeline.workers: 1

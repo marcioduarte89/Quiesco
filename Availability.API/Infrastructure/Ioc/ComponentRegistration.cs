@@ -27,7 +27,7 @@
             }).InstancePerLifetimeScope();
 
             builder
-                .RegisterAssemblyTypes(typeof(IRoomsRepository).Assembly)
+                .RegisterAssemblyTypes(typeof(IRoomRepository).Assembly)
                 .Where(t => t.GetInterfaces().Any())         // implementing an interface
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();

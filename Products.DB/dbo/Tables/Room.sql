@@ -3,6 +3,8 @@
     [AccommodationType] INT NOT NULL,
     [NrOfOccupants]     INT NOT NULL,
     [PropertyId]        INT NOT NULL,
+    [CreatedDate] DATETIME NOT NULL, 
+    [UpdatedDate] DATETIME NOT NULL, 
     CONSTRAINT [PK_Room] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Room_Property] FOREIGN KEY ([PropertyId]) REFERENCES [dbo].[Property] ([Id])
 );

@@ -70,7 +70,7 @@ namespace Availability.API
         /// Don't need to build the container as its done automatically
         /// </summary>
         /// <param name="builder">Container builder</param>
-        public void ConfigureContainer(ContainerBuilder builder)
+        public virtual void ConfigureContainer(ContainerBuilder builder)
         {
             // Register your own things directly with Autofac
             builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());

@@ -9,7 +9,7 @@
     /// <summary>
     /// Room domain entity
     /// </summary>
-    public class Room
+    public class Room :  BaseEntity
     {
         /// <summary>
         /// Booked slots
@@ -39,14 +39,16 @@
                 DefaultPrice = defaultPrice,
                 PropertyId = propertyId,
                 RoomId = roomId,
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(), // investigate other way of doing this, ES doesn't support GUID
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
             };
         }
 
         /// <summary>
         /// Room unique Id
         /// </summary>
-        public Guid Id { get; private set; }
+        public string Id { get; private set; }
 
         /// <summary>
         /// Room Id
@@ -101,6 +103,7 @@
                 }
 
                 _bookedSlots.Add(bookedSlot.Date);
+                UpdatedDate = DateTime.Now; // need to refactor this - leaving it here for now..
             }
         }
 
@@ -132,6 +135,8 @@
                 {
                     Prices.Add(newPrice);
                 }
+
+                UpdatedDate = DateTime.Now; // need to refactor this - leaving it here for now..
             }
         }
 

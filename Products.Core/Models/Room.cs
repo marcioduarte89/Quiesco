@@ -6,7 +6,7 @@
     /// <summary>
     /// Room domain entity
     /// </summary>
-    public class Room
+    public class Room : BaseEntity
     {
         /// <summary>
         /// Room id
