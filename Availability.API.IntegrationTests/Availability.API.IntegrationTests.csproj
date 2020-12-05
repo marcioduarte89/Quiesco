@@ -30,7 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Availability.API\Availability.API.csproj" />
     <ProjectReference Include="..\Availability.Common\Availability.Common.csproj" />
+    <ProjectReference Include="..\Quiesco.Nsb.DB\Quiesco.Nsb.DB.sqlproj" />
     <ProjectReference Include="..\SharedKernel.Tests\SharedKernel.Tests.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(SolutionDir)Quiesco.Nsb.DB\bin\$(Configuration)\Quiesco.Nsb.DB.dacpac&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
 
 </Project>

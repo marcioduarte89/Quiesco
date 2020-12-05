@@ -2,11 +2,10 @@
 using Availability.Core.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using SharedKernel.Search.Configuration;
 using SharedKernel.Search.Models;
 
-namespace Availability.API.Infrastructure.Ioc
+namespace Reservation.API.Infrastructure.Ioc
 {
     /// <summary>
     /// Elastic Search Registration

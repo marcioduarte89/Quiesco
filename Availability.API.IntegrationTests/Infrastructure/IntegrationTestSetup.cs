@@ -4,8 +4,10 @@
     using Infrastructure;
     using Infrastructure.Containers;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.SqlServer.Dac;
     using NUnit.Framework;
     using System;
+    using System.Data.SqlClient;
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -34,7 +36,7 @@
 
             if (!bool.TryParse(isTestingEnv, out var result) || !result)
             {
-                UpdateConfig("mongodb://127.0.0.1:27017");
+                UpdateConfig("ConnectionStrings:Main", "mongodb://127.0.0.1:27017");
                 _dockerClient = new DockerClientConfiguration(
                     // TODO: This needs to be configurable in order to execute tests in CI
                     new Uri("npipe://./pipe/docker_engine"))
@@ -47,8 +49,11 @@
             }
             else
             {
-                UpdateConfig("mongodb://127.0.0.1:27018");
+                UpdateConfig("ConnectionStrings:Main", "mongodb://127.0.0.1:27018");
             }
+
+            var nsbConnectionString = GetConnectionString(_config.GetConnectionString("Nsb"), "Quiesco.NSB.Tests");
+            DeployDb(nsbConnectionString, "Quiesco.Nsb.DB.dacpac");
 
             _factory = new IntegrationTestsApplicationFactory<TestStartup>();
 
@@ -66,7 +71,81 @@
             Client?.Dispose();
         }
 
-        private void UpdateConfig(string connectionString)
+
+        private void DeployDb(string connectionString, string dacpacFileName)
+        {
+            var dbName = GetDbName(connectionString);
+
+            var dacOptions = new DacDeployOptions
+            {
+                BlockOnPossibleDataLoss = false,
+                CreateNewDatabase = true
+            };
+
+            TestContext.Progress.WriteLine($"Deploying {dbName}...");
+
+            var dacServiceInstance = new DacServices(connectionString);
+
+            var basePath = TestContext.CurrentContext.TestDirectory;
+            var dacpacFile = Path.Combine(basePath, dacpacFileName);
+            using (var dacPac = DacPackage.Load(dacpacFile))
+            {
+                dacServiceInstance.Deploy(dacPac, dbName, true, dacOptions);
+            }
+        }
+
+        private void DropDb(string connectionString)
+        {
+            var dbName = GetDbName(connectionString);
+            TestContext.Progress.WriteLine($"Dropping {dbName}...");
+
+            // use "original" connection string, otherwise DB will be in use
+            using (var cnn = new SqlConnection(UseMasterDb(connectionString)))
+            {
+                cnn.Open();
+                using (var cm = cnn.CreateCommand())
+                {
+                    cm.CommandText = $"ALTER DATABASE [{dbName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; "
+                                     + $"DROP DATABASE [{dbName}]";
+
+                    cm.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private string GetDbName(string connectionString)
+        {
+            var builder = new SqlConnectionStringBuilder(connectionString);
+            return builder.InitialCatalog;
+        }
+
+        private string UseMasterDb(string connectionString)
+        {
+            var builder = new SqlConnectionStringBuilder(connectionString)
+            {
+                InitialCatalog = "master"
+            };
+
+            return builder.ConnectionString;
+        }
+
+        private string GetConnectionString(string connectionString, string catalog)
+        {
+            var builder = new SqlConnectionStringBuilder(connectionString);
+
+            // Need to change this so is agnostic of who's running it
+            if (!bool.TryParse(isTestingEnv, out var result) || !result)
+            {
+                if (!builder.InitialCatalog.Equals(catalog))
+                {
+                    builder.InitialCatalog = catalog;
+                }
+            }
+
+            return builder.ConnectionString;
+        }
+
+        private void UpdateConfig(string section, string connectionString)
         {
             try
             {
@@ -88,14 +167,13 @@
                     }
                 }
 
-                SetSectionPath("ConnectionStrings:Main", MongoContainer.ConnectionString);
-                string output =
-                    Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                SetSectionPath(section, connectionString);
+                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText(filePath, output);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error writing app settings");
+                TestContext.Progress.WriteLine("Error writing app settings", ex);
             }
         }
     }

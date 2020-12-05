@@ -55,7 +55,7 @@
         public async Task<IActionResult> CreateProperty()
         {
 
-            await stuff.Send(new Example() { Id = 1 });
+            //await stuff.Send(new Example() { Id = 1 });
 
             await stuff.SendLocal(new StartReservation() 
             { 
