@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using NServiceBus;
+using NServiceBus.Container;
+using NServiceBus.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -18,7 +21,7 @@ namespace SharedKernel.Bus
 
         protected TransportExtensions<SqlServerTransport> Transport;
         protected PersistenceExtensions<SqlPersistence> Persistence;
-        protected EndpointConfiguration EndpointConfiguration;
+        public EndpointConfiguration EndpointConfiguration;
 
         // First simplified version of the boostrapper
         public Bootstrapper(string endpointName, string connectionString, IContainer container = null)
@@ -27,10 +30,17 @@ namespace SharedKernel.Bus
             InitialiseEndpointConfiguration(endpointName);
             InitialiseTransport(connectionString);
             InitialisePersistency(connectionString);
+            //RegisterDependencies();
             DefineConventions();
         }
 
-        
+        private void RegisterDependencies()
+        {
+            // Update this later
+            EndpointConfiguration.UseContainer<AutofacBuilder>(customizations => {
+                customizations.ExistingLifetimeScope(container);
+            });
+        }
 
         public Bootstrapper(string endpointName, string connectionString, IEnumerable<Route> routing, IContainer container = null) :
             this(endpointName, connectionString, container)

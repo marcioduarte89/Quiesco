@@ -2,6 +2,8 @@
 {
     using Core.Models;
     using MongoDB.Driver;
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -36,6 +38,33 @@
 
             var filter = $"{{ propertyId: {propertyId}, roomId: {roomId} }}";
             return (await _roomCollection.FindAsync(filter, cancellationToken: cancellationToken)).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Checks Room availability
+        /// </summary>
+        /// <param name="propertyId">Property id</param>
+        /// <param name="roomId">Room id</param>
+        /// <param name="checkIn">Check-in date</param>
+        /// <param name="checkOut">Check-out date</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns whether a room is available for the given slot</returns>
+        public async Task<bool> CheckAvailability(int propertyId, int roomId,
+             DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken)
+        {
+            var reservationSlot = new List<DateTime>();
+            for (var date = checkIn; date <= checkOut; date = date.Date.AddDays(1))
+            {
+                reservationSlot.Add(date);
+            }
+
+            var result =  (await _roomCollection.FindAsync(x => x.BookedSlots.Any(y => reservationSlot.Any(z => z.CompareTo(y.Date) == 0)), cancellationToken: cancellationToken)).FirstOrDefault();
+
+            var bookedSloteds = $"{{ propertyId: {propertyId}, roomId: {roomId}, BookedSlots: {{$in: [ {string.Join(',', reservationSlot) }}} }}";
+            var tttt = (await _roomCollection.FindAsync(bookedSloteds, cancellationToken: cancellationToken)).FirstOrDefault();
+
+
+            return false;
         }
 
         /// <summary>

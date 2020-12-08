@@ -38,7 +38,9 @@
             {
                 ReservationId = message.ReservationId,
                 PropertyId = message.PropertyId,
-                RoomId = message.RoomId
+                RoomId = message.RoomId,
+                CheckIn = message.CheckIn,
+                CheckOut = message.CheckOut
             });
 
             await context.Send(new Example()

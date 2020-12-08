@@ -1,6 +1,7 @@
 ﻿namespace SharedKernel.Messages.Commands
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Command used to verify availability
@@ -21,5 +22,15 @@
         /// Room Id
         /// </summary>
         public int RoomId { get; set; }
+
+        /// <summary>
+        /// Reservation Check-in
+        /// </summary>
+        public DateTime CheckIn { get; set; }
+
+        /// <summary>
+        /// Reservation Check-out
+        /// </summary>
+        public DateTime CheckOut { get; set; }
     }
 }

@@ -57,11 +57,20 @@
 
             //await stuff.Send(new Example() { Id = 1 });
 
+            var dayIn = 1;
+            var dayOut = 1;
+            var monthIn = 1;
+            var monthOut = 1;
+            var year = 2020;
+
+            var startDate = new DateTime(year, monthIn, dayIn);
+            var endDate = new DateTime(year, monthOut, dayOut);
+
             await stuff.SendLocal(new StartReservation() 
             { 
                 ReservationId = Guid.NewGuid(),
-                CheckIn = DateTime.Now.AddDays(1).Date,
-                CheckOut = DateTime.Now.AddDays(2).Date,
+                CheckIn = startDate,
+                CheckOut = endDate,
                 NumberOfOccupants = 2,
                 Price = 200,
                 PropertyId = 1,
