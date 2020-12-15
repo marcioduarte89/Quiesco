@@ -5,9 +5,6 @@
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using NServiceBus;
-    using SharedKernel.Messages.Commands;
-    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -23,19 +20,16 @@
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        IMessageSession _stuff;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mediator">mediator instance</param>
         /// <param name="mapper">Mapper instance</param>
-        /// <param name="stuff"></param>
-        public PropertiesController(IMediator mediator, IMapper mapper, IMessageSession stuff)
+        public PropertiesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _stuff = stuff;;
         }
 
         /// <summary>
@@ -50,11 +44,6 @@
         public async Task<IActionResult> CreateRoom(int id, Models.Input.Room.Create.CreateRoom room,
             CancellationToken cancellationToken)
         {
-            await _stuff.SendLocal(new Example()
-            {
-                ReservationId = Guid.NewGuid()
-            });
-
             var command = _mapper.Map<CreateCommand>(room);
             command.PropertyId = id;
 

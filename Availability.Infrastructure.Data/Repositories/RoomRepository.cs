@@ -1,5 +1,6 @@
 ﻿namespace Availability.Infrastructure.Data.Repositories
 {
+    using Availability.Common.Extensions;
     using Core.Models;
     using MongoDB.Driver;
     using System;
@@ -53,18 +54,23 @@
              DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken)
         {
             var reservationSlot = new List<DateTime>();
+
+            // unfold date ranges onto days within that range
             for (var date = checkIn; date <= checkOut; date = date.Date.AddDays(1))
             {
                 reservationSlot.Add(date);
             }
 
-            var result =  (await _roomCollection.FindAsync(x => x.BookedSlots.Any(y => reservationSlot.Any(z => z.CompareTo(y.Date) == 0)), cancellationToken: cancellationToken)).FirstOrDefault();
+            // Adding MQL directly here. Need to study MongoDb Client query syntax. Potentially take Mongo University course.
+            var bookedSlotedsString = $"{{ propertyId: {propertyId}, roomId: {roomId}, bookedSlots: {{$in: [ { string.Join(',', reservationSlot.Select(x => x.GetMongoISODate())) }] }}  }}";
 
-            var bookedSloteds = $"{{ propertyId: {propertyId}, roomId: {roomId}, BookedSlots: {{$in: [ {string.Join(',', reservationSlot) }}} }}";
-            var tttt = (await _roomCollection.FindAsync(bookedSloteds, cancellationToken: cancellationToken)).FirstOrDefault();
+            var result = (await _roomCollection.FindAsync(bookedSlotedsString, cancellationToken: cancellationToken)).FirstOrDefault();
 
-
-            return false;
+            return result == null;
+        }
+        private string GetMongoISODate(DateTime date)
+        {
+            return $"new ISODate(\"{date.ConvertToISODate()}\")";
         }
 
         /// <summary>

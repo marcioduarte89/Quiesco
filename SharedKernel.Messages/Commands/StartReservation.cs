@@ -42,10 +42,5 @@
         /// Reservation details for the user
         /// </summary>
         public User User { get; set; }
-
-        /// <summary>
-        /// Reservation price
-        /// </summary>
-        public decimal Price { get; set; }
     }
 }

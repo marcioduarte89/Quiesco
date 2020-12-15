@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using NServiceBus;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharedKernel.Bus.Extensions
 {
@@ -33,7 +35,15 @@ namespace SharedKernel.Bus.Extensions
             var connectionString = configuration.GetConnectionString(NSB_CONNECTIONSTRING_NAME);
             var endPointName = configuration.GetValue<string>(ENDPOINT_NAME);
 
+            var routing = configuration.GetSection("Routes").Get<IEnumerable<Route>>();
+
             var bootstrapper = new Bootstrapper(endPointName, connectionString);
+
+            if(routing != null && routing.Any())
+            {
+                bootstrapper.InitialiseRouting(routing);
+            }
+            
             return bootstrapper.EndpointConfiguration;
         }
     }

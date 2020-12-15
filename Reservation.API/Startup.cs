@@ -1,6 +1,9 @@
-namespace Reservation.API {
-    using System;
+namespace Reservation.API
+{
     using Autofac;
+    using FluentValidation.AspNetCore;
+    using Infrastructure.Middlewares.ExceptionHandler;
+    using Infrastructure.Swagger;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -8,12 +11,8 @@ namespace Reservation.API {
     using Microsoft.Extensions.Hosting;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using Infrastructure.Swagger;
-    using System.Reflection;
-    using Infrastructure.Middlewares.ExceptionHandler;
-    using FluentValidation.AspNetCore;
     using Prometheus;
-    using Reservations.API.Infrastructure.Service;
+    using System.Reflection;
 
     /// <summary>
     /// Startup class
@@ -37,8 +36,6 @@ namespace Reservation.API {
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services) {
-
-            services.AddHostedService<NServiceBusService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(x => {
