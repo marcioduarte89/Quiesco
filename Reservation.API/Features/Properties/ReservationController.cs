@@ -39,42 +39,23 @@
         /// <summary>
         /// Creates a new reservation for a room
         /// </summary>
+        /// <param name="reservation">Create reservation data</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateReservation(CreateReservation reservation, CancellationToken cancellationToken)
         {
-
-
-
-            //await stuff.Send(new Example() { Id = 1 });
-
-            var dayIn = 1;
-            var dayOut = 1;
-            var monthIn = 1;
-            var monthOut = 1;
-            var year = 2020;
-
-            var startDate = new DateTime(year, monthIn, dayIn);
-            var endDate = new DateTime(year, monthOut, dayOut);
-
-
             var startSaga = _mapper.Map<StartReservation>(reservation);
             startSaga.ReservationId = Guid.NewGuid();
 
-            //await stuff.SendLocal(new StartReservation() 
-            //{ 
-            //    ReservationId = Guid.NewGuid(),
-            //    CheckIn = startDate,
-            //    CheckOut = endDate,
-            //    NumberOfOccupants = 2,
-            //    Price = 200,
-            //    PropertyId = 1,
-            //    RoomId = 1,
-            //    User = new User()
-            //});
+            await stuff.SendLocal(startSaga);
 
-            return Ok(null);
+            // Add uri here later
+            return Created("", new
+            {
+                ReservationId = startSaga.ReservationId
+            });
         }
     }
 }

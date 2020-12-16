@@ -58,7 +58,7 @@
             // unfold date ranges onto days within that range
             for (var date = checkIn; date <= checkOut; date = date.Date.AddDays(1))
             {
-                reservationSlot.Add(date);
+                reservationSlot.Add(date.Date);
             }
 
             // Adding MQL directly here. Need to study MongoDb Client query syntax. Potentially take Mongo University course.

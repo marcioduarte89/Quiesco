@@ -35,7 +35,7 @@
 
             await context.Publish(new AvailabilityVerified()
             {
-                HasAvailability = true,
+                HasAvailability = result,
                 ReservationId = message.ReservationId
             });
         }

@@ -42,11 +42,6 @@
                 CheckIn = message.CheckIn,
                 CheckOut = message.CheckOut
             });
-
-            await context.Send(new Example()
-            {
-                ReservationId = message.ReservationId
-            });
         }
 
         /// <summary>
