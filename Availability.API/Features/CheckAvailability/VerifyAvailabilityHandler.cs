@@ -3,7 +3,7 @@
     using Availability.Infrastructure.Data.Repositories;
     using NServiceBus;
     using SharedKernel.Messages.Commands.Reservation;
-    using SharedKernel.Messages.Events;
+    using SharedKernel.Messages.Events.Reservation;
     using System.Threading;
     using System.Threading.Tasks;
 

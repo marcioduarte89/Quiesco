@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Messages.Events
+﻿namespace SharedKernel.Messages.Events.Reservation
 {
     using System;
 

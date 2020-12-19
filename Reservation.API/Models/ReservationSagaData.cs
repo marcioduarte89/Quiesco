@@ -63,6 +63,16 @@
         public DateTime CheckOut { get; set; }
 
         /// <summary>
+        /// Number of occupants
+        /// </summary>
+        public int NumberOfOccupants { get; set; }
+
+        /// <summary>
+        /// Reservation details for the user
+        /// </summary>
+        public User User { get; set; }
+
+        /// <summary>
         /// Reservation Status
         /// </summary>
         public Status ReservationStatus { get; set; }
