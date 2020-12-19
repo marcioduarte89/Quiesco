@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Bus
+﻿namespace SharedKernel.Bus.NServiceBus.Models
 {
     public class Route
     {

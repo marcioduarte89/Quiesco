@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using NServiceBus;
+using SharedKernel.Bus.NServiceBus.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SharedKernel.Bus.Extensions
+namespace SharedKernel.Bus.NServiceBus.Extensions
 {
     /// <summary>
     /// Reservations NServicebus bootstrapper
@@ -33,17 +35,18 @@ namespace SharedKernel.Bus.Extensions
         private static EndpointConfiguration Configure(IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString(NSB_CONNECTIONSTRING_NAME);
-            var endPointName = configuration.GetValue<string>(ENDPOINT_NAME);
 
-            var routing = configuration.GetSection("Routes").Get<IEnumerable<Route>>();
+            var nServiceBusConfiguration = configuration.GetSection("NServiceBusConfiguration").Get<Configuration>();
 
-            var bootstrapper = new Bootstrapper(endPointName, connectionString);
+            var bootstrapper = new Bootstrapper(nServiceBusConfiguration.EndpointName, connectionString);
 
-            if(routing != null && routing.Any())
+            if(nServiceBusConfiguration.Routes != null && nServiceBusConfiguration.Routes.Any())
             {
-                bootstrapper.InitialiseRouting(routing);
+                bootstrapper.InitialiseRouting(nServiceBusConfiguration.Routes);
             }
-            
+
+            bootstrapper.ConfigureRecoverability();
+
             return bootstrapper.EndpointConfiguration;
         }
     }

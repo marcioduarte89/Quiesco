@@ -3,7 +3,7 @@ namespace Reservation.API
     using Autofac.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
-    using SharedKernel.Bus.Extensions;
+    using SharedKernel.Bus.NServiceBus.Extensions;
 
     /// <summary>
     /// Main program - Entry point

@@ -1,8 +1,8 @@
-﻿namespace Reservations.API.Features.CreateReservation
+﻿namespace Reservations.API.Features.StartReservation
 {
     using NServiceBus;
     using Reservations.API.Models;
-    using SharedKernel.Messages.Commands;
+    using SharedKernel.Messages.Commands.Reservation;
     using SharedKernel.Messages.Events;
     using System.Threading.Tasks;
 
@@ -34,6 +34,9 @@
         /// <returns></returns>
         public async Task Handle(StartReservation message, IMessageHandlerContext context)
         {
+            Data.PropertyId = message.PropertyId;
+            Data.RoomId = message.RoomId;
+
             await context.Send(new VerifyAvailability()
             {
                 ReservationId = message.ReservationId,
@@ -52,6 +55,11 @@
         /// <returns></returns>
         public Task Handle(AvailabilityVerified message, IMessageHandlerContext context)
         {
+            if (!message.HasAvailability)
+            {
+                Data.HasAvailability = message.HasAvailability;
+            }
+
             MarkAsComplete();
             return Task.CompletedTask;
         }

@@ -1,9 +1,9 @@
-﻿namespace Availability.API.Features.CreateRoom.Profile
+﻿namespace Availability.API.Features.StartReservation.Profile
 {
     using AutoMapper;
-    using Reservation.API.Models.Input.Reservation.Create;
     using Reservations.API.Models.Input.Common;
-    using SharedKernel.Messages.Commands;
+    using SharedKernel.Messages.Commands.Reservation;
+    using InputModel = Reservation.API.Models.Input.Reservation.Create;
 
     /// <summary>
     /// Input Model
@@ -15,7 +15,7 @@
         /// </summary>
         public Input() {
             CreateMap<User, SharedKernel.Messages.Common.User>();
-            CreateMap<CreateReservation, StartReservation>();
+            CreateMap<InputModel.CreateReservation, StartReservation>();
         }
     }
 }

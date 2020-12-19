@@ -1,16 +1,15 @@
-﻿namespace Reservation.API.Features.Properties
+﻿namespace Reservation.API.Features.StartReservation
 {
     using AutoMapper;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using NServiceBus;
-    using Reservation.API.Models.Input.Reservation.Create;
-    using SharedKernel.Messages.Commands;
-    using SharedKernel.Messages.Common;
+    using SharedKernel.Messages.Commands.Reservation;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using InputModel = Reservation.API.Models.Input.Reservation.Create;
 
     /// <summary>
     /// Reservation controller
@@ -44,7 +43,7 @@
         /// <returns></returns>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateReservation(CreateReservation reservation, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateReservation(InputModel.CreateReservation reservation, CancellationToken cancellationToken)
         {
             var startSaga = _mapper.Map<StartReservation>(reservation);
             startSaga.ReservationId = Guid.NewGuid();
@@ -54,7 +53,7 @@
             // Add uri here later
             return Created("", new
             {
-                ReservationId = startSaga.ReservationId
+                startSaga.ReservationId
             });
         }
     }

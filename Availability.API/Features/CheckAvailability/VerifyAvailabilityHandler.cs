@@ -2,7 +2,7 @@
 {
     using Availability.Infrastructure.Data.Repositories;
     using NServiceBus;
-    using SharedKernel.Messages.Commands;
+    using SharedKernel.Messages.Commands.Reservation;
     using SharedKernel.Messages.Events;
     using System.Threading;
     using System.Threading.Tasks;
@@ -13,14 +13,17 @@
     public class VerifyAvailabilityHandler : IHandleMessages<VerifyAvailability>
     {
         private IRoomRepository _repository;
+        private readonly IGlobalReadRepository _globalReadRepository;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="repository"></param>
-        public VerifyAvailabilityHandler(IRoomRepository repository)
+        /// <param name="repository">Room repository</param>
+        /// <param name="globalReadRepository">Global read repository</param>
+        public VerifyAvailabilityHandler(IRoomRepository repository, IGlobalReadRepository globalReadRepository)
         {
             _repository = repository;
+            _globalReadRepository = globalReadRepository;
         }
 
         /// <summary>
@@ -31,13 +34,19 @@
         /// <returns></returns>
         public async Task Handle(VerifyAvailability message, IMessageHandlerContext context)
         {
-            var result = await _repository.CheckAvailability(message.PropertyId, message.RoomId, message.CheckIn, message.CheckOut, CancellationToken.None);
-
-            await context.Publish(new AvailabilityVerified()
+            var availability = new AvailabilityVerified()
             {
-                HasAvailability = result,
+                HasAvailability = false,
                 ReservationId = message.ReservationId
-            });
+            };
+
+            if (await _globalReadRepository.HasRoom(message.PropertyId, message.RoomId, CancellationToken.None))
+            {
+                var result = await _repository.CheckAvailability(message.PropertyId, message.RoomId, message.CheckIn, message.CheckOut, CancellationToken.None);
+                availability.HasAvailability = result;
+            }
+
+            await context.Publish(availability);
         }
     }
 }

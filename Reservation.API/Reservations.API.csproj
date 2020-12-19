@@ -44,6 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\CreateInvoice\" />
+    <Folder Include="Features\CancelCardPayment\" />
+    <Folder Include="Features\CancelReservation\" />
+    <Folder Include="Features\SendNotifications\" />
+    <Folder Include="Features\ProcessCardPayment\" />
     <Folder Include="Infrastructure\Middlewares\ExceptionHandler\" />
   </ItemGroup>
 

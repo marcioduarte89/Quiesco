@@ -16,7 +16,6 @@
     public class VerifyPropertyGloballyBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IShouldVerifyPropertyGlobally
     {
         private readonly Func<IGlobalReadRepository> _globalRepositoryFactory;
-        private bool _shouldVerifyGlobalProperty;
 
         /// <summary>
         /// Constructor

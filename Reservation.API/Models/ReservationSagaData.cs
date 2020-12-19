@@ -1,6 +1,7 @@
 ﻿namespace Reservations.API.Models
 {
     using NServiceBus;
+    using SharedKernel.Messages.Common;
     using System;
 
     /// <summary>
@@ -30,5 +31,40 @@
         /// Internal Reservation Id
         /// </summary>
         public Guid ReservationId { get; set; }
+
+        /// <summary>
+        /// Holds if the reservation for the room has availability
+        /// </summary>
+        public bool HasAvailability { get; set; }
+
+        /// <summary>
+        /// Has payment been processed
+        /// </summary>
+        public bool HasPaymentBeingProcessed { get; set; }
+
+        /// <summary>
+        /// Property Id
+        /// </summary>
+        public int PropertyId { get; set; }
+
+        /// <summary>
+        /// Room Id
+        /// </summary>
+        public int RoomId { get; set; }
+
+        /// <summary>
+        /// Reservation Check-in
+        /// </summary>
+        public DateTime CheckIn { get; set; }
+
+        /// <summary>
+        /// Reservation Check-out
+        /// </summary>
+        public DateTime CheckOut { get; set; }
+
+        /// <summary>
+        /// Reservation Status
+        /// </summary>
+        public Status ReservationStatus { get; set; }
     }
 }

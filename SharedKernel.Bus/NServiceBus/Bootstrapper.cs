@@ -1,63 +1,32 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using NServiceBus;
-using NServiceBus.Container;
-using NServiceBus.Settings;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Bus
+﻿namespace SharedKernel.Bus.NServiceBus
 {
+    using global::NServiceBus;
+    using SharedKernel.Bus.NServiceBus.Exceptions;
+    using SharedKernel.Bus.NServiceBus.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+    using System.Linq;
+
     public class Bootstrapper
     {
         public const string AUDIT_QUEUE = "audit";
         public const string ERROR_QUEUE = "error";
         public const string SCHEMA = "dbo"; // change this later
 
-        private readonly IContainer container;
-
         protected TransportExtensions<SqlServerTransport> Transport;
         protected PersistenceExtensions<SqlPersistence> Persistence;
         public EndpointConfiguration EndpointConfiguration;
 
         // First simplified version of the boostrapper
-        public Bootstrapper(string endpointName, string connectionString, IContainer container = null)
+        public Bootstrapper(string endpointName, string connectionString)
         {
-            this.container = container;
             InitialiseEndpointConfiguration(endpointName);
             InitialiseTransport(connectionString);
             InitialisePersistency(connectionString);
-            //RegisterDependencies();
             DefineConventions();
+            ConfigureCustomPipelines();
         }
-
-        private void RegisterDependencies()
-        {
-            // Update this later
-            EndpointConfiguration.UseContainer<AutofacBuilder>(customizations => {
-                customizations.ExistingLifetimeScope(container);
-            });
-        }
-
-        public Bootstrapper(string endpointName, string connectionString, IEnumerable<Route> routing, IContainer container = null) :
-            this(endpointName, connectionString, container)
-        {
-            InitialiseRouting(routing);
-        }
-
-        /// <summary>
-        /// Starts the endpoint
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEndpointInstance> Start()
-        {
-            return await Endpoint.Start(EndpointConfiguration);
-        }
-
-        
 
         /// <summary>
         /// Initialises the default endpoint configuration
@@ -138,6 +107,35 @@ namespace SharedKernel.Bus
             conventions.DefiningCommandsAs(type => type.Namespace == "SharedKernel.Messages.Commands");
             conventions.DefiningEventsAs(type => type.Namespace == "SharedKernel.Messages.Events");
             conventions.DefiningMessagesAs(type => type.Namespace == "SharedKernel.Messages");
+        }
+
+        /// <summary>
+        /// Configures Custom pipelines
+        /// </summary>
+        protected void ConfigureCustomPipelines()
+        {
+            var pipeline = EndpointConfiguration.Pipeline;
+            pipeline.Register(
+                behavior: new ExceptionHandlerBehaviour(),
+                description: "Custom Exception Handler Behaviour.");
+        }
+
+        /// <summary>
+        /// Configures Custom pipelines
+        /// </summary>
+        public void ConfigureRecoverability()
+        {
+            var recoverability = EndpointConfiguration.Recoverability();
+            recoverability.Immediate(
+                immediate =>
+                {
+                    immediate.NumberOfRetries(2);
+                });
+            recoverability.Delayed(
+                delayed =>
+                {
+                    delayed.NumberOfRetries(2).TimeIncrease(TimeSpan.FromSeconds(2));
+                });
         }
     }
 }

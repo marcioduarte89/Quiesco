@@ -1,12 +1,11 @@
-﻿namespace SharedKernel.Messages.Commands
+﻿namespace SharedKernel.Messages.Commands.Reservation
 {
-    using SharedKernel.Messages.Common;
     using System;
 
     /// <summary>
-    /// Saga which starts reservation
+    /// Command used to verify availability
     /// </summary>
-    public class StartReservation
+    public class VerifyAvailability
     {
         /// <summary>
         /// Internal Reservation Id
@@ -32,15 +31,5 @@
         /// Reservation Check-out
         /// </summary>
         public DateTime CheckOut { get; set; }
-
-        /// <summary>
-        /// Number of occupants
-        /// </summary>
-        public int NumberOfOccupants { get; set; }
-
-        /// <summary>
-        /// Reservation details for the user
-        /// </summary>
-        public User User { get; set; }
     }
 }
