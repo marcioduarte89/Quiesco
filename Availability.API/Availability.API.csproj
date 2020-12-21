@@ -52,7 +52,6 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\Middlewares\ExceptionHandler\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +59,7 @@
     <ProjectReference Include="..\Availability.Core\Availability.Core.csproj" />
     <ProjectReference Include="..\Availability.Infrastructure.Data\Availability.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\SharedKernel.Bus\SharedKernel.Bus.csproj" />
+    <ProjectReference Include="..\SharedKernel.Mongo\SharedKernel.Mongo.csproj" />
     <ProjectReference Include="..\SharedKernel.Search\SharedKernel.Search.csproj" />
     <ProjectReference Include="..\SharedKernel.Messages\SharedKernel.Messages.csproj" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace Availability.Infrastructure.Data.Configuration.Conventions
+﻿namespace SharedKernel.Mongo.Conventions
 {
     using MongoDB.Bson.Serialization.Conventions;
 
@@ -10,7 +10,7 @@
         /// <summary>
         /// Loads conventions
         /// </summary>
-        public void Load()
+        public static void Load()
         {
             var pack = new ConventionPack
             {
@@ -18,7 +18,7 @@
             };
 
             ConventionRegistry.Register(
-                "Availability Conventions",
+                "Camel Case Convention",
                 pack,
                 t => true);
         }

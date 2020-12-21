@@ -3,6 +3,7 @@
     using Core.Models;
     using MongoDB.Bson.Serialization;
     using MongoDB.Bson.Serialization.IdGenerators;
+    using SharedKernel.Mongo.ClassMaps;
 
     /// <summary>
     /// Room class map registrations

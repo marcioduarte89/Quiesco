@@ -1,4 +1,4 @@
-﻿namespace Availability.Infrastructure.Data.Configuration.ClassMaps
+﻿namespace SharedKernel.Mongo.ClassMaps
 {
     /// <summary>
     /// Interface for ClassMap registration

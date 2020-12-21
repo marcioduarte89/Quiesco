@@ -1,4 +1,4 @@
-﻿namespace Availability.Infrastructure.Data.Configuration.Serializers
+﻿namespace SharedKernel.Mongo.Serializers
 {
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization;
@@ -12,7 +12,7 @@
         /// <summary>
         /// Loads serializers
         /// </summary>
-        public void Load()
+        public static void Load()
         {
             BsonSerializer.RegisterSerializer(new DecimalSerializer(BsonType.String));
         }
