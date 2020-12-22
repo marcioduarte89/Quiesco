@@ -3,18 +3,18 @@
     using System;
 
     /// <summary>
-    /// Event which checks property availability
+    /// Payment processed failed event
     /// </summary>
-    public class AvailabilityVerified
-    {        
+    public class PaymentProcessedFailed
+    {
         /// <summary>
-        /// Internal Reservation Id
+        /// Property Id
         /// </summary>
         public Guid ReservationId { get; set; }
 
         /// <summary>
-        /// Whether the room has availability
+        /// Error description if payment was not processed
         /// </summary>
-        public bool HasAvailability { get; set; }
+        public string Error { get; set; }
     }
 }

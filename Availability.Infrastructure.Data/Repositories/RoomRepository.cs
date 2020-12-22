@@ -68,17 +68,13 @@
 
             return result == null;
         }
-        private string GetMongoISODate(DateTime date)
-        {
-            return $"new ISODate(\"{date.ConvertToISODate()}\")";
-        }
 
         /// <summary>
         /// Saves a room
         /// </summary>
         /// <param name="room">room details</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns an instance of <see cref="Room"/> of the Saved room</returns>
+        /// <returns>Creates or updates a <see cref="Room"/></returns>
         public async Task Save(Room room, CancellationToken cancellationToken)
         {
             await _roomCollection.ReplaceOneAsync(

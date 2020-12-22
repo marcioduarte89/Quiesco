@@ -76,5 +76,15 @@
         /// Reservation Status
         /// </summary>
         public Status ReservationStatus { get; set; }
+
+        /// <summary>
+        /// Whether the notification has been sent to the property
+        /// </summary>
+        public bool PropertyNotificationSent { get; set; }
+
+        /// <summary>
+        /// Wheter the notification has been sent to the user
+        /// </summary>
+        public bool UserNotificationSent { get; set; }
     }
 }

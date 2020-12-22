@@ -3,11 +3,11 @@
     using System;
 
     /// <summary>
-    /// Reservation created
+    /// Reservation completed event
     /// </summary>
-    public class ReservationCreated
+    public class ReservationCompleted
     {
-         /// <summary>
+        /// <summary>
         /// Internal Reservation Id
         /// </summary>
         public Guid ReservationId { get; set; }

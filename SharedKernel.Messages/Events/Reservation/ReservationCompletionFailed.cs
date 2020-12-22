@@ -1,11 +1,11 @@
-﻿namespace SharedKernel.Messages.Commands.Reservation
+﻿namespace SharedKernel.Messages.Events.Reservation
 {
     using System;
 
     /// <summary>
-    /// Command which cancels the reservation
+    /// Reservation completed failed event
     /// </summary>
-    public class CancelReservation
+    public class ReservationCompletionFailed
     {
         /// <summary>
         /// Internal Reservation Id
@@ -13,7 +13,7 @@
         public Guid ReservationId { get; set; }
 
         /// <summary>
-        /// Reason for reservation being cancelled
+        /// Reason for which the reservation failed to complete
         /// </summary>
         public string Reason { get; set; }
     }

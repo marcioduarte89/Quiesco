@@ -17,7 +17,7 @@ namespace Reservations.Core.Models
         /// <summary>
         /// User last name
         /// </summary>
-        public string LastName { get; private set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// User phone number

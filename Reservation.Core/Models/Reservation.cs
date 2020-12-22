@@ -11,6 +11,11 @@
         /// <summary>
         /// Property Id
         /// </summary>
+        public Guid ReservationId { get; private set; }
+
+        /// <summary>
+        /// Property Id
+        /// </summary>
         public int PropertyId { get; private set; }
 
         /// <summary>
@@ -38,7 +43,15 @@
         /// </summary>
         public User User { get; private set; }
 
+        /// <summary>
+        /// Reservation status
+        /// </summary>
         public Status Status { get; private set; } 
+
+        /// <summary>
+        /// Holds reason if cancellation has been requested for the reservation
+        /// </summary>
+        public string CancellationReason { get; private set; }
 
         /// <summary>
         /// Creates the reservation
@@ -95,8 +108,14 @@
         /// <summary>
         /// Cancels the reservations. Sets its status to cancelled
         /// </summary>
-        public void CancelReservation()
+        public void CancelReservation(string reason)
         {
+            if (string.IsNullOrEmpty(reason))
+            {
+                throw new ReservationException(ReservationException.INVALID_DATA, $"{nameof(reason)} cannot be null or empty");
+            }
+
+            CancellationReason = reason;
             Status = Status.Cancelled;
         }
     }

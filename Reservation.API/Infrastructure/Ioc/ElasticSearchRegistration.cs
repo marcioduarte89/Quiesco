@@ -1,11 +1,11 @@
 ﻿using Autofac;
-using Availability.Core.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Reservations.Core.Models;
 using SharedKernel.Search.Configuration;
 using SharedKernel.Search.Models;
 
-namespace Availability.API.Infrastructure.Ioc
+namespace Reservation.API.Infrastructure.Ioc
 {
     /// <summary>
     /// Elastic Search Registration
@@ -29,8 +29,8 @@ namespace Availability.API.Infrastructure.Ioc
                     .Initialise(searchConfiguration)
                     .ConnectionsSettingsSetup()
                     .AddClientMappings<Room>(x =>
-                        x.IndexName("availability")
-                        .IdProperty(p => p.Id)
+                        x.IndexName("properties")
+                        .IdProperty(p => p.RoomId) // this needs to be fixed using a UId instead of an id...
                     ).Create();
 
                 return elasticClient;

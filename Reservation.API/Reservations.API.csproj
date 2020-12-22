@@ -31,6 +31,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="NEST" Version="7.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NServiceBus" Version="7.4.4" />
     <PackageReference Include="NServiceBus.Autofac" Version="7.1.0" />
@@ -55,9 +56,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Reservation.Common\Reservations.Common.csproj" />
     <ProjectReference Include="..\Reservation.Core\Reservations.Core.csproj" />
+    <ProjectReference Include="..\Reservations.Infrastructure.Data\Reservations.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\SharedKernel.Bus\SharedKernel.Bus.csproj" />
     <ProjectReference Include="..\SharedKernel.Messages\SharedKernel.Messages.csproj" />
     <ProjectReference Include="..\SharedKernel.Mongo\SharedKernel.Mongo.csproj" />
+    <ProjectReference Include="..\SharedKernel.Search\SharedKernel.Search.csproj" />
   </ItemGroup>
 
 

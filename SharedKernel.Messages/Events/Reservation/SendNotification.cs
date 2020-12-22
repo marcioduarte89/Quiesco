@@ -1,20 +1,26 @@
 ﻿namespace SharedKernel.Messages.Events.Reservation
 {
+    using SharedKernel.Messages.Common;
     using System;
 
     /// <summary>
-    /// Event which checks property availability
+    /// Event to start notification
     /// </summary>
-    public class AvailabilityVerified
-    {        
+    public class SendNotification
+    {
         /// <summary>
         /// Internal Reservation Id
         /// </summary>
         public Guid ReservationId { get; set; }
 
         /// <summary>
-        /// Whether the room has availability
+        /// Notification notes
         /// </summary>
-        public bool HasAvailability { get; set; }
+        public string Notes { get; set; }
+
+        /// <summary>
+        /// User details
+        /// </summary>
+        public User User { get; set; }
     }
 }

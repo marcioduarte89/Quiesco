@@ -3,18 +3,18 @@
     using System;
 
     /// <summary>
-    /// Event which checks property availability
+    /// Notification event for when cancellation has been sent
     /// </summary>
-    public class AvailabilityVerified
-    {        
+    public class NotificationSentForCancellation
+    {
         /// <summary>
         /// Internal Reservation Id
         /// </summary>
         public Guid ReservationId { get; set; }
 
         /// <summary>
-        /// Whether the room has availability
+        /// Wheter the notification has been sent to the user
         /// </summary>
-        public bool HasAvailability { get; set; }
+        public bool UserNotificationSent { get; set; }
     }
 }

@@ -1,11 +1,11 @@
-﻿namespace SharedKernel.Messages.Commands.Reservation
+﻿namespace SharedKernel.Messages.Events.Reservation
 {
     using System;
 
     /// <summary>
-    /// Command which cancels the reservation
+    /// Payment reverted event
     /// </summary>
-    public class CancelReservation
+    public class PaymentReverted
     {
         /// <summary>
         /// Internal Reservation Id
@@ -13,8 +13,8 @@
         public Guid ReservationId { get; set; }
 
         /// <summary>
-        /// Reason for reservation being cancelled
+        /// Notes on payment revertion process
         /// </summary>
-        public string Reason { get; set; }
+        public string Notes { get; set; }
     }
 }

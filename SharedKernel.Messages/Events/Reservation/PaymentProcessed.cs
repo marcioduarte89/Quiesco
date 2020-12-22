@@ -3,12 +3,12 @@
     using System;
 
     /// <summary>
-    /// Reservation created
+    /// Payment processed event
     /// </summary>
-    public class ReservationCreated
+    public class PaymentProcessed
     {
-         /// <summary>
-        /// Internal Reservation Id
+        /// <summary>
+        /// Property Id
         /// </summary>
         public Guid ReservationId { get; set; }
     }

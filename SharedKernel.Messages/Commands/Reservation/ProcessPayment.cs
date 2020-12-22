@@ -1,12 +1,12 @@
-﻿namespace SharedKernel.Messages.Events.Reservation
+﻿namespace SharedKernel.Messages.Commands.Reservation
 {
     using SharedKernel.Messages.Common;
     using System;
 
     /// <summary>
-    /// Event to notify of the revervation cancellation
+    /// Command which starts the payment process
     /// </summary>
-    public class NotifyReservationCancellation
+    public class ProcessPayment
     {
         /// <summary>
         /// Internal Reservation Id
@@ -24,23 +24,8 @@
         public int RoomId { get; set; }
 
         /// <summary>
-        /// Reservation Check-in
-        /// </summary>
-        public DateTime CheckIn { get; set; }
-
-        /// <summary>
-        /// Reservation Check-out
-        /// </summary>
-        public DateTime CheckOut { get; set; }
-
-        /// <summary>
         /// Reservation details for the user
         /// </summary>
         public User User { get; set; }
-
-        /// <summary>
-        /// Cancellation reason
-        /// </summary>
-        public string CancellationReason { get; set; }
     }
 }
