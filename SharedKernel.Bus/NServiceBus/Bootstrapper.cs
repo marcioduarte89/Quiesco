@@ -104,9 +104,9 @@
         protected void DefineConventions()
         {
             var conventions = EndpointConfiguration.Conventions();
-            conventions.DefiningCommandsAs(type => type.Namespace == "SharedKernel.Messages.Commands");
-            conventions.DefiningEventsAs(type => type.Namespace == "SharedKernel.Messages.Events");
-            conventions.DefiningMessagesAs(type => type.Namespace == "SharedKernel.Messages");
+            conventions.DefiningCommandsAs(type => type.Namespace.StartsWith("SharedKernel.Messages.Commands"));
+            conventions.DefiningEventsAs(type => type.Namespace.StartsWith("SharedKernel.Messages.Events"));
+            conventions.DefiningMessagesAs(type => type.Namespace.StartsWith("SharedKernel.Messages"));
         }
 
         /// <summary>

@@ -33,6 +33,33 @@
 
             mapper.ConfigureMapping<AvailabilityVerified>(message => message.ReservationId)
             .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<PropertyExistanceVerified>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<ReservationCancelled>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<PaymentProcessed>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<PaymentProcessedFailed>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<ReservationCompleted>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<ReservationCompletionFailed>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<PaymentReverted>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<NotificationSent>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<NotificationSentForCancellation>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
         }
 
         /// <summary>
@@ -50,7 +77,7 @@
             Data.NumberOfOccupants = message.NumberOfOccupants;
             Data.User = message.User;
 
-            await context.Send(new VerifyPropertyExists()
+            await context.SendLocal(new VerifyPropertyExists()
             {
                 ReservationId = Data.ReservationId,
                 PropertyId = Data.PropertyId,
@@ -73,7 +100,7 @@
                 return;
             }
 
-            await context.Send(new CreateReservation()
+            await context.SendLocal(new CreateReservation()
             {
                 ReservationId = Data.ReservationId,
                 PropertyId = Data.PropertyId,
@@ -118,7 +145,7 @@
             {
                 // Compensation
                 // Could have created before checking availability, but that would mean an extra write
-                await context.Send(new CancelReservation()
+                await context.SendLocal(new CancelReservation()
                 {
                     ReservationId = Data.ReservationId
                 });
@@ -127,7 +154,7 @@
             }
 
             // still need to define how the payment will look like..
-            await context.Send(new ProcessPayment()
+            await context.SendLocal(new ProcessPayment()
             {
                 ReservationId = Data.ReservationId,
                 PropertyId = Data.PropertyId,
@@ -143,7 +170,7 @@
         /// <returns></returns>
         public async Task Handle(PaymentProcessed message, IMessageHandlerContext context)
         {
-            await context.Send(new CompleteReservation()
+            await context.SendLocal(new CompleteReservation()
             {
                 ReservationId = Data.ReservationId
             });
@@ -157,7 +184,7 @@
         /// <returns></returns>
         public async Task Handle(PaymentProcessedFailed message, IMessageHandlerContext context)
         {
-            await context.Send(new CancelReservation()
+            await context.SendLocal(new CancelReservation()
             {
                 ReservationId = Data.ReservationId,
                 Reason = message.Error
@@ -172,7 +199,7 @@
         /// <returns></returns>
         public async Task Handle(ReservationCompleted message, IMessageHandlerContext context)
         {
-            await context.Send(new SendNotification()
+            await context.SendLocal(new SendNotification()
             {
                 ReservationId = Data.ReservationId,
                 Notes = "Reservation complete successfully", //add more details here later
@@ -188,7 +215,7 @@
         /// <returns></returns>
         public async Task Handle(ReservationCompletionFailed message, IMessageHandlerContext context)
         {
-            await context.Send(new RevertPaymentProcess()
+            await context.SendLocal(new RevertPaymentProcess()
             {
                 ReservationId = Data.ReservationId,
                 PropertyId = Data.PropertyId,
@@ -205,7 +232,7 @@
         /// <returns></returns>
         public async Task Handle(PaymentReverted message, IMessageHandlerContext context)
         {
-            await context.Send(new CancelReservation()
+            await context.SendLocal(new CancelReservation()
             {
                 ReservationId = Data.ReservationId,
                 Reason = message.Notes

@@ -9,9 +9,9 @@
     public class Reservation
     {
         /// <summary>
-        /// Property Id
+        /// Id
         /// </summary>
-        public Guid ReservationId { get; private set; }
+        public string Id { get; private set; }
 
         /// <summary>
         /// Property Id
@@ -65,6 +65,7 @@
 
             return new Reservation()
             {
+                Id = Guid.NewGuid().ToString(),
                 PropertyId = reservationProperties.PropertyId,
                 RoomId = reservationProperties.RoomId,
                 CheckIn = reservationProperties.CheckIn,

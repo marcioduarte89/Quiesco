@@ -25,7 +25,7 @@
             await _reservationCollection.ReplaceOneAsync(
                 x => x.RoomId == reservation.RoomId &&
                 x.PropertyId == reservation.PropertyId &&
-                x.ReservationId == reservation.ReservationId,
+                x.Id == reservation.Id,
                 reservation,
                 new ReplaceOptions()
                 {
