@@ -14,6 +14,7 @@
         IHandleMessages<AvailabilityVerified>,
         IHandleMessages<PropertyExistanceVerified>,
         IHandleMessages<ReservationCancelled>,
+        IHandleMessages<ReservationCreated>,
         IHandleMessages<PaymentProcessed>,
         IHandleMessages<PaymentProcessedFailed>,
         IHandleMessages<ReservationCompleted>,
@@ -38,6 +39,9 @@
             .ToSaga(sagaData => sagaData.ReservationId);
 
             mapper.ConfigureMapping<ReservationCancelled>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<ReservationCreated>(message => message.ReservationId)
             .ToSaga(sagaData => sagaData.ReservationId);
 
             mapper.ConfigureMapping<PaymentProcessed>(message => message.ReservationId)

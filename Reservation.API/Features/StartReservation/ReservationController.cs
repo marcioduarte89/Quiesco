@@ -1,7 +1,6 @@
 ﻿namespace Reservation.API.Features.StartReservation
 {
     using AutoMapper;
-    using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using NServiceBus;
@@ -18,21 +17,18 @@
     [Route("[controller]")]
     public class ReservationController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IMessageSession stuff;
+        private readonly IMessageSession _session;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="mediator">mediator instance</param>
         /// <param name="mapper">Mapper instance</param>
-        /// <param name="stuff"></param>
-        public ReservationController(IMediator mediator, IMapper mapper, IMessageSession stuff)
+        /// <param name="session"></param>
+        public ReservationController(IMapper mapper, IMessageSession session)
         {
-            _mediator = mediator;
             _mapper = mapper;
-            this.stuff = stuff;
+            _session = session;
         }
 
         /// <summary>
@@ -48,7 +44,7 @@
             var startSaga = _mapper.Map<StartReservation>(reservation);
             startSaga.ReservationId = Guid.NewGuid();
 
-            await stuff.SendLocal(startSaga);
+            await _session.SendLocal(startSaga);
 
             // Add uri here later
             return Created("", new

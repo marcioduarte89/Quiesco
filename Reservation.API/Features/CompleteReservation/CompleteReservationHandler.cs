@@ -11,7 +11,7 @@
     /// <summary>
     /// Completes the reservation
     /// </summary>
-    public class CompleteReservationHandler : IHandleMessages<CreateReservation>
+    public class CompleteReservationHandler : IHandleMessages<CompleteReservation>
     {
         private readonly IReadReservationRepository _readRepository;
         private readonly IWriteReservationRepository _writeRepository;
@@ -33,7 +33,7 @@
         /// <param name="message"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task Handle(CreateReservation message, IMessageHandlerContext context)
+        public async Task Handle(CompleteReservation message, IMessageHandlerContext context)
         {
             var reservation = await _readRepository.Get(message.ReservationId, CancellationToken.None);
 

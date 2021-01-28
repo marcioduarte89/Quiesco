@@ -36,8 +36,6 @@
                     Error = "Not enough funds"
                 });
             }
-
-            throw new System.NotImplementedException();
         }
     }
 }

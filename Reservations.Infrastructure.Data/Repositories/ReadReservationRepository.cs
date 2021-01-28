@@ -9,7 +9,7 @@
     /// <summary>
     /// Reservation repository exclusively for read operations
     /// </summary>
-    public class ReadReservationRepository : RepositoryBase
+    public class ReadReservationRepository : RepositoryBase, IReadReservationRepository
     {
         private readonly IMongoCollection<Reservation> _reservationCollection;
 
@@ -30,7 +30,7 @@
         /// <returns>Retuns the <see cref="Reservation"/> by reservation id</returns>
         public async Task<Reservation> Get(Guid reservationId, CancellationToken cancellation)
         {
-            var query = $"{{ id: {reservationId} }}";
+            var query = $"{{ _id: {reservationId} }}";
             var reservation = (await _reservationCollection.FindAsync(query, cancellationToken: cancellation)).FirstOrDefault();
 
             return reservation;
