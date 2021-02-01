@@ -30,7 +30,7 @@
         /// <returns>Retuns the <see cref="Reservation"/> by reservation id</returns>
         public async Task<Reservation> Get(Guid reservationId, CancellationToken cancellation)
         {
-            var query = $"{{ _id: {reservationId} }}";
+            var query = $"{{ _id: \"{reservationId}\"}}";
             var reservation = (await _reservationCollection.FindAsync(query, cancellationToken: cancellation)).FirstOrDefault();
 
             return reservation;

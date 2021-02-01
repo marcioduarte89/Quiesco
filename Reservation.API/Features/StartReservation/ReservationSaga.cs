@@ -203,7 +203,7 @@
         /// <returns></returns>
         public async Task Handle(ReservationCompleted message, IMessageHandlerContext context)
         {
-            await context.SendLocal(new SendNotification()
+            await context.Publish(new SendNotification()
             {
                 ReservationId = Data.ReservationId,
                 Notes = "Reservation complete successfully", //add more details here later

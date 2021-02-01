@@ -42,7 +42,7 @@
             var user = User.Create(message.User.UserEmail, message.User.Name, message.User.PhoneNumber);
             user.LastName = message.User.LastName;
 
-            var reservation = Reservation.Create(reservationProperties, user);
+            var reservation = Reservation.Create(message.ReservationId, reservationProperties, user);
 
             await _repository.Save(reservation, CancellationToken.None); // need to take care of these cancellation tokens
 

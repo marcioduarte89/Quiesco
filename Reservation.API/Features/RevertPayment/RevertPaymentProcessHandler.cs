@@ -8,7 +8,7 @@
     /// <summary>
     /// Reverts payment process
     /// </summary>
-    public class RevertPaymentProcessHandler : IHandleMessages<ProcessPayment>
+    public class RevertPaymentProcessHandler : IHandleMessages<RevertPaymentProcess>
     {
         /// <summary>
         /// Handles the process of payment
@@ -16,7 +16,7 @@
         /// <param name="message"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task Handle(ProcessPayment message, IMessageHandlerContext context)
+        public async Task Handle(RevertPaymentProcess message, IMessageHandlerContext context)
         {
             await context.Publish(new PaymentReverted()
             {

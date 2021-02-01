@@ -56,16 +56,17 @@
         /// <summary>
         /// Creates the reservation
         /// </summary>
+        /// <param name="reservationId">reservation id</param>
         /// <param name="reservationProperties">reservation properties</param>
         /// <param name="roomId">user details</param>
         /// <returns>Returns an instance of <see cref="Reservation"/></returns>
-        public static Reservation Create(ReservationProperties reservationProperties, User user)
+        public static Reservation Create(Guid reservationId, ReservationProperties reservationProperties, User user)
         {
             Validate(reservationProperties, user);
 
             return new Reservation()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = reservationId.ToString(),
                 PropertyId = reservationProperties.PropertyId,
                 RoomId = reservationProperties.RoomId,
                 CheckIn = reservationProperties.CheckIn,
