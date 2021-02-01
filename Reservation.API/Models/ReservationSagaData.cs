@@ -77,6 +77,8 @@
         /// </summary>
         public Status ReservationStatus { get; set; }
 
+        public string ReasonForCancellation { get; set; }
+
         /// <summary>
         /// Whether the notification has been sent to the property
         /// </summary>

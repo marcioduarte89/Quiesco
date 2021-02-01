@@ -147,11 +147,13 @@
 
             if (!message.HasAvailability)
             {
+                Data.ReasonForCancellation = "Room not available";
                 // Compensation
                 // Could have created before checking availability, but that would mean an extra write
                 await context.SendLocal(new CancelReservation()
                 {
-                    ReservationId = Data.ReservationId
+                    ReservationId = Data.ReservationId,
+                    Reason = Data.ReasonForCancellation // This should come from message
                 });
 
                 return;
@@ -258,10 +260,9 @@
                 RoomId = Data.RoomId,
                 CheckIn = Data.CheckIn,
                 CheckOut = Data.CheckOut,
-                User = Data.User
+                User = Data.User,
+                CancellationReason = Data.ReasonForCancellation
             });
-
-            MarkAsComplete();
         }
 
         /// <summary>

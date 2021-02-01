@@ -47,7 +47,7 @@
 
             await context.Publish(new ReservationCancelled()
             {
-                ReservationId = message.ReservationId
+                ReservationId = message.ReservationId,
             });
         }
     }

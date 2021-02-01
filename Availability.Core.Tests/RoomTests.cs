@@ -47,7 +47,7 @@
 
             var duplicatedDateTime = DateTime.Now.AddDays(1);
 
-            Assert.Throws<AvailabilityException>(() => room.AddBookings(new []{ duplicatedDateTime, duplicatedDateTime }));
+            Assert.Throws<AvailabilityException>(() => room.AddBookings(new[] { duplicatedDateTime, duplicatedDateTime }));
         }
 
         [Test]
@@ -70,8 +70,8 @@
                 DateTime.Now.Date.AddDays(2)
             });
 
-           Assert.Throws<AvailabilityException>(() => _sut.AddBookings(new[]
-           {
+            Assert.Throws<AvailabilityException>(() => _sut.AddBookings(new[]
+            {
                DateTime.Now.Date.AddDays(1)
            }));
         }
@@ -95,7 +95,7 @@
         {
 
             _sut = Room.Create(1, 1, 10);
-            _sut.AddBookings(new []{ DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2) });
+            _sut.AddBookings(new[] { DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2) });
 
             Assert.Throws<AvailabilityException>(() => _sut.SetDatePrices(new List<Price>()
             {
@@ -136,6 +136,71 @@
             Assert.IsNotNull(_sut.Prices);
             Assert.AreEqual(2, _sut.Prices.Count());
             Assert.AreEqual(20, _sut.Prices.ElementAt(0).Value);
+        }
+
+        [Test]
+        public void HasAvailability_PastCheckInDate_ThrowsAvailabilityException()
+        {
+            _sut = Room.Create(1, 1, 10);
+            _sut.AddBookings(new[]
+            {
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
+            });
+
+            Assert.Throws<AvailabilityException>(() => _sut.HasAvailability(DateTime.Now.Date.AddDays(-1), DateTime.Now.Date.AddDays(1)));
+        }
+
+        [Test]
+        public void HasAvailability_PastCheckOutDate_ThrowsAvailabilityException()
+        {
+            _sut = Room.Create(1, 1, 10);
+            _sut.AddBookings(new[]
+            {
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
+            });
+
+            Assert.Throws<AvailabilityException>(() => _sut.HasAvailability(DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(-1)));
+        }
+
+        [Test]
+        public void HasAvailability_PastCheckInOverCheckoutDate_ThrowsAvailabilityException()
+        {
+            _sut = Room.Create(1, 1, 10);
+            _sut.AddBookings(new[]
+            {
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
+            });
+
+            Assert.Throws<AvailabilityException>(() => _sut.HasAvailability(DateTime.Now.Date.AddDays(2), DateTime.Now.Date.AddDays(1)));
+        }
+
+        [Test]
+        public void HasAvailability_NoIntersectingDates_HasAvailability()
+        {
+            _sut = Room.Create(1, 1, 10);
+            _sut.AddBookings(new[]
+            {
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
+            });
+
+            Assert.IsTrue(_sut.HasAvailability(DateTime.Now.Date.AddDays(3), DateTime.Now.Date.AddDays(4)));
+        }
+
+        [Test]
+        public void HasAvailability_IntersectingDates_HasAvailability()
+        {
+            _sut = Room.Create(1, 1, 10);
+            _sut.AddBookings(new[]
+            {
+                DateTime.Now.Date.AddDays(1),
+                DateTime.Now.Date.AddDays(2)
+            });
+
+            Assert.IsFalse(_sut.HasAvailability(DateTime.Now.Date.AddDays(2), DateTime.Now.Date.AddDays(3)));
         }
     }
 }

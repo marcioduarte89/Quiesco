@@ -53,13 +53,7 @@
         public async Task<bool> CheckAvailability(int propertyId, int roomId,
              DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken)
         {
-            var reservationSlot = new List<DateTime>();
-
-            // unfold date ranges onto days within that range
-            for (var date = checkIn; date <= checkOut; date = date.Date.AddDays(1))
-            {
-                reservationSlot.Add(date.Date);
-            }
+            var reservationSlot = checkIn.ToSlotList(checkOut);
 
             // Adding MQL directly here. Need to study MongoDb Client query syntax. Potentially take Mongo University course.
             var bookedSlotedsString = $"{{ propertyId: {propertyId}, roomId: {roomId}, bookedSlots: {{$in: [ { string.Join(',', reservationSlot.Select(x => x.GetMongoISODate())) }] }}  }}";
