@@ -20,6 +20,7 @@
         IHandleMessages<ReservationCompleted>,
         IHandleMessages<ReservationCompletionFailed>,
         IHandleMessages<PaymentReverted>,
+        IHandleMessages<BookingAdded>,
         IHandleMessages<NotificationSent>,
         IHandleMessages<NotificationSentForCancellation>
     {
@@ -57,6 +58,9 @@
             .ToSaga(sagaData => sagaData.ReservationId);
 
             mapper.ConfigureMapping<PaymentReverted>(message => message.ReservationId)
+            .ToSaga(sagaData => sagaData.ReservationId);
+
+            mapper.ConfigureMapping<BookingAdded>(message => message.ReservationId)
             .ToSaga(sagaData => sagaData.ReservationId);
 
             mapper.ConfigureMapping<NotificationSent>(message => message.ReservationId)
@@ -176,7 +180,35 @@
         /// <returns></returns>
         public async Task Handle(PaymentProcessed message, IMessageHandlerContext context)
         {
+            await context.Send(new AddBooking()
+            {
+                ReservationId = Data.ReservationId
+            });
+        }
+
+        /// <summary>
+        /// Handles booking being added
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public async Task Handle(BookingAdded message, IMessageHandlerContext context)
+        {
             await context.SendLocal(new CompleteReservation()
+            {
+                ReservationId = Data.ReservationId
+            });
+        }
+
+        /// <summary>
+        /// Handles booking failed to be added
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public async Task Handle(AddBookingFailed message, IMessageHandlerContext context)
+        {
+            await context.SendLocal(new RevertPaymentProcess()
             {
                 ReservationId = Data.ReservationId
             });

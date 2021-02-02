@@ -38,8 +38,8 @@
             var database = _configuration.GetConnectionString("Database");
 
             await new MongoConfiguration(mainConnectionString, database)
+                .RegisterConventions()
                .RegisterClassMaps(GetClassMaps())
-               .RegisterConventions()
                .RegisterGlobalSerializers()
                .ConfigureCoumpoundIndexes("rooms", RoomIndexes.CreateRoomCompoundIndex(), RoomIndexes.COMPOUND_INDEX);
         }

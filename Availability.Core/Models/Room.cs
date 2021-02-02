@@ -79,11 +79,11 @@
         /// Adds room booking
         /// </summary>
         /// <param name="bookedSlots">Booked slots</param>
-        public void AddBookings(DateTime[] bookedSlots)
+        public void AddBookings(IEnumerable<DateTime> bookedSlots)
         {
             // Check for any duplicates
             var hashSet = new HashSet<DateTime>(bookedSlots);
-            if (hashSet.Count != bookedSlots.Length)
+            if (hashSet.Count != bookedSlots.Count())
             {
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Bookings cannot contain duplicates");
             }
