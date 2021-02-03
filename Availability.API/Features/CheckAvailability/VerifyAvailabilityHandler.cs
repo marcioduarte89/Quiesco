@@ -27,6 +27,7 @@
         }
 
         /// <summary>
+        /// TODO: THIS HANDLER CAN BE MOVED TO THE RESERVATION HANDLER AND VERIFY BY USING THE INDEX
         /// Handles requests of type <see cref="VerifyAvailability"/>
         /// </summary>
         /// <param name="message">Message type</param>

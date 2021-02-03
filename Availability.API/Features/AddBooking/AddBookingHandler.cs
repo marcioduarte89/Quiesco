@@ -56,6 +56,8 @@
 
             existingRoom.AddBookings(message.CheckIn.ToSlotList(message.CheckOut));
 
+            await _repository.Save(existingRoom, CancellationToken.None);
+
             await context.Publish(new BookingAdded()
             {
                 ReservationId = message.ReservationId

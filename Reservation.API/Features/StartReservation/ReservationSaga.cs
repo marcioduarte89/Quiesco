@@ -182,7 +182,11 @@
         {
             await context.Send(new AddBooking()
             {
-                ReservationId = Data.ReservationId
+                ReservationId = Data.ReservationId,
+                CheckIn = Data.CheckIn,
+                CheckOut = Data.CheckOut,
+                PropertyId = Data.PropertyId,
+                RoomId = Data.RoomId
             });
         }
 
@@ -210,7 +214,8 @@
         {
             await context.SendLocal(new RevertPaymentProcess()
             {
-                ReservationId = Data.ReservationId
+                ReservationId = Data.ReservationId,
+                Notes = message.Reason
             });
         }
 
