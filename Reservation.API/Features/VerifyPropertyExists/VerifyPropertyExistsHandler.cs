@@ -47,7 +47,7 @@
                 ReservationId = message.ReservationId,
                 PropertyId = message.PropertyId,
                 RoomId = message.RoomId,
-                Exists = room.Total > 0
+                Exists = room?.Total > 0
             });
         }
     }

@@ -1,20 +1,20 @@
-﻿using Autofac;
-using Autofac.Extras.Moq;
-using Availability.API.Features.CheckAvailability;
-using Availability.Common.Exceptions;
-using Availability.Core.Models;
-using Availability.Infrastructure.Data.Repositories;
-using Moq;
-using NServiceBus.Testing;
-using NUnit.Framework;
-using SharedKernel.Messages.Commands.Reservation;
-using SharedKernel.Messages.Events.Reservation;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Availability.API.Tests.Features
+﻿namespace Availability.API.Tests.Features.AddBooking
 {
+    using Autofac;
+    using Autofac.Extras.Moq;
+    using Availability.API.Features.CheckAvailability;
+    using Availability.Common.Exceptions;
+    using Availability.Core.Models;
+    using Availability.Infrastructure.Data.Repositories;
+    using Moq;
+    using NServiceBus.Testing;
+    using NUnit.Framework;
+    using SharedKernel.Messages.Commands.Reservation;
+    using SharedKernel.Messages.Events.Reservation;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class AddBookingHandlerTests
     {
         private AutoMock _mock;
@@ -32,7 +32,7 @@ namespace Availability.API.Tests.Features
         }
 
         [Test]
-        public void AddBooking_RoomDoesNotExist_ThrowAvailabilityException()
+        public void AddBooking_RoomDoesNotExist_ThrowsAvailabilityException()
         {
             Assert.ThrowsAsync<AvailabilityException>(async () =>
             {
@@ -72,6 +72,31 @@ namespace Availability.API.Tests.Features
 
             Assert.AreEqual(1, _messageHandlerContext.PublishedMessages.Length);
             Assert.IsInstanceOf<AddBookingFailed>(_messageHandlerContext.PublishedMessages[0].Message);
+        }
+
+        [Test]
+        public async Task AddBooking_HasAvailability_PublishesBookingAdded()
+        {
+            var room = Room.Create(1, 1, 10);
+            room.AddBookings(new DateTime[] { DateTime.Now.AddDays(6), DateTime.Now.AddDays(7) });
+
+            var repository = _mock.Mock<IRoomRepository>();
+            repository
+                .Setup(x => x.Get(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(room);
+            _sut = _mock.Create<AddBookingHandler>(new TypedParameter(typeof(IRoomRepository), repository.Object));
+
+            await _sut.Handle(new AddBooking()
+            {
+                PropertyId = 1,
+                RoomId = 1,
+                CheckIn = DateTime.Now.AddDays(1),
+                CheckOut = DateTime.Now.AddDays(2),
+                ReservationId = Guid.NewGuid()
+            }, _messageHandlerContext);
+
+            Assert.AreEqual(1, _messageHandlerContext.PublishedMessages.Length);
+            Assert.IsInstanceOf<BookingAdded>(_messageHandlerContext.PublishedMessages[0].Message);
         }
     }
 }
