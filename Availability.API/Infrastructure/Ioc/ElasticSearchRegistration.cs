@@ -2,7 +2,6 @@
 using Availability.Core.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using SharedKernel.Search.Configuration;
 using SharedKernel.Search.Models;
 

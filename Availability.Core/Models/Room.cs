@@ -12,7 +12,7 @@
     public class Room :  BaseEntity
     {
         /// <summary>
-        /// Booked slots
+        /// Booked slots - NEED TO OPTIMISE THIS!!!!
         /// </summary>
         private List<DateTime> _bookedSlots;
 
@@ -79,11 +79,11 @@
         /// Adds room booking
         /// </summary>
         /// <param name="bookedSlots">Booked slots</param>
-        public void AddBookings(DateTime[] bookedSlots)
+        public void AddBookings(IEnumerable<DateTime> bookedSlots)
         {
             // Check for any duplicates
             var hashSet = new HashSet<DateTime>(bookedSlots);
-            if (hashSet.Count != bookedSlots.Length)
+            if (hashSet.Count != bookedSlots.Count())
             {
                 throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Bookings cannot contain duplicates");
             }
@@ -138,6 +138,17 @@
 
                 UpdatedDate = DateTime.Now; // need to refactor this - leaving it here for now..
             }
+        }
+
+        public bool HasAvailability(DateTime checkIn, DateTime checkOut)
+        {
+            if(checkIn.Date.CompareTo(DateTime.Today.Date) < 0 || checkOut.Date.CompareTo(DateTime.Today.Date) < 0 || checkIn.Date.CompareTo(checkOut) > 0)
+            {
+                throw new AvailabilityException(AvailabilityException.INVALID_DATA, $"Check-in and check-out dates are not valid");
+            }
+
+            var slotsToBook = checkIn.ToSlotList(checkOut);
+            return !BookedSlots.Any(x => slotsToBook.Any(y => y.CompareTo(x) == 0));
         }
 
         /// <summary>

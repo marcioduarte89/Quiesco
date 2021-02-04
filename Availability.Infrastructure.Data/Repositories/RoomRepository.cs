@@ -1,7 +1,10 @@
 ﻿namespace Availability.Infrastructure.Data.Repositories
 {
+    using Availability.Common.Extensions;
     using Core.Models;
     using MongoDB.Driver;
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -39,11 +42,33 @@
         }
 
         /// <summary>
+        /// Checks Room availability
+        /// </summary>
+        /// <param name="propertyId">Property id</param>
+        /// <param name="roomId">Room id</param>
+        /// <param name="checkIn">Check-in date</param>
+        /// <param name="checkOut">Check-out date</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns whether a room is available for the given slot</returns>
+        public async Task<bool> CheckAvailability(int propertyId, int roomId,
+             DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken)
+        {
+            var reservationSlot = checkIn.ToSlotList(checkOut);
+
+            // Adding MQL directly here. Need to study MongoDb Client query syntax. Potentially take Mongo University course.
+            var bookedSlotedsString = $"{{ propertyId: {propertyId}, roomId: {roomId}, bookedSlots: {{$in: [ { string.Join(',', reservationSlot.Select(x => x.GetMongoISODate())) }] }}  }}";
+
+            var result = (await _roomCollection.FindAsync(bookedSlotedsString, cancellationToken: cancellationToken)).FirstOrDefault();
+
+            return result == null;
+        }
+
+        /// <summary>
         /// Saves a room
         /// </summary>
         /// <param name="room">room details</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns an instance of <see cref="Room"/> of the Saved room</returns>
+        /// <returns>Creates or updates a <see cref="Room"/></returns>
         public async Task Save(Room room, CancellationToken cancellationToken)
         {
             await _roomCollection.ReplaceOneAsync(

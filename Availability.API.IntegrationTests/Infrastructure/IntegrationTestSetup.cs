@@ -5,15 +5,15 @@
     using Infrastructure.Containers;
     using Microsoft.Extensions.Configuration;
     using NUnit.Framework;
+    using SharedKernel.Tests.Deployment;
     using System;
-    using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
 
     [SetUpFixture]
     public class IntegrationTestSetup
     {
-        private string _applicationConnectionString;
+        private string _nsbConnectionString;
         private IConfiguration _config;
         private DockerClient _dockerClient;
         private MongoContainer _mongoContainer;
@@ -34,7 +34,7 @@
 
             if (!bool.TryParse(isTestingEnv, out var result) || !result)
             {
-                UpdateConfig("mongodb://127.0.0.1:27017");
+                DatabaseDeployment.UpdateConfig("ConnectionStrings:Main", "mongodb://127.0.0.1:27017");
                 _dockerClient = new DockerClientConfiguration(
                     // TODO: This needs to be configurable in order to execute tests in CI
                     new Uri("npipe://./pipe/docker_engine"))
@@ -47,8 +47,11 @@
             }
             else
             {
-                UpdateConfig("mongodb://127.0.0.1:27018");
+                DatabaseDeployment.UpdateConfig("ConnectionStrings:Main", "mongodb://127.0.0.1:27018");
             }
+
+            _nsbConnectionString = DatabaseDeployment.GetConnectionString(_config.GetConnectionString("Nsb"), "Quiesco.NSB.Tests");
+            DatabaseDeployment.DeployDb(_nsbConnectionString, "Quiesco.Nsb.DB.dacpac");
 
             _factory = new IntegrationTestsApplicationFactory<TestStartup>();
 
@@ -62,41 +65,10 @@
             {
                 _mongoContainer.Remove(_dockerClient).Wait(30000);
             }
+
             _factory?.Dispose();
             Client?.Dispose();
-        }
-
-        private void UpdateConfig(string connectionString)
-        {
-            try
-            {
-                var filePath = Path.Combine(AppContext.BaseDirectory, "appsettings.Integration.json");
-                var json = File.ReadAllText(filePath);
-                dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-
-                void SetSectionPath(string key, string value)
-                {
-                    var sectionPath = key.Split(":")[0];
-                    if (!string.IsNullOrEmpty(sectionPath))
-                    {
-                        var keyPath = key.Split(":")[1];
-                        jsonObj[sectionPath][keyPath] = value;
-                    }
-                    else
-                    {
-                        jsonObj[sectionPath] = value; // if no sectionpath just set the value
-                    }
-                }
-
-                SetSectionPath("ConnectionStrings:Main", MongoContainer.ConnectionString);
-                string output =
-                    Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-                File.WriteAllText(filePath, output);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error writing app settings");
-            }
+            DatabaseDeployment.DropDb(_nsbConnectionString);
         }
     }
 }

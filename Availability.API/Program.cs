@@ -1,7 +1,9 @@
-namespace Availability.API {
+namespace Availability.API
+{
     using Autofac.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
+    using SharedKernel.Bus.NServiceBus.Extensions;
 
     /// <summary>
     /// Main program - Entry point
@@ -24,6 +26,7 @@ namespace Availability.API {
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory()) // Without this, .net core will create a ServiceCollection instead of a ContainerBuilder and an InvalidCastException will be thrown.
+                .ConfigureNServiceBus()
                 .ConfigureWebHostDefaults(webBuilder => {
                     webBuilder.UseStartup<Startup>();
                 });

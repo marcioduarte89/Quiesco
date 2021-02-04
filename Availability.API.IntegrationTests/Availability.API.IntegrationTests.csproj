@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.0.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutoFixture" Version="4.14.0" />
     <PackageReference Include="AutoFixture.NUnit3" Version="4.14.0" />
     <PackageReference Include="coverlet.collector" Version="1.3.0">
@@ -30,7 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Availability.API\Availability.API.csproj" />
     <ProjectReference Include="..\Availability.Common\Availability.Common.csproj" />
+    <ProjectReference Include="..\Quiesco.Nsb.DB\Quiesco.Nsb.DB.sqlproj" />
     <ProjectReference Include="..\SharedKernel.Tests\SharedKernel.Tests.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(SolutionDir)Quiesco.Nsb.DB\bin\$(Configuration)\Quiesco.Nsb.DB.dacpac&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
 
 </Project>

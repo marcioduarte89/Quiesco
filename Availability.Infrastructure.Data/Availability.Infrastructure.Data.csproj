@@ -12,6 +12,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Availability.Common\Availability.Common.csproj" />
     <ProjectReference Include="..\Availability.Core\Availability.Core.csproj" />
+    <ProjectReference Include="..\SharedKernel.Mongo\SharedKernel.Mongo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configuration\Conventions\" />
+    <Folder Include="Configuration\Serializers\" />
   </ItemGroup>
 
 </Project>

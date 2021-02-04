@@ -78,7 +78,6 @@ namespace Products.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
                 c.SwaggerEndpoint($"v1/swagger.json", "Products API");
             });
 
